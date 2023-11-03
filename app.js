@@ -1,1 +1,2 @@
-const app = "hello Việt"
+const app = "hello Việt";
+const test = "test";
