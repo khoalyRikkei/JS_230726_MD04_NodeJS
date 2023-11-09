@@ -16,12 +16,12 @@ MainRoutes(app);
 app.use(handleError);
 
 // Test connection
-try {
-  await sequelize.authenticate();
-  console.log(222, "Connection has been established successfully.");
-} catch (error) {
-  console.error(111, "Unable to connect to the database:", error);
-}
+// try {
+//   await sequelize.authenticate();
+//   console.log(222, "Connection has been established successfully.");
+// } catch (error) {
+//   console.error(111, "Unable to connect to the database:", error);
+// }
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`connecting to http://localhost:${port}`);
