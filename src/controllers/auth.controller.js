@@ -1,6 +1,19 @@
 import authServer from "../services/auth.server.js";
 
 const login = (req, res, next) => {
+  /* 
+    #swagger.tags = ['auth']
+
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: 'User data.',
+        required: true,
+        schema: {
+            username: "user",
+            password: "1234"
+        }
+    }
+    */
   const error = true;
   try {
     res.status(200).json({ message: "Thành công" });
@@ -9,6 +22,24 @@ const login = (req, res, next) => {
   }
 };
 const register = async (req, res, next) => {
+  /* 
+    #swagger.tags = ['auth']
+
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: 'User data.',
+        required: true,
+        schema: {
+             username: "DataTypes.STRING",
+    doB: "DataTypes.DATE",
+    gender: "DataTypes.BOOLEAN",
+    password: "DataTypes.STRING",
+    email:" DataTypes.STRING(20)",
+    address: "DataTypes.STRING",
+        }
+    }
+    */
+  console.log(111111111);
   const data = { ...req.body };
   try {
     const user = await authServer.registerUser(data);

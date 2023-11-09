@@ -15,7 +15,7 @@ const getData = () => {
 
 const insertUser = async (data) => {
   try {
-    const user = await User.create({ ...data });
+    const user = await User.create(data);
     return user;
   } catch (error) {
     throw new ServerException(MSG_COMMON.MSG_ERROR.InternalServerException, {

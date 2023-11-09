@@ -1,4 +1,5 @@
 class BadRequestException extends Error {
+  name = "BadRequestException";
   constructor(message, statusCode = 400, field = null) {
     super(message);
     this.statusCode = statusCode;
@@ -7,6 +8,7 @@ class BadRequestException extends Error {
 }
 
 class AuthencationException extends Error {
+  name = "AuthencationException";
   constructor(message, statusCode = 401, field = null) {
     super(message);
     this.statusCode = statusCode;
@@ -15,6 +17,7 @@ class AuthencationException extends Error {
 }
 
 class ServerException extends Error {
+  name = "ServerException";
   constructor(message, statusCode = 500, field = null) {
     super(message);
     this.statusCode = statusCode;
@@ -22,4 +25,18 @@ class ServerException extends Error {
   }
 }
 
-export { BadRequestException, AuthencationException, ServerException };
+class ValidationException extends Error {
+  name = "ValidationException";
+  constructor(message, statusCode = 400, field = null) {
+    super(message);
+    this.statusCode = statusCode;
+    this.field = field;
+  }
+}
+
+export {
+  BadRequestException,
+  AuthencationException,
+  ServerException,
+  ValidationException,
+};
