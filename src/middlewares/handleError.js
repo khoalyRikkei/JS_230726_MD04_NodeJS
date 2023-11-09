@@ -1,4 +1,4 @@
-import { AuthencationException } from "../expeiptions/index.js";
+import { AuthencationException } from "../expeiptions/expeiption.js";
 
 export default function handleError(err, req, res, next) {
   if (!err) {

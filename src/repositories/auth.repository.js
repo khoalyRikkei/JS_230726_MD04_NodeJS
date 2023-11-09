@@ -1,5 +1,5 @@
-import { ServerException } from "../expeiptions/index.js";
-import { MSG_COMMON } from "../messages/index.js";
+import { ServerException } from "../expeiptions/expeiption.js";
+import { MSG_COMMON } from "../messages/message.js";
 import User from "../models/user.model.js";
 const User_2 = new User();
 
