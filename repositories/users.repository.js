@@ -1,3 +1,4 @@
+import User from "../src/models/user.model.js";
 import {
   deleteItemById,
   getAllItems,
@@ -6,18 +7,23 @@ import {
 } from "../src/utils/db.util.js";
 
 class UsersRepository {
- async getUsersRepository() {
-    const response=await getAllItems("users");
-    return response
+  // get all users
+  async getUsersRepository() {
+    const response = await getAllItems(User);
+    return response;
   }
-  insertUsersRepository(dataModal) {
-    return insertItem("src/models/users.json", dataModal);
+  // insert user
+  async insertUsersRepository(dataModal) {
+    const response = await insertItem(User, dataModal);
+    return response.id;
   }
-  deleteUsersByIdRepository(id) {
-    return deleteItemById("src/models/users.json", id);
+  // delete user
+ async deleteUsersByIdRepository(id) {
+    return await deleteItemById(User, id);
   }
-  updateUsersRepository(id, dataModal) {
-    return updateItem("src/models/users.json", id, dataModal);
+  // update user
+ async updateUsersRepository(id, dataModal) {
+    return await updateItem(User, id, dataModal);
   }
 }
 export default UsersRepository;

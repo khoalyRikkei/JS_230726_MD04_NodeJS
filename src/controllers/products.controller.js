@@ -9,7 +9,7 @@ class ProductController {
       const listProducts = await productsService.getProductsService();
       res.status(200).send(listProducts);
     } catch (err) {
-      throw err;
+      throw  err;
     }
   }
   async getProductById(req, res) {
