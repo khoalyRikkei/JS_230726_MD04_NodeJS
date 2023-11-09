@@ -12,6 +12,15 @@ export default class CategoryService {
     }
   }
 
+  async getCategoryById(id) {
+    try {
+      const categoryById = await categoryRepository.getCategoryById(id);
+      return categoryById;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async createCategory(item) {
     try {
       const data = await categoryRepository.createCategory(item);

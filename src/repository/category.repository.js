@@ -1,4 +1,4 @@
-import { getData, insertData, deleteData, editData } from "../../utils/data.util.js";
+import { getData, insertData, deleteData, editData, getDataById} from "../../utils/data.util.js";
 import { Category } from "../models/category.model.js";
 
 export default class CategoryRepository {
@@ -6,6 +6,14 @@ export default class CategoryRepository {
     try {
       const categoryData = await getData(Category);
       return categoryData;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getCategoryById(id) {
+    try {
+      const categoryById = await getDataById(Category, id);
+      return categoryById;
     } catch (error) {
       throw error;
     }
@@ -27,9 +35,9 @@ export default class CategoryRepository {
       throw error;
     }
   }
-  editCategory(id, item) {
+  async editCategory(id, item) {
    try {
-    const editCategory = editData(Category, id, item);
+    const editCategory = await editData(Category, id, item);
     return editCategory;
    } catch (error) {
     throw error;

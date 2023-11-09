@@ -1,64 +1,77 @@
+// Trong file category.controller.js
 import CategoryService from "../service/category.service.js";
+import { MSG_COMMON } from "../messages/index.js";
+
 const categoryService = new CategoryService();
+
 class CategoryController {
-  async getAllCategories(req, res) {
+  async getAllCategories(req, res, next) {
     try {
       const ret = await categoryService.getCategory();
       res.status(200).json(ret);
     } catch (error) {
-      res.status(500).json(error.message);
+      next(error);
     }
   }
 
-  async createCategory(req, res) {
+  async getCategoryById(req, res, next) {
+    try {
+      const categoryId = req.params.id;
+      const categoryData = await categoryService.getCategoryById(categoryId);
+      if (categoryData) {
+        res.status(200).json(categoryData);
+      } else {
+        res
+          .status(404)
+          .json({ message: MSG_COMMON.MSG_ERROR.NotFoundException });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async createCategory(req, res, next) {
     const categoryData = req.body;
     try {
       const ret = await categoryService.createCategory(categoryData);
-      return res.status(201).json(ret);
+      res
+        .status(201)
+        .json({ message: MSG_COMMON.MSG_SUCCESS.create("Category") });
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      next(error);
     }
   }
 
-  async deleteCategory(req, res) {
+  async deleteCategory(req, res, next) {
     try {
       const categoryId = req.params.id;
-      const ret = await categoryService.deleteCategory(categoryId);
-
-      if (ret > 0) {
-        res.status(200).json({ message: "Category deleted successfully" });
+      const deletedCategory = await categoryService.deleteCategory(categoryId);
+      if (deletedCategory) {
+        res
+          .status(200)
+          .json({ message: MSG_COMMON.MSG_SUCCESS.delete("Category") });
       } else {
-        res.status(404).json({ message: "Category not found" });
+        res
+          .status(404)
+          .json({ message: MSG_COMMON.MSG_ERROR.NotFoundException });
       }
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      next(error);
     }
   }
 
-  async editCategory(req, res) {
+  async editCategory(req, res, next) {
     const categoryId = req.params.id;
     const updatedData = req.body;
     try {
-      const updatedCategory = await categoryService.editCategory(
-        categoryId,
-        updatedData
-      );
-
-      if (updatedCategory) {
-        return res
-          .status(200)
-          .json({
-            message: "Category updated successfully",
-            id: updatedCategory.id,
-          });
-      } else {
-        return res
-          .status(404)
-          .json({ message: "Category not found or not updated" });
-      }
+      const ret = await categoryService.editCategory(categoryId, updatedData);
+      res
+        .status(200)
+        .json({ message: MSG_COMMON.MSG_SUCCESS.update("Category") });
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      next(error);
     }
   }
 }
+
 export default CategoryController;
