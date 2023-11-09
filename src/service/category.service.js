@@ -12,9 +12,9 @@ export default class CategoryService {
     }
   }
 
-  async createCategory(categoryData) {
+  async createCategory(item) {
     try {
-      const data = await categoryRepository.createCategory(categoryData);
+      const data = await categoryRepository.createCategory(item);
       return data;
     } catch (error) {
       throw error;

@@ -1,4 +1,4 @@
-import { getData, insertData} from "../../utils/util.js";
+import { getData, insertData} from "../../utils/data.util.js";
 
 export default class AuthRepository {
   getUsers() {

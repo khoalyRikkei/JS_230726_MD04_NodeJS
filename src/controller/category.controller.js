@@ -1,4 +1,3 @@
-
 import CategoryService from "../service/category.service.js";
 const categoryService = new CategoryService();
 class CategoryController {
@@ -13,7 +12,6 @@ class CategoryController {
 
   async createCategory(req, res) {
     const categoryData = req.body;
-    categoryData.status = 1;
     try {
       const ret = await categoryService.createCategory(categoryData);
       return res.status(201).json(ret);
@@ -25,9 +23,9 @@ class CategoryController {
   async deleteCategory(req, res) {
     try {
       const categoryId = req.params.id;
-      console.log(categoryId);
       const ret = await categoryService.deleteCategory(categoryId);
-      if (ret.affectedRows > 0) {
+
+      if (ret > 0) {
         res.status(200).json({ message: "Category deleted successfully" });
       } else {
         res.status(404).json({ message: "Category not found" });
@@ -41,8 +39,23 @@ class CategoryController {
     const categoryId = req.params.id;
     const updatedData = req.body;
     try {
-      const ret = await categoryService.editCategory(categoryId, updatedData);
-      return res.status(200).json(ret);
+      const updatedCategory = await categoryService.editCategory(
+        categoryId,
+        updatedData
+      );
+
+      if (updatedCategory) {
+        return res
+          .status(200)
+          .json({
+            message: "Category updated successfully",
+            id: updatedCategory.id,
+          });
+      } else {
+        return res
+          .status(404)
+          .json({ message: "Category not found or not updated" });
+      }
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }

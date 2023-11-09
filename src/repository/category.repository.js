@@ -1,17 +1,18 @@
-import { getData, insertData, deleteData, editData } from "../../utils/util.js";
+import { getData, insertData, deleteData, editData } from "../../utils/data.util.js";
+import { Category } from "../models/category.model.js";
 
 export default class CategoryRepository {
   async getCategory() {
     try {
-      const categoryData = await getData("categorys");
+      const categoryData = await getData(Category);
       return categoryData;
     } catch (error) {
       throw error;
     }
   }
-  async createCategory(item) {
+  async createCategory(data) {
     try {
-      const newCategory = await insertData("categorys", item);
+      const newCategory = await insertData(Category, data);
       return newCategory;
     } catch (error) {
       throw error;
@@ -20,7 +21,7 @@ export default class CategoryRepository {
 
   async deleteCategory(id) {
     try {
-      const deleteCategory = await deleteData("categorys", id);
+      const deleteCategory = await deleteData(Category, id);
       return deleteCategory;
     } catch (error) {
       throw error;
@@ -28,7 +29,7 @@ export default class CategoryRepository {
   }
   editCategory(id, item) {
    try {
-    const editCategory = editData("categorys", id, item);
+    const editCategory = editData(Category, id, item);
     return editCategory;
    } catch (error) {
     throw error;
