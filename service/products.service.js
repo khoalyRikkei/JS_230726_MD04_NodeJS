@@ -3,13 +3,13 @@ import ProductsRepository from "../repositories/products.repository.js";
 const productsRepository = new ProductsRepository();
 
 class ProductsService {
- async getProductsService() {
+  async getProductsService() {
     const getAllProducts = await productsRepository.getProductsRepository();
     return getAllProducts;
   }
- async getProductsByIdService(id) {
+  async getProductsByIdService(id) {
     const getAllProducts = await productsRepository.getProductsRepository();
-     const product = getAllProducts.find((item) => item.id == id);
+    const product = getAllProducts.find((item) => item.id == id);
     if (product) {
       return {
         status: true,
@@ -24,14 +24,18 @@ class ProductsService {
       };
     }
   }
-  insertProductService(product) {
-    return productsRepository.insertProductsRepository(product);
+  async insertProductService(dataModal) {
+    const response = await productsRepository.insertProductsRepository(
+      dataModal
+    );
+    return response;
   }
   updateProductService(id, product) {
     return productsRepository.updateProductsRepository(id, product);
   }
-  deleteProductService(id) {
-    return productsRepository.deleteProductsRepository(id);
+  async deleteProductService(id) {
+    const response = await productsRepository.deleteProductsRepository(id);
+    return response;
   }
 }
 

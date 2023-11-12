@@ -1,11 +1,19 @@
-
 import { getAllItems } from "./db.util.js";
 
-// seach by name user_name
+// seach by name user
 export async function seachByName(model, name) {
   const entities = await getAllItems(model);
   const dataSeach = entities.filter((item) =>
     item.user_name.toLowerCase().includes(name.toLowerCase())
+  );
+  return dataSeach;
+}
+
+// seach by name product
+export async function seachByNameProduct(model, name) {
+  const entities = await getAllItems(model);
+  const dataSeach = entities.filter((item) =>
+    item.product_name.toLowerCase().includes(name.toLowerCase())
   );
   return dataSeach;
 }

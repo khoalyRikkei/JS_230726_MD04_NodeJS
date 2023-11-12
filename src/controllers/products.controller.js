@@ -1,17 +1,19 @@
 import fs from "fs";
 import ProductsService from "../../service/products.service.js";
-import { filterData, seachByName } from "../utils/method.js";
-import { connection } from "../utils/config.js";
+import { filterData, seachByNameProduct } from "../utils/method.js";
+import Product from "../models/product.model.js";
 const productsService = new ProductsService();
 class ProductController {
+  // get all products
   async getProducts(req, res) {
     try {
       const listProducts = await productsService.getProductsService();
       res.status(200).send(listProducts);
     } catch (err) {
-      throw  err;
+      throw err;
     }
   }
+  // get product by id
   async getProductById(req, res) {
     try {
       const response = await productsService.getProductsByIdService(
@@ -22,41 +24,49 @@ class ProductController {
       throw err;
     }
   }
-  addProduct(req, res) {
-    const data = [
-      {
-        ...req.body,
-        id: Number(req.body.id),
-        price: Number(req.body.price),
-        quantity: Number(req.body.quantity),
-        // created_at: new Date(),
-        // update_at: new Date(),
-      },
-    ];
-    const response = productsService.insertProductService(data);
-    connection.query(`${response}`, (err, results, fields) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(results);
-      }
-    });
-    res.send(`${response}`);
+  // insert product
+  async insertProduct(req, res) {
+    try {
+      const dataModal = [
+        {
+          ...req.body,
+          price: Number(req.body.price),
+          quantity: Number(req.body.quantity),
+        },
+      ];
+      const response = await productsService.insertProductService(dataModal);
+      res.status(200).send(response);
+    } catch (err) {
+      throw err;
+    }
   }
+  // update product
+
   updateProduct(req, res) {
     const response = productsService.updateProductService(
       req.params.id,
       req.body
     );
-    res.send(`${response}`);
-  }
-  deleteProduct(req, res) {
-    const response = productsService.deleteProductService(req.params.id);
     res.send(response);
   }
-  seachByNameProduct(req, res) {
-    const response = seachByName("src/models/products.json", req.params.name);
-    res.send(response);
+  // delete product
+  async deleteProduct(req, res) {
+    try {
+      const response = await productsService.deleteProductService(
+        req.params.id
+      );
+      res.status(200).send(response);
+    } catch (err) {
+      throw err;
+    }
+  }
+  async seachByNameProduct(req, res) {
+    try {
+      const response = await seachByNameProduct(Product, req.params.name);
+      res.status(200).send(response);
+    } catch (err) {
+      throw err;
+    }
   }
 }
 
