@@ -1,28 +1,25 @@
-const bodyParser = require("body-parser");
 const express = require("express");
-const router = require("./routers");
-require("dotenv").config();
-//thay the server
 const app = express();
-const port = process.env.PORT || 3000;
-const SQL_DATABASE = process.env.SQL_DATABASE;
-const SQL_PASSWORD = process.env.SQL_PASSWORD;
+const bodyParser = require("body-parser");
+const cors = require("cors");
+require("dotenv").config();
+const handleError = require("./middlewares/handleErorr");
+const sequelize = require("./configs/configDB");
+const router = require("./routes");
 
-// dung middleware bodyParser de lay du lieu tu body http reques
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// parse application/json
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//router
+// sequelize
+//   .sync()
+//   .then(() => {})
+//   .catch((err) => {});
+
 router(app);
+app.use(handleError);
 
+const port = process.env.PORT;
 app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`);
-});
-
-createAllTable()
-
-app.use((a, b, c, d) => {
-  console.log("a");
+  console.log(`listening on http://localhost:${port}`);
 });

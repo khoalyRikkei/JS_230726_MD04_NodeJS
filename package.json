@@ -1,5 +1,5 @@
 {
-  "name": "js_230726_md04_nodejs",
+  "name": "techshop_backend",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -14,7 +14,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "moment": "^2.29.4",
     "mysql2": "^3.6.3",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "sequelize": "^6.35.0"
   }
 }
