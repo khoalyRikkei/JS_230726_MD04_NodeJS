@@ -29,8 +29,27 @@ class AuthController {
       next(err);
     }
   }
-  login() {}
-  logout() {}
-  getUser() {}
+  async login(req, res, next) {
+    try {
+      const model = {
+        email: req.body.email,
+        password: req.body.password,
+      };
+      const response = await authService.login(model);
+
+      // Set access token vào header
+      res.setHeader("Authorization", `Bearer ${response.ac_token}`);
+
+      res.cookie("refreshToken", response.ac_refreshToken, {
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      }); // Thời gian sống 7 ngày
+
+      res.status(200).json({ token: response.ac_token });
+    } catch (error) {
+      const err = new ServerException("ServerException", 500, error.message);
+      next(err);
+    }
+  }
 }
 module.exports = new AuthController();

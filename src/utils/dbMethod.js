@@ -9,7 +9,7 @@ const insertData = async (data, tableName) => {
 
 const getData = async (tableName) => {
   try {
-    const fetchedRecords = await tableName.findAll();
+    const fetchedRecords = await tableName.findAll({ raw: true });
     return fetchedRecords;
   } catch (error) {
     throw error;
