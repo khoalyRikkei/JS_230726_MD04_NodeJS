@@ -1,20 +1,20 @@
 const { hashPassword, comparePassword } = require("../utils/commonFunc");
-const { createAccessToken, createRefreshToken } = require("../utils/jwt");
+const { createAccessToken } = require("../utils/jwt");
 require("dotenv").config();
-const authRepository = require("../repositories/auth.repository");
+const userRepository = require("../repositories/user.repository");
 
 const { CustomException } = require("../expeiptions");
-class AuthService {
+class UserService {
   async register(model) {
-    const IsExistEmail = await authRepository.checkUserInDB(model.email);
+    const IsExistEmail = await userRepository.checkUserInDB(model.email);
     if (IsExistEmail) throw new CustomException("already registered", 400);
     const passHash = await hashPassword(model.password, 12);
     const newUser = { ...model, password: passHash };
-    const createUser = await authRepository.insertUser(newUser);
+    const createUser = await userRepository.insertUser(newUser);
     return createUser;
   }
   async login(model) {
-    const users = await authRepository.getAllUser();
+    const users = await userRepository.getAllUser();
     if (!users || !users.length) {
       throw new CustomException("No users found", 500);
     }
@@ -37,26 +37,30 @@ class AuthService {
 
     // Đăng nhập thành công
 
-    const userLogin = {
-      id: user.id,
-      role: user.role,
-    };
-
     //tạo access token
     const SECRET_ACCESSTOKEN_KEY = process.env.SECRET_ACCESSTOKEN_KEY;
     const accessToken = createAccessToken(userLogin, SECRET_ACCESSTOKEN_KEY);
 
     //tạo refresh token
-    const SECRET_REFRESHTOKEN_KEY = process.env.SECRET_REFRESHTOKEN_KEY;
-    const refreshToken = createRefreshToken(userLogin, SECRET_REFRESHTOKEN_KEY);
+    // const SECRET_REFRESHTOKEN_KEY = process.env.SECRET_REFRESHTOKEN_KEY;
+    // const refreshToken = createRefreshToken(userLogin, SECRET_REFRESHTOKEN_KEY);
 
-    const token = {
-      ac_token: accessToken,
-      ac_refreshToken: refreshToken,
+    return {
+      user: user,
+      token: accessToken,
     };
-
-    return token;
   }
-  logout() {}
+  getAllUser() {
+    return userRepository.getAllUser();
+  }
+  getUserById(id) {
+    return userRepository.getUserById(id);
+  }
+  updateUser(id, userUpdate) {
+    return userRepository.updateUser(id, userUpdate);
+  }
+  deleteUser(id) {
+    return userRepository.deleteUser(id);
+  }
 }
-module.exports = new AuthService();
+module.exports = new UserService();

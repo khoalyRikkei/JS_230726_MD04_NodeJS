@@ -1,17 +1,20 @@
 const jwt = require("jsonwebtoken");
 const { CustomException } = require("../expeiptions");
+require("dotenv/config");
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1]; // Lấy token từ header Authorization
 
   if (!token) {
-    throw new CustomException("Unauthorized - Access token is missing", 401);
+    const error = new CustomException("Unauthorized - Access token is missing", 401);
+    next(error);
   }
 
-  jwt.verify(token, "your_access_token_secret", (err, decoded) => {
+  jwt.verify(token, process.env.SECRET_ACCESSTOKEN_KEY, (err, decoded) => {
     if (err) {
-      throw new CustomException("Forbidden - Access token is invalid", 403);
+      const error = new CustomException("Forbidden - Access token is invalid", 403);
+      next(error);
     }
 
     req.user = decoded; // Lưu thông tin user vào request để sử dụng trong các xử lý tiếp theo
@@ -24,7 +27,8 @@ function checkUserRole(role) {
     const user = req.user;
 
     if (!user || user.role !== role) {
-      throw new CustomException("Forbidden - Insufficient permissions", 403);
+      const err = new CustomException("Forbidden - Insufficient permissions", 403);
+      next(err);
     }
 
     next();

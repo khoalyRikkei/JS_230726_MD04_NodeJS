@@ -4,9 +4,9 @@ const createAccessToken = (data, secretKey, expiresIn = "10m") => {
   return jwt.sign(data, secretKey, { expiresIn });
 };
 
-const createRefreshToken = (data, secretKey, expiresIn = "7d") => {
-  return jwt.sign(data, secretKey, { expiresIn });
-};
+// const createRefreshToken = (data, secretKey, expiresIn = "7d") => {
+//   return jwt.sign(data, secretKey, { expiresIn });
+// };
 
 const verifyToken = (token, secretKey) => {
   try {
@@ -17,4 +17,4 @@ const verifyToken = (token, secretKey) => {
   }
 };
 
-module.exports = { createAccessToken, createRefreshToken, verifyToken };
+module.exports = { createAccessToken, verifyToken };

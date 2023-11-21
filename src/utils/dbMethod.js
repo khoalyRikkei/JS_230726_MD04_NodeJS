@@ -1,23 +1,23 @@
-const insertData = async (data, tableName) => {
+const insertData = async (data, model) => {
   try {
-    const createdRecord = await tableName.create(data);
+    const createdRecord = await model.create(data);
     return createdRecord;
   } catch (error) {
     throw error;
   }
 };
 
-const getData = async (tableName) => {
+const getData = async (model) => {
   try {
-    const fetchedRecords = await tableName.findAll({ raw: true });
+    const fetchedRecords = await model.findAll({ raw: true });
     return fetchedRecords;
   } catch (error) {
     throw error;
   }
 };
-const getDataById = async (id, tableName) => {
+const getDataById = async (id, model) => {
   try {
-    const foundData = await tableName.findOne({
+    const foundData = await model.findOne({
       where: {
         id: id,
       },
@@ -28,9 +28,9 @@ const getDataById = async (id, tableName) => {
   }
 };
 
-const updateData = async (id, data, tableName) => {
+const updateData = async (id, data, model) => {
   try {
-    const foundData = await tableName.findOne({
+    const foundData = await model.findOne({
       where: {
         id: id,
       },
@@ -47,9 +47,9 @@ const updateData = async (id, data, tableName) => {
   }
 };
 
-const deleteData = async (id, tableName) => {
+const deleteData = async (id, model) => {
   try {
-    const foundData = await tableName.findOne({
+    const foundData = await model.findOne({
       where: {
         id: id,
       },
