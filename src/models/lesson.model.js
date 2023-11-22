@@ -31,6 +31,8 @@ const Lesson = sequelize.define('lessons', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+},{
+  paranoid: true, // // Thêm paranoid để kích hoạt xóa mềm
 });
 
 

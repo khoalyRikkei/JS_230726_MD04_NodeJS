@@ -8,6 +8,7 @@ import { route } from "./routes/index.js";
 import handleError from "./middlewares/handleErorr.js";
 import sequelize from "./configs/sequelize.config.js";
 
+
 // BACK UP DATA
 // import CategoryData from './backup-data/category.data.js'
 // import CourseData from './backup-data/course.data.js'
@@ -33,7 +34,7 @@ app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 //Cập nhập cột cho bảng trong MYSQL
 // (async () => {
-//   await sequelize.sync({alter:true}); 
+//   await sequelize.sync({alert:true}); 
 //   ;
 // })();
 

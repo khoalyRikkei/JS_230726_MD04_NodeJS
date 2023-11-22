@@ -5,6 +5,8 @@ const authService = new AuthService();
 
 class AuthController {
   async login(req, res, next) {
+
+    
     const user = req.body;
     try {
       const ret = await authService.performLogin(user);

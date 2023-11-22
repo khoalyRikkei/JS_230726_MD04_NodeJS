@@ -4,7 +4,7 @@ import {
   } from "../expeiptions/index.js";
   
   export default function handleError(err, req, res, next) {
-    console.log("Kiểm tra", err.field);
+    console.log("Kiểm tra 11111111", err);
     if (!err) {
       return next();
     }
@@ -12,7 +12,7 @@ import {
     
       res.status(err.statusCode).json({
         message: err.message,
-        errors: err.field,
+        errors: err,
       });
     
   }

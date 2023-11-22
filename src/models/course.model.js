@@ -36,7 +36,9 @@ const Course = sequelize.define('courses', {
   category_id : {
     type: DataTypes.INTEGER,
     allowNull: false,
-  }
+  },
+},{
+  paranoid: true, // // Thêm paranoid để kích hoạt xóa mềm
 });
 
 

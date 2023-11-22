@@ -11,12 +11,19 @@ export const MSG_COMMON = {
     read: (data) => `get ${data} successfully`,
     update: (data) => `Update ${data} successfully`,
     delete: (data) => `Delete ${data} successfully`,
+    softDelete: (data) => `Soft Delete ${data} successfully`,
+    restore: (data) => `Restore ${data} successfully`,
+
+
   },
   MSG_FAILURE: {
     create: (data) => `Create ${data} failure`,
     read: (data) => `get ${data} failure`,
     update: (data) => `Update ${data} failure`,
     delete: (data) => `Delete ${data} failure`,
+    softDelete: (data) => `Soft Delete ${data} failure`,
+    restore: (data) => `Restore ${data} failure`,
+
   },
 };
 

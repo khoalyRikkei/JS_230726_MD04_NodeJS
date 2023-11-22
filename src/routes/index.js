@@ -6,7 +6,6 @@ import lessonRouter from "./lesson.route.js";
 import paymentRouter from "./payment.route.js";
 import progressLessonRouter from "./progressLesson.route.js";
 import teacherRouter from "./teacher.route.js";
-import uploadRouter from "./upload.route.js";
 import userRouter from "./user.route.js";
 
 
@@ -31,9 +30,6 @@ export function route(app) {
 
   // 7 API Favorite OK
   app.use("/api/v1/favorites", favoritesRouter);
-
-  // 8 API Upload
-  app.use("/api/v1/upload", uploadRouter);
 
   // API Teacher
   app.use("/api/v1/teachers", teacherRouter);

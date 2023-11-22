@@ -1,4 +1,15 @@
-import { getData, insertData, deleteData, editData, getDataById} from "../../utils/data.util.js";
+import {
+  getData,
+  insertData,
+  deleteData,
+  editData,
+  getDataById,
+  sortDeleteData,
+  restoreData,
+  getDeletedData,
+  getDeletedDataById,
+  getDataByName,
+} from "../../utils/data.util.js";
 import { Category } from "../models/category.model.js";
 
 export default class CategoryRepository {
@@ -10,9 +21,25 @@ export default class CategoryRepository {
       throw error;
     }
   }
+  async getDeletedCategory() {
+    try {
+      const categoryData = await getDeletedData(Category);
+      return categoryData;
+    } catch (error) {
+      throw error;
+    }
+  }
   async getCategoryById(id) {
     try {
       const categoryById = await getDataById(Category, id);
+      return categoryById;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getDeletedCategoryById(id) {
+    try {
+      const categoryById = await getDeletedDataById(Category, id);
       return categoryById;
     } catch (error) {
       throw error;
@@ -35,12 +62,39 @@ export default class CategoryRepository {
       throw error;
     }
   }
+
+  async softDeleteCategory(id) {
+    try {
+      const softDeleteCategory = await sortDeleteData(Category, id);
+      return softDeleteCategory;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async restoreCategory(id) {
+    try {
+      const restoreCategory = await restoreData(Category, id);
+      return restoreCategory;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async editCategory(id, item) {
-   try {
-    const editCategory = await editData(Category, id, item);
-    return editCategory;
-   } catch (error) {
-    throw error;
-   }
+    try {
+      const editCategory = await editData(Category, id, item);
+      return editCategory;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async searchCategoryByName(condition) {
+    try {
+      const searchCategoryByName = await getDataByName(Category, condition);
+      return searchCategoryByName;
+    } catch (error) {
+      throw error;
+    }
   }
 }

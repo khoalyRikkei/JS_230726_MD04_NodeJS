@@ -18,7 +18,10 @@ export const Category = sequelize.define("categorys", {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
   },
-}, );
+  
+},{
+  paranoid: true, // // Thêm paranoid để kích hoạt xóa mềm
+} );
 
 
 

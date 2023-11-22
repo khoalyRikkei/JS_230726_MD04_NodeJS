@@ -11,10 +11,27 @@ export default class CategoryService {
       throw error;
     }
   }
+  async getDeletedCategory() {
+    try {
+      const data = await categoryRepository.getDeletedCategory();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   async getCategoryById(id) {
     try {
       const categoryById = await categoryRepository.getCategoryById(id);
+      return categoryById;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getDeletedCategoryById(id) {
+    try {
+      const categoryById = await categoryRepository.getDeletedCategoryById(id);
       return categoryById;
     } catch (error) {
       throw error;
@@ -39,12 +56,41 @@ export default class CategoryService {
     }
   }
 
-  editCategory(id, item) {
+  async softDeleteCategory(id) {
     try {
-      const data = categoryRepository.editCategory(id, item);
+      const data = await categoryRepository.softDeleteCategory(id);
       return data;
     } catch (error) {
       throw error;
     }
   }
+
+  async restoreCategory(id) {
+    try {
+      const data = await categoryRepository.restoreCategory(id);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async editCategory(id, item) {
+    try {
+      const data = await categoryRepository.editCategory(id, item);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async searchCategoryByName(condition) {
+    try {
+      const categoryByName = await categoryRepository.searchCategoryByName(condition);
+      return categoryByName;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
 }
