@@ -1,35 +1,35 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../configs/dbconfig.js";
-import User from "./user.model.js";
 
-const Order = sequelize.define(
-  "orders",
+const CartItem = sequelize.define(
+  "cartItem",
   {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    total_price: {
+    cart_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    product_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    status: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    note: {
-      type: DataTypes.STRING(200),
-      allowNull: false,
-    },
+    size: DataTypes.STRING(10),
   },
   {
     freezeTableName: true,
+    timestamps: false,
   }
 );
 
-
 (async () => {
-  await Order.sync({ alter: true });
+  await CartItem.sync({ alter: true });
 })();
-export default Order;
+export default CartItem;

@@ -1,23 +1,24 @@
 import AuthRepository from "../repositories/auth.repository.js";
-
+import bcrypt from "bcrypt";
 const authRepository = new AuthRepository();
 
 class AuthService {
-  checkDataLogin(email, password) {
-    const getAllUsers = authRepository.getUsers();
-    let isLogined = false;
+  async checkDataLogin(email, password) {
+    const getAllUsers = await authRepository.getUsers();
+       let isLogined = false;
     let userLogin;
     getAllUsers.forEach((user) => {
       if (user.email === email) {
-        if (user.password === password) {
+          const isMatch = bcrypt.compareSync(password, user.password);
+        if (isMatch) {
           isLogined = true;
           userLogin = { ...user };
-          delete userLogin.password;
+          
         }
       }
     });
     if (isLogined) {
-      return {
+          return {
         status: true,
         message: "đăng nhập thành công",
         data: userLogin,
@@ -30,8 +31,9 @@ class AuthService {
       };
     }
   }
-  checkDataRegister(dataModal) {
-    const getAllUsers = authRepository.getUsers();
+  async checkDataRegister(dataModal) {
+    const getAllUsers = await authRepository.getUsers();
+
     let isRegister = false;
     getAllUsers.forEach((user) => {
       if (user.email === dataModal.email) {
@@ -45,8 +47,8 @@ class AuthService {
         data: null,
       };
     } else {
-      authRepository.insertUser(dataModal);
-
+      const hashPassword = bcrypt.hashSync(dataModal.password, 12);
+      await authRepository.insertUser({ ...dataModal, password: hashPassword });
       return {
         status: true,
         message: "đăng ký thành công",

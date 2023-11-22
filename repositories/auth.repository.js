@@ -1,11 +1,15 @@
+import User from "../src/models/user.model.js";
 import { getAllItems, insertItem } from "../src/utils/db.util.js";
 
 class AuthRepository {
-  getUsers() {
-    return getAllItems("src/models/users.json");
+  async getUsers() {
+    const response = await getAllItems(User);
+ 
+    return response;
   }
-  insertUser(entity) {
-    return insertItem("src/models/users.json", entity);
+ async insertUser(entity) {
+   const response=await insertItem(User, entity);
+   return response
   }
 }
 export default AuthRepository;

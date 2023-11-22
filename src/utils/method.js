@@ -8,7 +8,6 @@ export async function seachByName(model, name) {
   );
   return dataSeach;
 }
-
 // seach by name product
 export async function seachByNameProduct(model, name) {
   const entities = await getAllItems(model);

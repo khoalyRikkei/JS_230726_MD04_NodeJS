@@ -10,7 +10,7 @@ class UsersRepository {
   // get all users
   async getUsersRepository() {
     const response = await getAllItems(User);
-    return response;
+      return response;
   }
   // insert user
   async insertUsersRepository(dataModal) {

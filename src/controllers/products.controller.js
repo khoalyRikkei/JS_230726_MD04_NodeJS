@@ -2,6 +2,7 @@ import fs from "fs";
 import ProductsService from "../../service/products.service.js";
 import { filterData, seachByNameProduct } from "../utils/method.js";
 import Product from "../models/product.model.js";
+import uploadToCloudinary from "../utils/cloudinary.js";
 const productsService = new ProductsService();
 class ProductController {
   // get all products
@@ -26,14 +27,16 @@ class ProductController {
   }
   // insert product
   async insertProduct(req, res) {
-    try {
-      const dataModal = [
-        {
-          ...req.body,
-          price: Number(req.body.price),
-          quantity: Number(req.body.quantity),
-        },
-      ];
+     try {
+      const result = await uploadToCloudinary(req.file);
+      const image = result.url;
+      const dataModal = {
+        ...req.body,
+        price: Number(req.body.price),
+        quantity: Number(req.body.quantity),
+        product_img: image,
+      };
+
       const response = await productsService.insertProductService(dataModal);
       res.status(200).send(response);
     } catch (err) {

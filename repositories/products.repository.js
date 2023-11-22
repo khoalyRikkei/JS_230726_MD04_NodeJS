@@ -9,12 +9,13 @@ import {
 class ProductsRepository {
   async getProductsRepository() {
     const response = await getAllItems(Product);
+   
     return response
     
   }
   // insert a new product
  async insertProductsRepository(dataModal) {
-    const response=await insertItem(Product, dataModal);
+   const response= await insertItem(Product, dataModal);
     return response
   }
   updateProductsRepository(id, product) {

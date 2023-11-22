@@ -13,12 +13,30 @@ const Product = sequelize.define(
       type: DataTypes.STRING(45),
       allowNull: false,
     },
-    product_price: DataTypes.INTEGER,
-    product_img: DataTypes.STRING,
-    describes: DataTypes.STRING,
-    quantity: DataTypes.INTEGER,
-    category_name: DataTypes.STRING(45),
-    size: DataTypes.STRING(10),
+    product_price: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    product_img: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    describes: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    category_name: {
+      type: DataTypes.STRING(45),
+      allowNull: false,
+    },
+    size: {
+      type: DataTypes.STRING(45),
+      allowNull: false,
+    },
   },
   {
     freezeTableName: true,

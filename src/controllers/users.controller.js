@@ -1,5 +1,6 @@
 import UsersService from "../../service/users.service.js";
 import User from "../models/user.model.js";
+import uploadToCloudinary from "../utils/cloudinary.js";
 import { filterData, seachByName } from "../utils/method.js";
 const usersService = new UsersService();
 class UsersController {
@@ -7,7 +8,7 @@ class UsersController {
   async getUsers(req, res) {
     try {
       const listUsers = await usersService.getUsersService();
-      res.status(200).send(listUsers);
+      res.status(200).json(listUsers);
     } catch (err) {
       throw err;
     }
@@ -16,15 +17,15 @@ class UsersController {
   async getUsersById(req, res) {
     try {
       const user = await usersService.getUsersByIdService(req.params.id);
-      res.status(200).send(user);
+      res.status(200).json(user);
     } catch (err) {
       throw err;
     }
   }
   // add user
- async insertUser(req, res) {
+  async insertUser(req, res) {
     try {
-      const response =await usersService.insertUsersService(req.body);
+      const response = await usersService.insertUsersService(req.body);
       res.status(200).send(response.message);
     } catch (err) {
       throw err;
@@ -50,9 +51,14 @@ class UsersController {
     }
   }
   // update user
-  updateUser(req, res) {
-    const response = usersService.updateUsersService(req.params.id, req.body);
-    res.send(response);
+  async updateUser(req, res) {
+    const result = await uploadToCloudinary(req.file);
+    const image = result.url;
+    const dataModal = { ...req.body, avatar: image };
+    const response = usersService.updateUsersService(req.params.id, dataModal);
+    res.json(response);
   }
+ 
 }
 export default UsersController;
+ 

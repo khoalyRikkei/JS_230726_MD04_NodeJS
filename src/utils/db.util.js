@@ -1,27 +1,24 @@
 
-import { InternalServerException } from "../exceptions/index.js";
-import { MSG_COMMON } from "../messages/message.js";
 
 
 // get all data
 export async function getAllItems(model) {
   try {
-    const users = await model.findAll();
+    const users = await model.findAll({raw: true});
     return users;
   } catch (error) {
-    throw new InternalServerException(MSG_COMMON.MSG_ERROR.InternalServerException, {
-      msg: "",
-    });
+    throw error;
   }
 }
 // add data
-export async function insertItem(model, data) {
+export async function insertItem(Model, data) {
+  console.log(33, Model, data);
   try {
-    return await model.create(data);
+
+
+    return await Model.create(data);
   } catch (error) {
-    throw new InternalServerException(MSG_COMMON.MSG_ERROR.InternalServerException, {
-      msg: "",
-    });
+    throw error;
   }
 }
 // update data
