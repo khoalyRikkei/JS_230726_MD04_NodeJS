@@ -1,23 +1,16 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../configs/dbconfig.js";
-
-const Product = sequelize.define(
-  "products",
+const Product_inventory = sequelize.define(
+  "product_inventories",
   {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    product_name: {
-      type: DataTypes.STRING(45),
-      allowNull: false,
-    },
-    product_price: DataTypes.INTEGER,
-    product_img: DataTypes.STRING,
-    describes: DataTypes.STRING,
+    user_id: DataTypes.STRING(50),
+    product_id: DataTypes.STRING(50),
     quantity: DataTypes.INTEGER,
-    category_name: DataTypes.STRING(45),
     size: DataTypes.STRING(10),
   },
   {
@@ -27,7 +20,6 @@ const Product = sequelize.define(
 );
 
 (async () => {
-  await Product.sync({ alter: true });
+  await Product_inventory.sync({ alter: true });
 })();
-
-export default Product;
+export default Product_inventory;

@@ -22,9 +22,9 @@ class UsersController {
     }
   }
   // add user
-  insertUser(req, res) {
+ async insertUser(req, res) {
     try {
-      const response = usersService.insertUsersService(req.body);
+      const response =await usersService.insertUsersService(req.body);
       res.status(200).send(response.message);
     } catch (err) {
       throw err;
@@ -52,7 +52,7 @@ class UsersController {
   // update user
   updateUser(req, res) {
     const response = usersService.updateUsersService(req.params.id, req.body);
-    res.send(`${response}`);
+    res.send(response);
   }
 }
 export default UsersController;

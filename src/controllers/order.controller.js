@@ -1,11 +1,12 @@
 
 import fs from 'fs';
+import { getAllItems } from '../utils/db.util.js';
+import Order from '../models/order.model.js';
 
 class OrderController{
-    getOrder(req, res) {
-        const fileOrders = fs.readFileSync("src/models/orders.json", "utf8");
-        const listOrders = JSON.parse(fileOrders);
-        res.send(listOrders);
+   async getOrder(req, res) {
+        const response= await getAllItems(Order)
+        res.send(response);
       }
 }
 export default OrderController;

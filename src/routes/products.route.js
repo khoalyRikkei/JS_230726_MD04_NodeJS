@@ -12,7 +12,7 @@ productsRotuer.delete("/:id", productController.deleteProduct);
 // edit product
 productsRotuer.put("/:id", productController.updateProduct);
 // thêm product
-productsRotuer.post("/", productController.addProduct);
+productsRotuer.post("/", productController.insertProduct);
 // seach byname product
 productsRotuer.get("/seach/:name", productController.seachByNameProduct);
 
