@@ -1,40 +1,43 @@
 import authRouter from "./auth.route.js";
 import categoryRouter from "./category.route.js";
 import couresRouter from "./course.route.js";
+import favoritesRouter from "./favorite.route.js";
 import lessonRouter from "./lesson.route.js";
-import oderRouter from "./oder.route.js";
 import paymentRouter from "./payment.route.js";
 import progressLessonRouter from "./progressLesson.route.js";
 import teacherRouter from "./teacher.route.js";
+import uploadRouter from "./upload.route.js";
 import userRouter from "./user.route.js";
 
+
 export function route(app) {
-  // API Router Category
+  // 1 API Router Category OK
   app.use("/api/v1/category", categoryRouter);
 
-  // API Courses
+  // 2 API Courses OK
   app.use("/api/v1/course", couresRouter);
 
-  // API Lessons
+  // 3 API Lessons OK
   app.use("/api/v1/lesson", lessonRouter);
 
-  // API Oders
-  app.use("/api/v1/oders", oderRouter);
+  // 4 API Auth OK
+  app.use("/api/v1/auth", authRouter);
 
-  // API Users
+  // 5 API Users OK
   app.use("/api/v1/users", userRouter);
+
+  // 6 API Payment OK
+  app.use("/api/v1/payment", paymentRouter);
+
+  // 7 API Favorite OK
+  app.use("/api/v1/favorites", favoritesRouter);
+
+  // 8 API Upload
+  app.use("/api/v1/upload", uploadRouter);
 
   // API Teacher
   app.use("/api/v1/teachers", teacherRouter);
 
-  // API Router Auth
-  app.use("/api/v1/auth", authRouter);
-
-  // API Payment
-  app.use("/api/v1/payment", paymentRouter);
-
   // API Progress Lesson
   app.use("/api/v1/progressLesson", progressLessonRouter);
-
-  // app.use("/api/v1/amdin/", authRouter);
 }

@@ -14,7 +14,7 @@ export function validateUserData(userData) {
     };
   }
 
-  if (!isNotEmptyString(userData.userName)) {
+  if (!isNotEmptyString(userData.user_name)) {
     return {
       statusCode: 403,
       success: false,
@@ -30,7 +30,7 @@ export function validateUserData(userData) {
     };
   }
 
-  if (!isNotEmptyString(userData.confirmPassword)) {
+  if (!isNotEmptyString(userData.confirm_password)) {
     return {
       statusCode: 403,
       success: false,
@@ -54,7 +54,7 @@ export function validateUserData(userData) {
     };
   }
 
-  if (!checkPasswordsMatch(userData.password, userData.confirmPassword)) {
+  if (!checkPasswordsMatch(userData.password, userData.confirm_password)) {
     return {
       statusCode: 403,
       success: false,

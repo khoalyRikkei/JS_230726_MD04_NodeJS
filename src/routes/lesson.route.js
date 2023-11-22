@@ -4,9 +4,9 @@ const lessonRouter = express.Router();
 const lessonController = new LessonController()
 
 // API Lessons
-lessonRouter.get("/:id", lessonController.getDataLessonByParam);
+lessonRouter.get("/:id", lessonController.getLessonById);
 
-lessonRouter.get("/", lessonController.getAllDataLesson);
+lessonRouter.get("/", lessonController.getAllLesson);
 
 lessonRouter.post("/", lessonController.createLesson);
 

@@ -3,9 +3,9 @@ import CourseController from "../controller/course.controller.js";
 const couresRouter = express.Router();
 const courseController = new CourseController()
 // API Courses
-couresRouter.get("/:id", courseController.getDataCourseByParam);
+couresRouter.get("/:id", courseController.getCourseById);
 
-couresRouter.get("/", courseController.getAllDataCourse);
+couresRouter.get("/", courseController.getAllCourse);
 
 couresRouter.post("/", courseController.createCourse);
 

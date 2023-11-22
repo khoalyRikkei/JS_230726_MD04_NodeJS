@@ -1,24 +1,24 @@
 import express from "express";
 import AuthController from "../controller/auth.controller.js";
-import { authenticateToken } from "../middlewares/authenticateToken.js";
 const authRouter = express.Router();
-const authController = new AuthController()
+const authController = new AuthController();
 
+// API Login
+authRouter.post("/login", authController.login);
 
+// API Register
+authRouter.post("/register", authController.register);
 
-  // API Login
-  authRouter.post("/login", authController.login);
+// API Logout
+authRouter.get("/logout", authController.logout);
 
-  // API Register
-  authRouter.post("/register", authController.register);
+//API Change Password
+authRouter.post("/:id/change-password", authController.changePassword);
 
-  // API Logout
-  authRouter.get("/logout", authController.logout);
+// API Request Password Reset
+authRouter.post("/request-password-reset", authController.requestPasswordReset);
 
-
-  authRouter.get("/secure-data", authenticateToken, (req, res) => {
-    // Đoạn mã xử lý khi token hợp lệ
-    // Ví dụ: trả về dữ liệu bảo mật
-  });
+// API Reset Password
+authRouter.post("/reset-password", authController.resetPassword);
 
 export default authRouter;

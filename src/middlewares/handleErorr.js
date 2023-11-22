@@ -9,13 +9,10 @@ import {
       return next();
     }
   
-    if (
-      (err instanceof AuthencationException) |
-      (err instanceof ValidationException)
-    ) {
+    
       res.status(err.statusCode).json({
         message: err.message,
         errors: err.field,
       });
-    }
+    
   }

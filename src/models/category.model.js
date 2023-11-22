@@ -1,11 +1,12 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../database/sequelize.config.js";
+import sequelize from "../configs/sequelize.config.js";
 
 export const Category = sequelize.define("categorys", {
   id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
+    type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
+
   },
   name: {
     type: DataTypes.STRING(20),
@@ -19,10 +20,5 @@ export const Category = sequelize.define("categorys", {
   },
 }, );
 
-(async () => {
-    await sequelize.sync();
-    console.log('Category model synced with the database.');
-  })()
 
 
-  
