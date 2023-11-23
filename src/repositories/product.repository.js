@@ -17,5 +17,30 @@ const getProductByName = async (productName) => {
     });
   });
 };
+const getProductById = async (productId) => {
+  return new Promise((resolve, reject) => {
+    const query = `SELECT * FROM products WHERE productId = ?`;
+    connection.query(query, [productId], (err, data) => {
+      if (err) reject(err);
+      resolve(data);
+    });
+  });
+};
 
-module.exports = { getProducts, getProductByName };
+const createProduct = async (productData) => {
+  return new Promise((resolve, reject) => {
+    const query = `INSERT INTO products SET ?`;
+    connection.query(query, [productData], (err, result) => {
+      if (err) reject(err);
+      resolve(result.insertId);
+    });
+  });
+};
+
+module.exports = {
+  getProducts,
+  getProductByName,
+  createProduct,
+  getProductById,
+  createProduct,
+};

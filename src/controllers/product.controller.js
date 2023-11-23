@@ -10,16 +10,20 @@ const getProducts = async (req, res) => {
 };
 
 // Hàm để lấy thông tin sản phẩm dựa trên ID
-const getProductById = (req, res) => {
-  const productId = req.params.id; // Lấy ID sản phẩm từ đường dẫn
+const getProductById = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const productData = await productService.getProductById(productId);
 
-  // Tìm sản phẩm trong danh sách sản phẩm
+    if (!productData) {
+      return res.status(404).json({ message: "Product not found" });
+    }
 
-  if (!product) {
-    return res.status(404).json({ error: "Product not found" });
+    res.status(200).json(productData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-
-  res.status(200).json({ product });
 };
 
 // Hàm để tạo sản phẩm mới

@@ -10,7 +10,7 @@ productsRouter.get("/", productController.getProducts);
 productsRouter.get("/:id", productController.getProductById);
 
 // tạo sản phẩm mới
-// productsRouter.post("/", productController.createProduct);
+productsRouter.post("/", productController.createProduct);
 
 // xoá sản phẩm
 // productsRouter.delete("/", productController.deleteProduct);
