@@ -10,8 +10,12 @@ const getProductById = async (productId) => {
   }
 };
 
-const createProduct = async () => {
-  return await productRepository.createProduct();
+const createProduct = async (productData) => {
+  return await productRepository.createProduct(productData);
 };
 
-module.exports = { getProducts, getProductById, createProduct };
+const deleteProduct = async (productId) => {
+  return await productRepository.deleteProduct(productId);
+};
+
+module.exports = { getProducts, getProductById, createProduct, deleteProduct };

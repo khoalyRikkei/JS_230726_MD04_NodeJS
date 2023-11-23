@@ -13,6 +13,6 @@ productsRouter.get("/:id", productController.getProductById);
 productsRouter.post("/", productController.createProduct);
 
 // xoá sản phẩm
-// productsRouter.delete("/", productController.deleteProduct);
+// productsRouter.delete("/:id", productController.deleteProduct);
 
 module.exports = productsRouter;

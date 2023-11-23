@@ -36,6 +36,15 @@ const createProduct = async (productData) => {
     });
   });
 };
+const deleteProduct = async (productId) => {
+  return new Promise((resolve, reject) => {
+    const query = `DELETE FROM products WHERE productId = ?`;
+    connection.query(query, [productId], (err, result) => {
+      if (err) reject(err);
+      resolve(result.affectedRows); // Trả về số hàng bị ảnh hưởng (nếu có) khi xoá sản phẩm
+    });
+  });
+};
 
 module.exports = {
   getProducts,
@@ -43,4 +52,5 @@ module.exports = {
   createProduct,
   getProductById,
   createProduct,
+  deleteProduct,
 };
