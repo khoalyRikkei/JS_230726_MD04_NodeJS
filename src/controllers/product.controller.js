@@ -1,8 +1,12 @@
-const products = [];
+const productService = require("../services/product.service");
 
 // Hàm để lấy danh sách sản phẩm
-const getProducts = (req, res) => {
-  res.status(200).json({ products });
+const getProducts = async (req, res) => {
+  try {
+    const ret = await productService.getProducts();
+    return res.status(200).json(ret);
+  } catch (error) {}
+  res.status(500).json({ errormessage: "internal error" });
 };
 
 // Hàm để lấy thông tin sản phẩm dựa trên ID
@@ -10,7 +14,6 @@ const getProductById = (req, res) => {
   const productId = req.params.id; // Lấy ID sản phẩm từ đường dẫn
 
   // Tìm sản phẩm trong danh sách sản phẩm
-  const product = products.find((p) => p.id === productId);
 
   if (!product) {
     return res.status(404).json({ error: "Product not found" });
@@ -42,7 +45,7 @@ const deleteProduct = (req, res) => {
 
   res.status(201).json({ message: "Product deleted successfully" });
 };
-export default {
+module.exports = {
   getProducts,
   getProductById,
   createProduct,

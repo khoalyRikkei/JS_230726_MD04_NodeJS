@@ -4,15 +4,15 @@ const express = require("express");
 const productsRouter = express.Router();
 
 // lấy danh sách sản phẩm
-productsRouter.get("/", productsController.getProducts);
+productsRouter.get("/", productController.getProducts);
 
 // lấy thông tin sản phẩm dựa trên ID
-productsRouter.get("/:id", productsController.getProductById);
+productsRouter.get("/:id", productController.getProductById);
 
 // tạo sản phẩm mới
-productsRouter.post("/", productsController.createProduct);
+// productsRouter.post("/", productController.createProduct);
 
 // xoá sản phẩm
-productsRouter.delete("/", productsController.deleteProduct);
+// productsRouter.delete("/", productController.deleteProduct);
 
-export default productsRouter;
+module.exports = productsRouter;

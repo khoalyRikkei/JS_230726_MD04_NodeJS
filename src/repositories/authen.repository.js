@@ -1,13 +1,7 @@
 const mysql = require("mysql2/promise");
+const { connection } = require("../configs/db.config");
 
 const getDataByEmail = async (email) => {
-  const connection = await mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    database: "project-3",
-    password: "ltvlhk1504###***",
-  });
-
   try {
     const [data] = await connection.execute(
       `SELECT * FROMm users WHERE email = "${email}"`
@@ -26,3 +20,10 @@ const getDataByEmail = async (email) => {
 };
 
 module.exports = { getDataByEmail };
+
+
+
+
+
+
+

@@ -1,5 +1,5 @@
 const connection = require("../configs/db.config");
-const { loginService } = require("../services/authen.service");
+const { loginService, testData } = require("../services/authen.service");
 
 const login = async (req, res) => {
   const userLogin = { ...req.body };
@@ -30,4 +30,8 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { login };
+const test = async (req, res) => {
+  const data = await testData();
+};
+
+module.exports = { login, test };
