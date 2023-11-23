@@ -17,16 +17,33 @@ const User = sequelize.define(
       type: DataTypes.DATE,
       allowNull: false,
     },
-    email: DataTypes.STRING(20),
-    role: DataTypes.STRING(10),
-    phone: DataTypes.STRING(15),
-    address: DataTypes.STRING(200),
-    password: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    role: {
+      type: DataTypes.STRING(10),
+      allowNull: false,
+    },
+    phone: {
+      type: DataTypes.STRING(15),
+      allowNull: false,
+    },
+    address: {
+      type: DataTypes.STRING(200),
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    avatar: {
+      type: DataTypes.STRING,
+    },
   },
   {
     freezeTableName: true,
     // timestamps: false,
-    
   }
 );
 

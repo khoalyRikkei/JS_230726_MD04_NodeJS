@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../configs/dbconfig.js";
 
-const User_payment = sequelize.define(
-  "User_payments",
+const Cart = sequelize.define(
+  "carts",
   {
     id: {
       type: DataTypes.UUID,
@@ -10,11 +10,14 @@ const User_payment = sequelize.define(
       primaryKey: true,
     },
     user_id: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.UUID,
       allowNull: false,
     },
-    order_id: DataTypes.STRING(50),
-    payment_type: DataTypes.STRING(200),
+
+    total: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     freezeTableName: true,
@@ -23,6 +26,6 @@ const User_payment = sequelize.define(
 );
 
 (async () => {
-  await User_payment.sync({ alter: true });
+  await Cart.sync({ alter: true });
 })();
-export default User_payment;
+export default Cart;

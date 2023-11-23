@@ -4,9 +4,10 @@ import bodyParser from "body-parser";
 import { route } from "./routes/index.js";
 import cors from "cors";
 import handleError from "./middlewares/handleErorr.js";
-// import Product from "./models/product.model.js";
-// import Cart from "./models/cart.model.js";
-// import Order from "./models/order.model.js";
+import { sessionConfig } from "./configs/session.config.js";
+import multer from "multer";
+import uploadToCloudinary from "./utils/cloudinary.js";
+
 
 // import swaggerUi from "swagger-ui-express";
 // import swaggerFile from "../swagger-output.json" assert { type: "json" };
@@ -15,6 +16,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(sessionConfig);
 
 route(app);
 app.use(handleError);

@@ -1,5 +1,5 @@
 
-import fs from 'fs';
+
 import { getAllItems } from '../utils/db.util.js';
 import Order from '../models/order.model.js';
 

@@ -1,25 +1,25 @@
 import UsersRepository from "../repositories/users.repository.js";
+import uploadToCloudinary from "../src/utils/cloudinary.js";
 
 const usersRepository = new UsersRepository();
 
 class UsersService {
   // get all users
- async getUsersService() {
-    const response=await usersRepository.getUsersRepository();
-    return response
+  async getUsersService() {
+    const response = await usersRepository.getUsersRepository();
+    return response;
   }
   // get user buy id
- async getUsersByIdService(id) {
-   
-      const getAllUsers = await usersRepository.getUsersRepository();
-      const user = getAllUsers.find((item) => item.id == id);
-      return user;
+  async getUsersByIdService(id) {
+    const getAllUsers = await usersRepository.getUsersRepository();
+    const user = getAllUsers.find((item) => item.id == id);
+    return user;
   }
-// insert user
+  // insert user
   insertUsersService(dataModal) {
     // const getAllUsers = usersRepository.getUsersRepository();
     // const user = getAllUsers.find((item) => item.email == dataModal.email);
-    
+
     // if (user) {
     //   return {
     //     status: false,
@@ -34,16 +34,16 @@ class UsersService {
     //     data: dataModal,
     //   };
     // }
-  
-    const response= usersRepository.insertUsersRepository(dataModal)
-    return  response
+
+    const response = usersRepository.insertUsersRepository(dataModal);
+    return response;
   }
-  
- async updateUsersService(id,dataModal){
-    return await usersRepository.updateUsersRepository(id,dataModal);
-    
+
+  async updateUsersService(id, dataModal) {
+    const response = await usersRepository.updateUsersRepository(id, dataModal);
+    return response;
   }
- async deleteUsersByIdService(id) {
+  async deleteUsersByIdService(id) {
     return await usersRepository.deleteUsersByIdRepository(id);
   }
 }
