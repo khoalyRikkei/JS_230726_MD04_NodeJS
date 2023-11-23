@@ -9,6 +9,9 @@ const getProductById = async (productId) => {
     return data[0];
   }
 };
+const getProductByName = async (productName) => {
+  return await productRepository.getProductByName(productName);
+};
 
 const createProduct = async (productData) => {
   return await productRepository.createProduct(productData);
@@ -18,4 +21,10 @@ const deleteProduct = async (productId) => {
   return await productRepository.deleteProduct(productId);
 };
 
-module.exports = { getProducts, getProductById, createProduct, deleteProduct };
+module.exports = {
+  getProducts,
+  getProductById,
+  createProduct,
+  deleteProduct,
+  getProductByName,
+};

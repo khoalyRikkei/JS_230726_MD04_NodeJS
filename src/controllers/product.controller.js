@@ -9,6 +9,19 @@ const getProducts = async (req, res) => {
   res.status(500).json({ errormessage: "internal error" });
 };
 
+// tìm sản phẩm theo tên
+const getProductByName = async (req, res) => {
+  try {
+    const productName = req.params.name;
+    const productData = await productService.getProductByName(productName);
+
+    res.status(200).json(productData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 // Hàm để lấy thông tin sản phẩm dựa trên ID
 const getProductById = async (req, res) => {
   try {
@@ -34,7 +47,7 @@ const createProduct = async (req, res) => {
       .status(201)
       .json({ id: newProductId, message: "Product created successfully" });
   } catch (error) {
-    console.error(error);
+    console.error(444444, error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -59,4 +72,5 @@ module.exports = {
   getProductById,
   createProduct,
   deleteProduct,
+  getProductByName,
 };

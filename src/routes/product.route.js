@@ -6,6 +6,9 @@ const productsRouter = express.Router();
 // lấy danh sách sản phẩm
 productsRouter.get("/", productController.getProducts);
 
+// search sản phẩm
+productsRouter.get("/search/:name", productController.getProductByName);
+
 // lấy thông tin sản phẩm dựa trên ID
 productsRouter.get("/:id", productController.getProductById);
 
@@ -13,6 +16,6 @@ productsRouter.get("/:id", productController.getProductById);
 productsRouter.post("/", productController.createProduct);
 
 // xoá sản phẩm
-// productsRouter.delete("/:id", productController.deleteProduct);
+productsRouter.delete("/:id", productController.deleteProduct);
 
 module.exports = productsRouter;

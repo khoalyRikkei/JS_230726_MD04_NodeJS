@@ -10,7 +10,7 @@ const getProducts = async () => {
 };
 const getProductByName = async (productName) => {
   return new Promise((resolve, reject) => {
-    const query = `SELECT * FROM products WHERE productName = ?`;
+    const query = `SELECT * FROM products WHERE productName LIKE '%?%'`;
     connection.query(query, [productName], (err, data) => {
       if (err) reject(err);
       resolve(data);
@@ -32,7 +32,7 @@ const createProduct = async (productData) => {
     const query = `INSERT INTO products SET ?`;
     connection.query(query, [productData], (err, result) => {
       if (err) reject(err);
-      resolve(result.insertId);
+      resolve(result);
     });
   });
 };
@@ -41,7 +41,7 @@ const deleteProduct = async (productId) => {
     const query = `DELETE FROM products WHERE productId = ?`;
     connection.query(query, [productId], (err, result) => {
       if (err) reject(err);
-      resolve(result.affectedRows); // Trả về số hàng bị ảnh hưởng (nếu có) khi xoá sản phẩm
+      resolve(result.affectedRows);
     });
   });
 };
