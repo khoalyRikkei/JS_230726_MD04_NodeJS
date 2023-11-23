@@ -3,14 +3,24 @@ import CourseController from "../controller/course.controller.js";
 const couresRouter = express.Router();
 const courseController = new CourseController()
 // API Courses
-couresRouter.get("/:id", courseController.getCourseById);
+couresRouter.get("/search", courseController.searchCourseByCondition);
+
+couresRouter.get("/trash", courseController.getAllDeletedCourse);
+
+couresRouter.get("/trash/:id", courseController.getDeletedCourseById);
 
 couresRouter.get("/", courseController.getAllCourse);
 
-couresRouter.post("/", courseController.createCourse);
+couresRouter.get("/:id", courseController.getCourseById);
 
-couresRouter.delete("/:id", courseController.deleteCourse);
+couresRouter.delete("/:id", courseController.softDeleteCourse);
+
+couresRouter.delete("/del-forever", courseController.deleteCourse);
+
+couresRouter.put("/restore", courseController.restoreCategory);
 
 couresRouter.put("/:id", courseController.editCourse);
+
+couresRouter.post("/", courseController.createCourse);
 
 export default couresRouter;

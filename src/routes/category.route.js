@@ -10,21 +10,15 @@ const categoryController = new CategoryController();
 
 // API Category
 
-categoryRouter.get("/search", categoryController.searchCategoryByName);
-
-categoryRouter.get("/", categoryController.getAllCategories);
+categoryRouter.get("/search", categoryController.searchCategoryByCondition);
 
 categoryRouter.get("/trash", categoryController.getAllDeletedCategory);
 
-categoryRouter.get("/:id", categoryController.getCategoryById);
-
 categoryRouter.get("/trash/:id", categoryController.getDeletedCategoryById);
 
-categoryRouter.post(
-  "/",
-  validateCreateCategory,
-  categoryController.createCategory
-);
+categoryRouter.get("/", categoryController.getAllCategories);
+
+categoryRouter.get("/:id", categoryController.getCategoryById);
 
 categoryRouter.delete("/:id", categoryController.softDeleteCategory);
 
@@ -36,6 +30,12 @@ categoryRouter.put(
   "/:id",
   validateEditCategory,
   categoryController.editCategory
+);
+
+categoryRouter.post(
+  "/",
+  validateCreateCategory,
+  categoryController.createCategory
 );
 
 

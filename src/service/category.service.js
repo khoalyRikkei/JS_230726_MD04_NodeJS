@@ -11,6 +11,7 @@ export default class CategoryService {
       throw error;
     }
   }
+
   async getDeletedCategory() {
     try {
       const data = await categoryRepository.getDeletedCategory();
@@ -83,10 +84,10 @@ export default class CategoryService {
     }
   }
 
-  async searchCategoryByName(condition) {
+  async searchCategoryByCondition(condition) {
     try {
-      const categoryByName = await categoryRepository.searchCategoryByName(condition);
-      return categoryByName;
+      const categoryByCondition = await categoryRepository.searchCategoryByCondition(condition);
+      return categoryByCondition;
     } catch (error) {
       throw error;
     }

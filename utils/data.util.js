@@ -69,7 +69,7 @@ export async function getDataByEmail(model, email) {
 }
 
 // Lấy dữ liệu từ mô hình dựa trên Name
-export async function getDataByName(model, condition) {
+export async function getDataByCondition(model, condition) {
   const normalizedSearchTerm = unorm.nfkd(`${condition.value}`).toLowerCase();
   return await model.findAll({
     raw: true,

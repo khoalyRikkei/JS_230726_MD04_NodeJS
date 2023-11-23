@@ -1,4 +1,15 @@
-import { getData, insertData, deleteData, editData, getDataById} from "../../utils/data.util.js";
+import {
+  getData,
+  insertData,
+  deleteData,
+  editData,
+  getDataById,
+  sortDeleteData,
+  restoreData,
+  getDeletedData,
+  getDeletedDataById,
+  getDataByCondition,
+} from "../../utils/data.util.js";
 import Course from "../models/course.model.js";
 
 export default class CourseRepository {
@@ -10,6 +21,16 @@ export default class CourseRepository {
       throw error;
     }
   }
+
+  async getDeletedCourse() {
+    try {
+      const courseData = await getDeletedData(Course);
+      return courseData;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getCourseById(id) {
     try {
       const courseById = await getDataById(Course, id);
@@ -18,6 +39,16 @@ export default class CourseRepository {
       throw error;
     }
   }
+
+  async getDeletedCourseById(id) {
+    try {
+      const courseById = await getDeletedDataById(Course, id);
+      return courseById;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async createCourse(data) {
     try {
       const newCourse = await insertData(Course, data);
@@ -35,6 +66,25 @@ export default class CourseRepository {
       throw error;
     }
   }
+
+  async softDeleteCourse(id) {
+    try {
+      const softDeleteCourse = await sortDeleteData(Course, id);
+      return softDeleteCourse;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async restoreCourse(id) {
+    try {
+      const restoreCourse = await restoreData(Course, id);
+      return restoreCourse;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async editCourse(id, item) {
    try {
     const editCourse = await editData(Course, id, item);
@@ -42,5 +92,14 @@ export default class CourseRepository {
    } catch (error) {
     throw error;
    }
+  }
+
+  async searchCourseByCondition(condition) {
+    try {
+      const searchCourseByCondition = await getDataByCondition(Course, condition);
+      return searchCourseByCondition;
+    } catch (error) {
+      throw error;
+    }
   }
 }

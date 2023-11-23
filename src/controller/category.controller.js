@@ -8,7 +8,13 @@ class CategoryController {
   async getAllCategories(req, res, next) {
     try {
       const ret = await categoryService.getCategory();
-      res.status(200).json(ret);
+      if (ret) {
+        res.status(200).json(ret);
+      } else {
+        res
+          .status(404)
+          .json({ message: MSG_COMMON.MSG_FAILURE.read("Category") });
+      }
     } catch (error) {
       next(error);
     }
@@ -17,7 +23,13 @@ class CategoryController {
   async getAllDeletedCategory(req, res, next) {
     try {
       const ret = await categoryService.getDeletedCategory();
-      res.status(200).json(ret);
+      if (ret) {
+        res.status(200).json(ret);
+      } else {
+        res
+          .status(404)
+          .json({ message: MSG_COMMON.MSG_FAILURE.read("Category") });
+      }
     } catch (error) {
       next(error);
     }
@@ -32,7 +44,7 @@ class CategoryController {
       } else {
         res
           .status(404)
-          .json({ message: MSG_COMMON.MSG_ERROR.NotFoundException });
+          .json({ message: MSG_COMMON.MSG_FAILURE.read("Category") });
       }
     } catch (error) {
       next(error);
@@ -59,9 +71,16 @@ class CategoryController {
     const categoryData = req.body;
     try {
       const ret = await categoryService.createCategory(categoryData);
-      res
+      if (ret) {
+        res
         .status(201)
         .json({ message: MSG_COMMON.MSG_SUCCESS.create("Category") });
+      } else {
+        res
+          .status(404)
+          .json({ message: MSG_COMMON.MSG_FAILURE.create("Category") });
+      }
+      
     } catch (error) {
       next(error);
     }
@@ -78,7 +97,7 @@ class CategoryController {
       } else {
         res
           .status(404)
-          .json({ message: MSG_COMMON.MSG_ERROR.NotFoundException });
+          .json({ message: MSG_COMMON.MSG_FAILURE.delete("Category") });
       }
     } catch (error) {
       next(error);
@@ -96,7 +115,7 @@ class CategoryController {
       } else {
         res
           .status(404)
-          .json({ message: MSG_COMMON.MSG_ERROR.NotFoundException });
+          .json({ message: MSG_COMMON.MSG_FAILURE.softDelete("Category") });
       }
     } catch (error) {
       next(error);
@@ -110,7 +129,7 @@ class CategoryController {
       if (restoreCategory) {
         res
           .status(200)
-          .json({ message: MSG_COMMON.MSG_SUCCESS.restore(`Category with ID: ${categoryId} `), data: restoreCategory});
+          .json({ message: MSG_COMMON.MSG_SUCCESS.restore(`Category with ID: ${categoryId} `)});
       } else {
         res
           .status(404)
@@ -126,22 +145,28 @@ class CategoryController {
     const updatedData = req.body;
     try {
       const ret = await categoryService.editCategory(categoryId, updatedData);
-      res
+      if (ret) {
+        res
         .status(200)
         .json({ message: MSG_COMMON.MSG_SUCCESS.update("Category") });
+      } else {
+        res
+          .status(404)
+          .json({ message: MSG_COMMON.MSG_FAILURE.update("Category") });
+      }
+      
     } catch (error) {
       next(error);
     }
   }
 
-  async searchCategoryByName(req, res, next) {
+  async searchCategoryByCondition(req, res, next) {
     try {
       const query = req.query ;
       const condition = {
         key: Object.keys(query)[0], value: Object.values(query)[0]
       }
-      console.log(111111111,condition);
-      const categoryData = await categoryService.searchCategoryByName(condition);
+      const categoryData = await categoryService.searchCategoryByCondition(condition);
       if (categoryData) {
         res.status(200).json(categoryData);
       } else {

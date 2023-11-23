@@ -13,9 +13,27 @@ export default class CourseService {
     }
   }
 
+  async getDeletedCourse() {
+    try {
+      const data = await courseRepository.getDeletedCourse();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getCourseById(id) {
     try {
       const courseById = await courseRepository.getCourseById(id);
+      return courseById;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getDeletedCourseById(id) {
+    try {
+      const courseById = await courseRepository.getDeletedCourseById(id);
       return courseById;
     } catch (error) {
       throw error;
@@ -40,12 +58,40 @@ export default class CourseService {
     }
   }
 
-  editCourse(id, item) {
+  async softDeleteCourse(id) {
     try {
-      const data = courseRepository.editCourse(id, item);
+      const data = await courseRepository.softDeleteCourse(id);
       return data;
     } catch (error) {
       throw error;
     }
   }
+
+  async restoreCourse(id) {
+    try {
+      const data = await courseRepository.restoreCourse(id);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async editCourse(id, item) {
+    try {
+      const data = await courseRepository.editCourse(id, item);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async searchCourseByCondition(condition) {
+    try {
+      const courseByCondition = await courseRepository.searchCourseByCondition(condition);
+      return courseByCondition;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }

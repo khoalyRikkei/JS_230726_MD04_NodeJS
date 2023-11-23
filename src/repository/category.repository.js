@@ -8,7 +8,7 @@ import {
   restoreData,
   getDeletedData,
   getDeletedDataById,
-  getDataByName,
+  getDataByCondition,
 } from "../../utils/data.util.js";
 import { Category } from "../models/category.model.js";
 
@@ -21,6 +21,7 @@ export default class CategoryRepository {
       throw error;
     }
   }
+
   async getDeletedCategory() {
     try {
       const categoryData = await getDeletedData(Category);
@@ -29,6 +30,7 @@ export default class CategoryRepository {
       throw error;
     }
   }
+
   async getCategoryById(id) {
     try {
       const categoryById = await getDataById(Category, id);
@@ -37,6 +39,7 @@ export default class CategoryRepository {
       throw error;
     }
   }
+
   async getDeletedCategoryById(id) {
     try {
       const categoryById = await getDeletedDataById(Category, id);
@@ -45,6 +48,7 @@ export default class CategoryRepository {
       throw error;
     }
   }
+
   async createCategory(data) {
     try {
       const newCategory = await insertData(Category, data);
@@ -89,10 +93,11 @@ export default class CategoryRepository {
       throw error;
     }
   }
-  async searchCategoryByName(condition) {
+
+  async searchCategoryByCondition(condition) {
     try {
-      const searchCategoryByName = await getDataByName(Category, condition);
-      return searchCategoryByName;
+      const searchCategoryByCondition = await getDataByCondition(Category, condition);
+      return searchCategoryByCondition;
     } catch (error) {
       throw error;
     }
