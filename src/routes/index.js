@@ -1,6 +1,7 @@
 const authRouter = require("./authen.route");
 const dbRouter = require("./db.route");
 const productsRouter = require("./product.route");
+const userRouter = require("./user.route");
 
 exports.routes = function (app) {
   app.use("/api/v1/auth", authRouter);
@@ -8,4 +9,7 @@ exports.routes = function (app) {
 
   // api product
   app.use("/api/v1/products", productsRouter);
+
+  // api user
+  app.use("/api/v1/users", userRouter);
 };

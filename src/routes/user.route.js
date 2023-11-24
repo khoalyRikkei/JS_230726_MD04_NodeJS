@@ -1,23 +1,14 @@
+const express = require("express");
 const userController = require("../controllers/user.controller");
 
-const express = require("express");
-userController;
 const userRouter = express.Router();
 
-userRouter.get("/", usersController.getData);
+userRouter.post("/", userController.createUser);
 
-userRouter.get("/", (req, res) => {
-  res.send("lấy data user thành công");
+userRouter.get("/", userController.getAllUsers);
+userRouter.get("/search/:name", userController.getUserByName);
+userRouter.patch("/:id/edit", userController.editUser);
+userRouter.put("/:id/editRole", userController.editUserRole);
+userRouter.get("/:id", userController.getUserById);
 
-  //
-
-  //
-});
-userRouter.get("/:id", (req, res) => {
-  res.send("lấy data user thành công");
-});
-userRouter.post("/", (req, res) => {
-  res.send("lấy data user thành công");
-});
-
-export default userRouter;
+module.exports = userRouter;
