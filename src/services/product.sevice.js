@@ -23,7 +23,7 @@ class ProductService {
       const inputImages = model.images;
 
       const transformedImages = inputImages.map((image) => ({
-        imageUrl: image.url,
+        image_url: image.url,
         product_id: insertProduct.dataValues.id,
         public_id: image.id,
         deleteAt: null,
@@ -49,28 +49,11 @@ class ProductService {
           responseUpdateProduct.dataValues.id
         );
       }
-      // const images = [
-      //   {
-      //     id: "dlpd3xmvpnwrhjxdhukt",
-      //     url: "http://res.cloudinary.com/dsq0mydrb/image/upload/v1700717051/dlpd3xmvpnwrhjxdhukt.jpg",
-      //   },
-      //   {
-      //     id: "adss3r2e3sg8kt6hn4dl",
-      //     url: "http://res.cloudinary.com/dsq0mydrb/image/upload/v1700717051/adss3r2e3sg8kt6hn4dl.jpg",
-      //   },
-      //   {
-      //     id: "ippf7o5pwbvc2e66ajlf",
-      //     url: "http://res.cloudinary.com/dsq0mydrb/image/upload/v1700717051/ippf7o5pwbvc2e66ajlf.jpg",
-      //   },
-      //   {
-      //     id: "xldmwyjbadtgeytpotgy",
-      //     url: "http://res.cloudinary.com/dsq0mydrb/image/upload/v1700717051/xldmwyjbadtgeytpotgy.jpg",
-      //   },
-      // ];
+
       const inputImages = [...model.images];
 
       const transformedImages = inputImages.map((image) => ({
-        imageUrl: image.url,
+        image_url: image.url,
         product_id: responseUpdateProduct.dataValues.id,
         public_id: image.id,
         deleteAt: null,

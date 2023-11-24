@@ -16,7 +16,7 @@ const getData = async (model) => {
 
     const fetchedRecords = await model.findAll({
       where: {
-        deletedAt: null, // Chỉ lấy những bản ghi chưa bị xóa mềm,
+        deletedAt: null,
       },
       raw: true,
     });

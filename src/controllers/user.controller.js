@@ -57,12 +57,12 @@ class UserController {
       const limit = req.query.limit ? parseInt(req.query.limit, 10) : null;
       const name = req.query.name;
       const orderByName = req.query.order;
-      const currentPage = req.query.currentPage || 1;
+      const page = req.query.page || 1;
 
       const filterConditions = {};
 
       if (limit !== null) {
-        const offset = (currentPage - 1) * limit;
+        const offset = (page - 1) * limit;
         model.limit = limit;
         model.offset = offset;
       }
@@ -132,9 +132,8 @@ class UserController {
         id: req.params.id,
       };
       const res = await userService.deleteUser(model.id);
-      if (res) {
-        res.status(200).json({});
-      }
+
+      res.status(200).json({});
     } catch (error) {
       const err = new ServerException("ServerException", 500, error.message);
       next(err);

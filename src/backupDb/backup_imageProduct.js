@@ -55,3 +55,22 @@ const seedImageData = async () => {
 };
 
 module.exports = seedImageData;
+
+const images = [
+  {
+    id: "bjoyfpshuzqswvxmalxq",
+    url: "http://res.cloudinary.com/dsq0mydrb/image/upload/v1700794903/bjoyfpshuzqswvxmalxq.jpg",
+  },
+  {
+    id: "cuk1gycm6v6qtukmmyu0",
+    url: "http://res.cloudinary.com/dsq0mydrb/image/upload/v1700794903/cuk1gycm6v6qtukmmyu0.jpg",
+  },
+  {
+    id: "ztcd6cq3zqbbit6qmi9t",
+    url: "http://res.cloudinary.com/dsq0mydrb/image/upload/v1700794903/ztcd6cq3zqbbit6qmi9t.jpg",
+  },
+  {
+    id: "mqaqjl0cyi3dq3nbiwmp",
+    url: "http://res.cloudinary.com/dsq0mydrb/image/upload/v1700794903/mqaqjl0cyi3dq3nbiwmp.jpg",
+  },
+];

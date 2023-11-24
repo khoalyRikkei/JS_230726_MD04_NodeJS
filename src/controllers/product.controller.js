@@ -10,7 +10,7 @@ class ProductController {
       const category = req.query.category;
       const orderByName = req.query.orderByName;
       const orderByPrice = req.query.orderByPrice;
-      const currentPage = req.query.currentPage || 1;
+      const page = req.query.page || 1;
 
       const filterConditions = {};
       const limitProduct = {
@@ -19,7 +19,7 @@ class ProductController {
       };
 
       if (limit) {
-        const offset = (currentPage - 1) * limit;
+        const offset = (page - 1) * limit;
         limitProduct.limit = limit;
         limitProduct.offset = offset;
       }
@@ -103,7 +103,8 @@ class ProductController {
 
       const updateProduct = await productService.updateProduct(model);
       if (!updateProduct) {
-        throw new BadRequestException("Update product failed");
+        const err = new BadRequestException("Update product failed");
+        next(err);
       }
       res.status(200).json(updateProduct);
     } catch (error) {
@@ -117,9 +118,6 @@ class ProductController {
         id: req.params.id,
       };
       const responseDeleteProduct = await productService.deleteProduct(model);
-      if (!responseDeleteProduct) {
-        throw new BadRequestException("Delete product failed");
-      }
 
       res.status(200).json(responseDeleteProduct);
     } catch (error) {

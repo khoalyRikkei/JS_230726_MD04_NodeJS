@@ -14,7 +14,7 @@ class ProductRepository {
           },
           {
             model: ImageProduct,
-            attributes: ["imageUrl"],
+            attributes: ["image_url"],
           },
         ],
         attributes: ["id", "product_name", "price", "sku", "quantity_stock", "description"],
@@ -38,7 +38,7 @@ class ProductRepository {
         },
         {
           model: ImageProduct,
-          attributes: ["imageUrl"],
+          attributes: ["image_url"],
         },
       ],
       where: filterConditions,
@@ -65,7 +65,7 @@ class ProductRepository {
           },
           {
             model: ImageProduct,
-            attributes: ["imageUrl", "public_id"],
+            attributes: ["image_url", "public_id"],
           },
         ],
         attributes: ["id", "product_name", "price", "sku", "quantity_stock", "description"],

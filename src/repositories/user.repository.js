@@ -41,7 +41,7 @@ class UserRepository {
   async updateUser(id, userUpdate) {
     return await updateData(id, userUpdate, User);
   }
-  async deleteUser(id) {
+  deleteUser(id) {
     return deleteData(id, User);
   }
 }
