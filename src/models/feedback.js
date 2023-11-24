@@ -1,33 +1,35 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../configs/configDB");
 
-const imageProduct = sequelize.define(
-  "imageProducts",
+const Feedback = sequelize.define(
+  "feedback",
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    imageUrl: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    product_id: {
+    id_reviews: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    public_id: {
-      type: DataTypes.STRING,
+    user_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
-    deletedAt: {
+    comment: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    created_at: {
       type: DataTypes.DATE,
+      allowNull: false,
     },
   },
   {
+    timestamps: false,
     freezeTableName: true,
   }
 );
 
-module.exports = imageProduct;
+module.exports = Feedback;

@@ -13,7 +13,7 @@ function authenticateToken(req, res, next) {
 
   jwt.verify(token, process.env.SECRET_ACCESSTOKEN_KEY, (err, decoded) => {
     if (err) {
-      const error = new CustomException("Forbidden - Access token is invalid", 403);
+      const error = new CustomException("Forbidden - Access token is invalid");
       next(error);
     }
 
@@ -27,7 +27,7 @@ function checkUserRole(role) {
     const user = req.user;
 
     if (!user || user.role !== role) {
-      const err = new CustomException("Forbidden - Insufficient permissions", 403);
+      const err = new CustomException("Forbidden - Insufficient permissions");
       next(err);
     }
 

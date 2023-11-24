@@ -4,6 +4,19 @@ class UserRepository {
   async getAllUser() {
     return await getData(User);
   }
+  async getUserByCondition(filterConditions, order = null, limit = null, offset = null) {
+    try {
+      const result = await User.findAll({
+        where: filterConditions,
+        order: order, // Áp dụng sắp xếp theo yêu cầu
+        limit: limit,
+        offset: offset,
+      });
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
   async getUserById(id) {
     const foundUser = await User.findOne({
       where: {

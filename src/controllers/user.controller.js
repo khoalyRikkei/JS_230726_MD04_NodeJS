@@ -21,7 +21,7 @@ class UserController {
       if (response) {
         res.status(200).json(response);
       } else {
-        const err = new CustomException("User already exists", 400);
+        const err = new CustomException("User already exists");
         next(err);
       }
     } catch (error) {
@@ -53,8 +53,41 @@ class UserController {
   }
   async getAllUser(req, res, next) {
     try {
-      const users = await userService.getAllUser();
-      console.log(users);
+      const model = {};
+      const limit = req.query.limit ? parseInt(req.query.limit, 10) : null;
+      const name = req.query.name;
+      const orderByName = req.query.order;
+      const currentPage = req.query.currentPage || 1;
+
+      const filterConditions = {};
+
+      if (limit !== null) {
+        const offset = (currentPage - 1) * limit;
+        model.limit = limit;
+        model.offset = offset;
+      }
+
+      if (name) {
+        filterConditions.user_name = name;
+      }
+
+      const order = [];
+      if (orderByName) {
+        order.push(["user_name", orderByName.toUpperCase()]);
+      }
+
+      model.filterConditions = filterConditions;
+      model.order = order;
+      model.limit = limit;
+
+      console.log(model);
+      let users;
+
+      if (Object.keys(filterConditions).length === 0 || order !== null || limit !== null) {
+        users = await userService.getAllUser(model);
+      } else {
+        users = await userService.getAllUser();
+      }
       res.status(200).json(users);
     } catch (error) {
       const err = new ServerException("ServerException", 500, error.message);
@@ -78,16 +111,14 @@ class UserController {
     try {
       const model = {
         id: req.params.id,
+        newUser: { ...req.body },
       };
-      if (req.avatar) {
-        model.newUser = { ...req.body, avatar: `${req.avatar.id} ${req.avatar.url}` };
-      }
-      console.log(model);
+
       const response = await userService.updateUser(model.id, model.newUser);
       if (response) {
         res.status(200).json(response._previousDataValues);
       } else {
-        const err = new CustomException("ServerException", 404);
+        const err = new CustomException("ServerException");
         next(err);
       }
     } catch (error) {

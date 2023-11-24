@@ -6,6 +6,7 @@ require("dotenv").config();
 const handleError = require("./middlewares/handleErorr");
 const sequelize = require("./configs/configDB");
 const router = require("./routes");
+require("./models");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,6 +14,11 @@ app.use(bodyParser.json());
 
 router(app);
 app.use(handleError);
+
+// sequelize
+//   .sync({ alter: true })
+//   .then(() => {})
+//   .catch((err) => {});
 
 const port = process.env.PORT;
 app.listen(port, () => {

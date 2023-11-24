@@ -1,33 +1,33 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../configs/configDB");
 
-const imageProduct = sequelize.define(
-  "imageProducts",
+const Discount = sequelize.define(
+  "discount",
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    imageUrl: {
+    name: { type: DataTypes.STRING, allowNull: false },
+    desc: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    product_id: {
+    discount_percent: { type: DataTypes.INTEGER, allowNull: false },
+    status: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    public_id: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    deletedAt: {
+    expired_at: {
       type: DataTypes.DATE,
+      allowNull: false,
     },
   },
   {
+    timestamps: false,
     freezeTableName: true,
   }
 );
 
-module.exports = imageProduct;
+module.exports = Discount;
