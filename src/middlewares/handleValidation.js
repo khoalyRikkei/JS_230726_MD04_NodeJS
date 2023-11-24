@@ -81,4 +81,49 @@ const validationFormLogin = (req, res, next) => {
   }
 };
 
-module.exports = { validationFormRegister, validationFormLogin };
+const validateFormProduct = (req, res, next) => {
+  const model = {
+    sku: req.body.sku,
+    product_name: req.body.product_name,
+    price: req.body.price,
+    quantity_stock: req.body.quantity_stock,
+    description: req.body.description,
+    category_id: req.body.category_id,
+  };
+  let error = false;
+  const errors = {};
+
+  if (!model.sku) {
+    error = true;
+    errors.skuMessage = "Please enter a sku";
+  }
+  if (!model.product_name) {
+    error = true;
+    errors.productNameMessage = "Please enter a product name";
+  }
+  if (!model.price) {
+    error = true;
+    errors.priceMessage = "Please enter a price";
+  }
+  if (!model.quantity_stock) {
+    error = true;
+    errors.quantityStockMessage = "Please enter a quantity stock";
+  }
+  if (!model.description) {
+    error = true;
+    errors.descriptionMessage = "Please enter a description";
+  }
+
+  if (!model.category_id) {
+    error = true;
+    errors.categoryIdMessage = "Please enter a category ID";
+  }
+
+  if (error) {
+    const errorValidation = new ValidationException("Validation failed", 400, errors);
+    next(errorValidation);
+  } else {
+    next();
+  }
+};
+module.exports = { validationFormRegister, validationFormLogin, validateFormProduct };

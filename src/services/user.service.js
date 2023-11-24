@@ -50,8 +50,21 @@ class UserService {
       token: accessToken,
     };
   }
-  getAllUser() {
-    return userRepository.getAllUser();
+  getAllUser(model) {
+    try {
+      if (!model) {
+        return userRepository.getAllUser();
+      }
+
+      return userRepository.getUserByCondition(
+        model.filterConditions,
+        model.order,
+        model.limit,
+        model.offset
+      );
+    } catch (error) {
+      throw error;
+    }
   }
   getUserById(id) {
     return userRepository.getUserById(id);

@@ -41,7 +41,7 @@ const uploadToCloudinaryAndReturnUrl = (req, res, next) => {
         });
 
         // Lấy URL của file đã upload trên Cloudinary và gán vào req.url
-        req.avatar = { id: result.public_id, url: result.url };
+        req.avatar = result.url;
       }
       next();
     } catch (error) {
@@ -84,9 +84,9 @@ const uploadArrayToCloudinaryAndReturnUrls = (req, res, next) => {
       );
 
       // Lưu trữ URLs của các files đã upload trên Cloudinary vào req.urls
-      req.urls = cloudinaryUrls;
+      const arrImage = cloudinaryUrls.map((image) => ({ id: image.public_id, url: image.url }));
 
-      next();
+      res.json(arrImage);
     } catch (error) {
       const err = new ServerException("Error processing files", 500);
       next(err);
