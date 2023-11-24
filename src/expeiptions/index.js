@@ -35,7 +35,7 @@ class ValidationException extends Error {
 }
 
 class CustomException extends Error {
-  name = "UserExistsException";
+  name = "CustomException";
   constructor(message, statusCode = 400, field = null) {
     super(message);
     this.statusCode = statusCode;

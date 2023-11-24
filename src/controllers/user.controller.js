@@ -99,7 +99,7 @@ class UserController {
       const model = {
         id: req.params.id,
       };
-      const user = await userService.getUserById(model.id);
+      const user = await userService.getUserById(model);
 
       res.status(200).json(user);
     } catch (error) {
@@ -111,10 +111,17 @@ class UserController {
     try {
       const model = {
         id: req.params.id,
-        newUser: { ...req.body },
+        newUser: {
+          user_name: req.body.user_name,
+          full_name: req.body.full_name,
+          phone: req.body.phone,
+          address: req.body.address,
+          avatar: req.body.avatar,
+          password: req.body.password,
+        },
       };
 
-      const response = await userService.updateUser(model.id, model.newUser);
+      const response = await userService.updateUser(model);
       if (response) {
         res.status(200).json(response._previousDataValues);
       } else {
@@ -126,18 +133,39 @@ class UserController {
       next(err);
     }
   }
-  async deleteUser(req, res, next) {
+  async updateStatusUser(req, res, next) {
     try {
       const model = {
         id: req.params.id,
+        newUser: {
+          status: req.body.status,
+        },
       };
-      const res = await userService.deleteUser(model.id);
 
-      res.status(200).json({});
+      const response = await userService.updateStatusUser(model);
+      if (response) {
+        res.status(200).json(response._previousDataValues);
+      } else {
+        const err = new CustomException("ServerException");
+        next(err);
+      }
     } catch (error) {
       const err = new ServerException("ServerException", 500, error.message);
       next(err);
     }
   }
+  // async deleteUser(req, res, next) {
+  //   try {
+  //     const model = {
+  //       id: req.params.id,
+  //     };
+  //     const res = await userService.deleteUser(model.id);
+
+  //     res.status(200).json({});
+  //   } catch (error) {
+  //     const err = new ServerException("ServerException", 500, error.message);
+  //     next(err);
+  //   }
+  // }
 }
 module.exports = new UserController();

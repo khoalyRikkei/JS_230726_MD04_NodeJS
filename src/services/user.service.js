@@ -66,14 +66,17 @@ class UserService {
       throw error;
     }
   }
-  getUserById(id) {
-    return userRepository.getUserById(id);
+  getUserById(model) {
+    return userRepository.getUserById(model.id);
   }
-  updateUser(id, userUpdate) {
-    return userRepository.updateUser(id, userUpdate);
+  updateUser(model) {
+    return userRepository.updateUser(model.id, model.newUser);
   }
-  deleteUser(id) {
-    return userRepository.deleteUser(id);
+  updateStatusUser(model) {
+    return userRepository.updateStatusUser(model.id, model.newUser);
   }
+  // deleteUser(id) {
+  //   return userRepository.deleteUser(id);
+  // }
 }
 module.exports = new UserService();
