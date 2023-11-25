@@ -18,15 +18,10 @@ class UserController {
         updated_at: moment(new Date()).format("YYYY-MM-DD"),
       };
       const response = await userService.register(model);
-      if (response) {
-        res.status(200).json(response);
-      } else {
-        const err = new CustomException("User already exists");
-        next(err);
-      }
+
+      res.status(200).json(response);
     } catch (error) {
-      const err = new ServerException("ServerException", 500, error.message);
-      next(err);
+      next(error);
     }
   }
   async login(req, res, next) {
@@ -36,19 +31,19 @@ class UserController {
         password: req.body.password,
       };
       const response = await userService.login(model);
+      console.log(response);
 
       // Set access token vào header
-      res.setHeader("Authorization", `Bearer ${response.ac_token}`);
+      // res.setHeader("Authorization", `Bearer ${response.token}`);
 
       // res.cookie("refreshToken", response.ac_refreshToken, {
       //   httpOnly: true,
       //   maxAge: 7 * 24 * 60 * 60 * 1000,
       // });
 
-      res.status(204).json({ token: response.ac_token, user: user });
+      res.status(200).json(response);
     } catch (error) {
-      const err = new ServerException("ServerException", 500, error.message);
-      next(err);
+      next(error);
     }
   }
   async getAllUser(req, res, next) {
@@ -90,8 +85,7 @@ class UserController {
       }
       res.status(200).json(users);
     } catch (error) {
-      const err = new ServerException("ServerException", 500, error.message);
-      next(err);
+      next(error);
     }
   }
   async getUserById(req, res, next) {
@@ -103,8 +97,7 @@ class UserController {
 
       res.status(200).json(user);
     } catch (error) {
-      const err = new ServerException("ServerException", 500, error.message);
-      next(err);
+      next(error);
     }
   }
   async updateUser(req, res, next) {
@@ -122,15 +115,10 @@ class UserController {
       };
 
       const response = await userService.updateUser(model);
-      if (response) {
-        res.status(200).json(response._previousDataValues);
-      } else {
-        const err = new CustomException("ServerException");
-        next(err);
-      }
+
+      res.status(200).json(response);
     } catch (error) {
-      const err = new ServerException("ServerException", 500, error.message);
-      next(err);
+      next(error);
     }
   }
   async updateStatusUser(req, res, next) {
@@ -143,15 +131,10 @@ class UserController {
       };
 
       const response = await userService.updateStatusUser(model);
-      if (response) {
-        res.status(200).json(response._previousDataValues);
-      } else {
-        const err = new CustomException("ServerException");
-        next(err);
-      }
+
+      res.status(200).json(response);
     } catch (error) {
-      const err = new ServerException("ServerException", 500, error.message);
-      next(err);
+      next(error);
     }
   }
   // async deleteUser(req, res, next) {

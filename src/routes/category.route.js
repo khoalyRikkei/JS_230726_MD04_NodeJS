@@ -5,7 +5,8 @@ const { authenticateToken, checkUserRole } = require("../middlewares/authMiddlew
 
 router.get("/", categoryController.getAllCategory);
 router.post("/", authenticateToken, checkUserRole(1), categoryController.createCategory);
-router.put("/:id", authenticateToken, checkUserRole(1), categoryController.updateCategory);
+router.put("/:id", categoryController.updateCategory);
 router.delete("/:id", authenticateToken, checkUserRole(1), categoryController.deleteCategory);
 
 module.exports = router;
+// authenticateToken, checkUserRole(1),

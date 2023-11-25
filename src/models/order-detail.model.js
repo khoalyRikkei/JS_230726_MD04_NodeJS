@@ -9,7 +9,7 @@ const OrderDetail = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    name: { type: DataTypes.INTEGER, allowNull: false },
+    name: { type: DataTypes.STRING, allowNull: false },
     image: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -19,7 +19,7 @@ const OrderDetail = sequelize.define(
       allowNull: false,
     },
     product_id: { type: DataTypes.INTEGER, allowNull: false },
-    price: { type: DataTypes.INTEGER, allowNull: false },
+    total_price: { type: DataTypes.INTEGER, allowNull: false },
   },
   {
     timestamps: false,

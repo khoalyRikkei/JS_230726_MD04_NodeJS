@@ -23,8 +23,7 @@ class CategoryController {
       const createCategory = await categoryService.createCategory(model);
       res.status(200).json(createCategory);
     } catch (error) {
-      const err = new ServerException("ServerException", 500, error.message);
-      next(err);
+      next(error);
     }
   }
   async updateCategory(req, res, next) {
@@ -43,8 +42,7 @@ class CategoryController {
 
       res.status(200).json(updateCategory);
     } catch (error) {
-      const err = new ServerException("ServerException", 500, error.message);
-      next(err);
+      next(error);
     }
   }
   async deleteCategory(req, res, next) {

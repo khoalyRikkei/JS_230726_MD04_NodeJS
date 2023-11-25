@@ -1,10 +1,21 @@
 const moment = require("moment");
+const { ServerException } = require("../expeiptions");
+//insert object
 const insertData = async (data, model) => {
   try {
     const createdRecord = await model.create(data);
     return createdRecord;
   } catch (error) {
-    throw error;
+    throw new ServerException("ServerException", 500, error.message);
+  }
+};
+
+//insert array
+const insertDataArr = async (data, model) => {
+  try {
+    return await model.bulkCreate(data);
+  } catch (error) {
+    throw new ServerException("ServerException", 500, error.message);
   }
 };
 
@@ -23,7 +34,7 @@ const getData = async (model) => {
 
     return fetchedRecords;
   } catch (error) {
-    throw error;
+    throw new ServerException("ServerException", 500, error.message);
   }
 };
 const getDataById = async (id, model) => {
@@ -55,7 +66,7 @@ const updateData = async (id, data, model) => {
       return null;
     }
   } catch (error) {
-    throw error;
+    throw new ServerException("ServerException", 500, error.message);
   }
 };
 
@@ -75,7 +86,7 @@ const deleteData = async (id, model) => {
     }
   } catch (error) {
     console.error(error);
-    throw error;
+    throw new ServerException("ServerException", 500, error.message);
   }
 };
 
@@ -96,7 +107,7 @@ const softDeleteData = async (id, model) => {
     }
   } catch (error) {
     console.error(error);
-    throw error;
+    throw new ServerException("ServerException", 500, error.message);
   }
 };
 
@@ -118,7 +129,7 @@ const restoreData = async (id, model) => {
     }
   } catch (error) {
     console.error(error);
-    throw error;
+    throw new ServerException("ServerException", 500, error.message);
   }
 };
 
@@ -130,4 +141,5 @@ module.exports = {
   softDeleteData,
   restoreData,
   deleteData,
+  insertDataArr,
 };

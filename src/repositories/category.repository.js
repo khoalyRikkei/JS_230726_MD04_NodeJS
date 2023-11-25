@@ -20,7 +20,7 @@ class CategoryRepository {
     try {
       return updateData(id, newCategory, Category);
     } catch (error) {
-      throw error;
+      throw new ServerException("ServerException", 500, error.message);
     }
   }
   deleteCategory(id) {

@@ -117,18 +117,17 @@ Reviews.belongsTo(Product, {
   onUpdate: "CASCADE",
 });
 
-//orderDetail - orders
-OrderDetail.hasMany(Orders, {
-  foreignKey: "order_detail_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
-});
-Orders.belongsTo(OrderDetail, {
-  foreignKey: "order_detail_id",
+OrderDetail.belongsTo(Orders, {
+  foreignKey: "order_id",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
 
+Orders.hasMany(OrderDetail, {
+  foreignKey: "order_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
 module.exports = {
   Cart,
   ImageProduct,

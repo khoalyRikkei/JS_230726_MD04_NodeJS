@@ -1,5 +1,5 @@
 const categoryRepository = require("../repositories/category.repository");
-const { BadRequestException } = require("../expeiptions");
+const { BadRequestException, ServerException } = require("../expeiptions");
 class CategoryService {
   getAllCategor() {
     try {
@@ -25,6 +25,7 @@ class CategoryService {
         JSON.stringify(updatedCategory.dataValues) ==
         JSON.stringify(updatedCategory._previousDataValues)
       ) {
+        console.log(222);
         throw new BadRequestException("Update category failed");
       }
 
