@@ -2,6 +2,7 @@ const Product = require("../models/product.model");
 const Category = require("../models/category.model");
 const ImageProduct = require("../models/imageProduct.model");
 const { insertData, updateData, deleteData } = require("../utils/dbMethod");
+const { ServerException } = require("../expeiptions");
 
 class ProductRepository {
   async getAllProduct() {
@@ -29,29 +30,33 @@ class ProductRepository {
       throw error;
     }
   }
-  async getAllProductByCondition(filterConditions, order = null, limit = null, offset = null) {
-    const result = await Product.findAll({
-      include: [
-        {
-          model: Category,
-          attributes: ["category_name"],
-        },
-        {
-          model: ImageProduct,
-          attributes: ["image_url"],
-        },
-      ],
-      where: filterConditions,
-      attributes: ["id", "product_name", "price", "sku", "quantity_stock", "description"],
-      order: order, // Áp dụng sắp xếp theo yêu cầu
-      limit: limit,
-      offset: offset,
-    });
+  async getAllProductByCondition(queryOptions) {
+    try {
+      const { order, limit, offset, where } = queryOptions;
+      const result = await Product.findAll({
+        include: [
+          {
+            model: Category,
+            attributes: ["category_name"],
+          },
+          {
+            model: ImageProduct,
+            attributes: ["image_url"],
+          },
+        ],
 
-    return result;
-  }
-  catch(error) {
-    throw error;
+        attributes: ["id", "product_name", "price", "sku", "quantity_stock", "description"],
+        order: order,
+        limit: limit,
+        offset: offset,
+        where: where,
+      });
+
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new ServerException("ServerException", 500, error.message);
+    }
   }
 
   async getProductById(id) {

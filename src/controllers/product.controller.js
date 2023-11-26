@@ -4,58 +4,18 @@ const moment = require("moment");
 class ProductController {
   async getAllProduct(req, res, next) {
     try {
-      const limit = req.query.limit ? parseInt(req.query.limit, 10) : null;
-      const name = req.query.name;
-      const price = req.query.price;
-      const category = req.query.category;
-      const orderByName = req.query.orderByName;
-      const orderByPrice = req.query.orderByPrice;
-      const page = req.query.page || 1;
-
-      const filterConditions = {};
-      const limitProduct = {
-        limit: null,
-        offset: null,
+      const model = {
+        limit: parseInt(req.query.limit),
+        name: req.query.name,
+        category: req.query.category,
+        sort: req.query.sort,
+        order: req.query.order,
+        page: parseInt(req.query.page) || 1,
       };
-
-      if (limit) {
-        const offset = (page - 1) * limit;
-        limitProduct.limit = limit;
-        limitProduct.offset = offset;
-      }
-
-      if (name) {
-        filterConditions.product_name = name;
-      }
-
-      if (price) {
-        filterConditions.price = price;
-      }
-
-      if (category) {
-        filterConditions["$Category.category_name$"] = category;
-      }
-
-      const order = [];
-      if (orderByName) {
-        order.push(["product_name", orderByName.toUpperCase()]);
-      }
-      if (orderByPrice) {
-        order.push(["price", orderByPrice.toUpperCase()]);
-      }
-
-      let products;
-
-      if (Object.keys(filterConditions).length === 0) {
-        products = await productService.getAllProduct(filterConditions, order, limitProduct);
-      } else {
-        products = await productService.getAllProduct();
-      }
-
+      const products = await productService.getAllProduct(model);
       res.status(200).json(products);
     } catch (error) {
-      const err = new ServerException("ServerException", 500, error.message);
-      next(err);
+      next(error);
     }
   }
   async getProductById(req, res, next) {

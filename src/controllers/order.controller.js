@@ -1,18 +1,24 @@
 const orderService = require("../services/order.service");
 
 class OrderController {
-  getAllOrder() {}
-  async getOrderByUserID(req, res, next) {
+  async getAllOrder(req, res, next) {
     try {
       const model = {
-        id: req.params.id,
+        limit: Number(req.query.limit),
+        page: Number(req.query.page) || 1,
+        sort: req.query.sort,
+        order: req.query.order,
+        status: req.query.status,
+        user_id: req.query.user_id,
       };
-      const orders = await orderService.getOrderByUserId(model);
+
+      const orders = await orderService.getAllOrders(model);
       res.status(200).json(orders);
     } catch (error) {
       next(error);
     }
   }
+  async getOrderByUserID(req, res, next) {}
   async createOrder(req, res, next) {
     try {
       const cartData = req.body;

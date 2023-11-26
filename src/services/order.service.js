@@ -2,7 +2,47 @@ const orderRepository = require("../repositories/order.repository");
 const moment = require("moment");
 const { BadRequestException } = require("../expeiptions");
 class OrderService {
-  getAllOrder() {}
+  async getAllOrders(model) {
+    try {
+      const queryOptions = {
+        limit: model.limit || 6,
+        offset: (model.page - 1) * (model.limit || 6),
+        order: [],
+        where: {},
+      };
+      // Thiết lập sắp xếp
+      if (model.sort) {
+        queryOptions.order.push([model.sort, "ASC"]);
+      }
+
+      if (model.sort && model.order) {
+        queryOptions.order.push([model.sort, model.order.toUpperCase()]);
+      }
+      console.log("condition2 ", queryOptions);
+      if (model.status) {
+        queryOptions.where.status = model.status;
+      }
+      if (model.user_id) {
+        queryOptions.where.user_id = model.user_id;
+      }
+
+      let orders;
+      if (
+        model.page !== 1 ||
+        model.limit !== 6 ||
+        Object.values(queryOptions.where).length > 0 ||
+        queryOptions.order.length > 0
+      ) {
+        orders = await orderRepository.getAllOrdersByCondition(queryOptions);
+      }
+
+      orders = await orderRepository.getAllOrders();
+      return orders;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   getOrderByUserId(model) {
     try {
       return orderRepository.getOrderById(model.id);
@@ -42,8 +82,15 @@ class OrderService {
           created_at: moment(new Date()).format("YYYY-MM-DD"),
           order_detail_id: detail.id,
         });
+        const productDetail = await orderRepository.getProductByFK(detail.product_id); // Lấy thông tin sản phẩm
+        if (productDetail) {
+          // Trừ số lượng đã bán từ số lượng tồn kho của sản phẩm
+          const updatedStock = productDetail.quantity_stock - detail.quantity;
+          console.log("update stock ", updatedStock);
+          // Cập nhật lại số lượng tồn kho mới vào database
+          await orderRepository.updateProductStock(detail.product_id, updatedStock);
+        }
       }
-      console.log(orders);
 
       const createOrder = await orderRepository.insertOrders(orders);
       return createOrder;

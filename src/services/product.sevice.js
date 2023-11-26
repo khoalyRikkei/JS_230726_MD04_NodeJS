@@ -2,16 +2,47 @@ const productRepository = require("../repositories/product.repository");
 const { BadRequestException } = require("../expeiptions");
 
 class ProductService {
-  getAllProduct(filterConditions, order, limitProduct) {
-    if (filterConditions) {
-      return productRepository.getAllProductByCondition(
-        filterConditions,
-        order,
-        limitProduct.limit,
-        limitProduct.offset
-      );
+  async getAllProduct(model) {
+    try {
+      const queryOptions = {
+        limit: model.limit || 6,
+        offset: (model.page - 1) * (model.limit || 6),
+        order: [],
+        where: {},
+      };
+
+      if (model.sort && (model.sort === "product_name" || model.sort === "price")) {
+        if (model.sort === "product_name") {
+          queryOptions.order.push(["product_name", model.order === "DESC" ? "DESC" : "ASC"]);
+        }
+        if (model.sort === "price") {
+          queryOptions.order.push(["price", model.order === "DESC" ? "DESC" : "ASC"]);
+        }
+      }
+
+      if (model.name) {
+        queryOptions.where.product_name = model.name;
+      }
+      if (model.category) {
+        queryOptions.where.category = model.category;
+      }
+
+      let products;
+      if (
+        model.page !== 1 ||
+        model.limit !== 6 ||
+        Object.keys(queryOptions.where).length > 0 ||
+        queryOptions.order.length > 0
+      ) {
+        console.log(queryOptions);
+        products = await productRepository.getAllProductByCondition(queryOptions);
+      } else {
+        products = await productRepository.getAllProduct();
+      }
+      return products;
+    } catch (error) {
+      throw error;
     }
-    return productRepository.getAllProduct();
   }
   getProductById(id) {
     return productRepository.getProductById(id);
