@@ -1,23 +1,16 @@
 const express = require("express");
+const categoryController = require("../controllers/category.controller");
 
-const categoryRouter = express.Router();
+const cateRouter = express.Router();
 
-categoryRouter.delete("/:id", () => {
-  // Xóa categories
-});
+cateRouter.get("/", categoryController.getAllCategories);
 
-categoryRouter.get("/:id", () => {
-  // Lọc theo categories id
-});
+cateRouter.get("/:id", categoryController.getCategoryById);
 
-categoryRouter.get("/", () => {
-  // lấy toàn bộ categories
-});
+cateRouter.get("/search/:name", categoryController.getCategoryByName);
 
-categoryRouter.post("/", () => {
-  // tạo mới category
-});
+cateRouter.post("/", categoryController.createCategory);
 
-categoryRouter.put("/:id", () => {
-  // edit a category by id
-});
+cateRouter.delete("/:id", categoryController.deleteCategory);
+
+module.exports = cateRouter;

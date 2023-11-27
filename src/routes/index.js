@@ -1,4 +1,6 @@
 const authRouter = require("./authen.route");
+const cartRouter = require("./cart.route");
+const cateRouter = require("./category.route");
 const dbRouter = require("./db.route");
 const productsRouter = require("./product.route");
 const userRouter = require("./user.route");
@@ -12,4 +14,10 @@ exports.routes = function (app) {
 
   // api user
   app.use("/api/v1/users", userRouter);
+
+  // api category
+  app.use("/api/v1/category", cateRouter);
+
+  // api cart
+  app.use("/api/v1/cart", cartRouter);
 };
