@@ -41,8 +41,28 @@ class UserRepository {
   async updateUser(id, userUpdate) {
     return await updateData(id, userUpdate, User);
   }
-  async deleteUser(id) {
-    return deleteData(id, User);
+  async updateStatusUser(id, userUpdate) {
+    try {
+      const foundData = await User.findOne({
+        where: {
+          id: id,
+          role: 0,
+        },
+      });
+
+      if (foundData) {
+        await foundData.update(userUpdate);
+        return foundData;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      throw error;
+    }
   }
+
+  // deleteUser(id) {
+  //   return deleteData(id, User);
+  // }
 }
 module.exports = new UserRepository();

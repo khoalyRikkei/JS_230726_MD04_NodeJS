@@ -10,7 +10,7 @@ const Category = sequelize.define(
       allowNull: false,
     },
     description: { type: DataTypes.TEXT, allowNull: false },
-    status: { type: DataTypes.BOOLEAN, allowNull: false },
+    status: { type: DataTypes.INTEGER, allowNull: false },
 
     deletedAt: {
       type: DataTypes.DATE,

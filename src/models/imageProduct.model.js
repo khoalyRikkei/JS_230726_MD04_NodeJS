@@ -9,7 +9,7 @@ const imageProduct = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    imageUrl: {
+    image_url: {
       type: DataTypes.STRING,
       allowNull: false,
     },

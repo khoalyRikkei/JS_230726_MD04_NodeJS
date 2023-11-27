@@ -2,16 +2,47 @@ const productRepository = require("../repositories/product.repository");
 const { BadRequestException } = require("../expeiptions");
 
 class ProductService {
-  getAllProduct(filterConditions, order, limitProduct) {
-    if (filterConditions) {
-      return productRepository.getAllProductByCondition(
-        filterConditions,
-        order,
-        limitProduct.limit,
-        limitProduct.offset
-      );
+  async getAllProduct(model) {
+    try {
+      const queryOptions = {
+        limit: model.limit || 6,
+        offset: (model.page - 1) * (model.limit || 6),
+        order: [],
+        where: {},
+      };
+
+      if (model.sort && (model.sort === "product_name" || model.sort === "price")) {
+        if (model.sort === "product_name") {
+          queryOptions.order.push(["product_name", model.order === "DESC" ? "DESC" : "ASC"]);
+        }
+        if (model.sort === "price") {
+          queryOptions.order.push(["price", model.order === "DESC" ? "DESC" : "ASC"]);
+        }
+      }
+
+      if (model.name) {
+        queryOptions.where.product_name = model.name;
+      }
+      if (model.category) {
+        queryOptions.where.category = model.category;
+      }
+
+      let products;
+      if (
+        model.page !== 1 ||
+        model.limit !== 6 ||
+        Object.keys(queryOptions.where).length > 0 ||
+        queryOptions.order.length > 0
+      ) {
+        console.log(queryOptions);
+        products = await productRepository.getAllProductByCondition(queryOptions);
+      } else {
+        products = await productRepository.getAllProduct();
+      }
+      return products;
+    } catch (error) {
+      throw error;
     }
-    return productRepository.getAllProduct();
   }
   getProductById(id) {
     return productRepository.getProductById(id);
@@ -23,7 +54,7 @@ class ProductService {
       const inputImages = model.images;
 
       const transformedImages = inputImages.map((image) => ({
-        imageUrl: image.url,
+        image_url: image.url,
         product_id: insertProduct.dataValues.id,
         public_id: image.id,
         deleteAt: null,
@@ -49,28 +80,11 @@ class ProductService {
           responseUpdateProduct.dataValues.id
         );
       }
-      // const images = [
-      //   {
-      //     id: "dlpd3xmvpnwrhjxdhukt",
-      //     url: "http://res.cloudinary.com/dsq0mydrb/image/upload/v1700717051/dlpd3xmvpnwrhjxdhukt.jpg",
-      //   },
-      //   {
-      //     id: "adss3r2e3sg8kt6hn4dl",
-      //     url: "http://res.cloudinary.com/dsq0mydrb/image/upload/v1700717051/adss3r2e3sg8kt6hn4dl.jpg",
-      //   },
-      //   {
-      //     id: "ippf7o5pwbvc2e66ajlf",
-      //     url: "http://res.cloudinary.com/dsq0mydrb/image/upload/v1700717051/ippf7o5pwbvc2e66ajlf.jpg",
-      //   },
-      //   {
-      //     id: "xldmwyjbadtgeytpotgy",
-      //     url: "http://res.cloudinary.com/dsq0mydrb/image/upload/v1700717051/xldmwyjbadtgeytpotgy.jpg",
-      //   },
-      // ];
+
       const inputImages = [...model.images];
 
       const transformedImages = inputImages.map((image) => ({
-        imageUrl: image.url,
+        image_url: image.url,
         product_id: responseUpdateProduct.dataValues.id,
         public_id: image.id,
         deleteAt: null,

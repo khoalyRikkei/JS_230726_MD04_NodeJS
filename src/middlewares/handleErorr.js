@@ -1,4 +1,5 @@
 const {
+  BadRequestException,
   AuthencationException,
   ValidationException,
   ServerException,
@@ -30,6 +31,13 @@ function handleError(err, req, res, next) {
       });
       break;
     case err instanceof CustomException:
+      res.status(err.statusCode).json({
+        message: err.message,
+        errors: err.field,
+      });
+      break;
+
+    case err instanceof BadRequestException:
       res.status(err.statusCode).json({
         message: err.message,
         errors: err.field,

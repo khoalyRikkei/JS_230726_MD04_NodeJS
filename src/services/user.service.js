@@ -36,19 +36,31 @@ class UserService {
     }
 
     // Đăng nhập thành công
-
+    const userLogin = {
+      role: user.role,
+      id: user.id,
+    };
     //tạo access token
     const SECRET_ACCESSTOKEN_KEY = process.env.SECRET_ACCESSTOKEN_KEY;
     const accessToken = createAccessToken(userLogin, SECRET_ACCESSTOKEN_KEY);
-
     //tạo refresh token
     // const SECRET_REFRESHTOKEN_KEY = process.env.SECRET_REFRESHTOKEN_KEY;
     // const refreshToken = createRefreshToken(userLogin, SECRET_REFRESHTOKEN_KEY);
 
-    return {
-      user: user,
+    const response = {
+      auth: {
+        id: user.id,
+        user_name: user.user_name,
+        full_name: user.full_name,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+        avatar: user.avatar,
+      },
       token: accessToken,
     };
+
+    return response;
   }
   getAllUser(model) {
     try {
@@ -66,14 +78,21 @@ class UserService {
       throw error;
     }
   }
-  getUserById(id) {
-    return userRepository.getUserById(id);
+  getUserById(model) {
+    return userRepository.getUserById(model.id);
   }
-  updateUser(id, userUpdate) {
-    return userRepository.updateUser(id, userUpdate);
+  async updateUser(model) {
+    const updateUser = await userRepository.updateUser(model.id, model.newUser);
+    if (!updateUser) throw new CustomException("Update User failed", 400);
+    return updateUser;
   }
-  deleteUser(id) {
-    return userRepository.deleteUser(id);
+  async updateStatusUser(model) {
+    const updateStatusUser = await userRepository.updateStatusUser(model.id, model.newUser);
+    if (!updateStatusUser) throw new CustomException("Update Status User failed", 400);
+    return updateStatusUser;
   }
+  // deleteUser(id) {
+  //   return userRepository.deleteUser(id);
+  // }
 }
 module.exports = new UserService();
