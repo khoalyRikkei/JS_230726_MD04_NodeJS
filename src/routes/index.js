@@ -2,6 +2,7 @@ const authRouter = require("./authen.route");
 const cartRouter = require("./cart.route");
 const cateRouter = require("./category.route");
 const dbRouter = require("./db.route");
+const orderRouter = require("./order.route");
 const payRouter = require("./payment.route");
 const productsRouter = require("./product.route");
 const userRouter = require("./user.route");
