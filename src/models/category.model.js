@@ -9,7 +9,7 @@ const Category = sequelize.define(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    catagory_name: DataTypes.STRING(50),
+    category_name: DataTypes.STRING(50),
     description: DataTypes.STRING(200),
     status: DataTypes.BOOLEAN,
   },

@@ -7,20 +7,20 @@ import {
 } from "../src/utils/db.util.js";
 
 class CategoriesReponsitory {
-  async getCategoriesReponsitory(req, res) {
+  async getCategories(req, res) {
     const response = await getAllItems(Category);
 
     return response;
   }
-  async insertCategoryRepository(dataModal) {
-    const response = await insertItem(Category, dataModal);
+  async insertCategory(entityl) {
+    const response = await insertItem(Category, entityl);
     return response.id;
   }
-  async deleteCategoryByIdRepository(id) {
+  async deleteCategoryById(id) {
     return await deleteItemById(Category, id);
   }
-  async updateCategoryRepository(id, dataModal) {
-    return await updateItem(Category, id, dataModal);
+  async updateCategory(id, entity) {
+    return await updateItem(Category, id, entity);
   }
 }
 export default CategoriesReponsitory;

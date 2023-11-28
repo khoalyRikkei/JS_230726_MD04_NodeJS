@@ -4,10 +4,6 @@ import bodyParser from "body-parser";
 import { route } from "./routes/index.js";
 import cors from "cors";
 import handleError from "./middlewares/handleErorr.js";
-import { sessionConfig } from "./configs/session.config.js";
-import multer from "multer";
-import uploadToCloudinary from "./utils/cloudinary.js";
-
 
 // import swaggerUi from "swagger-ui-express";
 // import swaggerFile from "../swagger-output.json" assert { type: "json" };
@@ -15,8 +11,19 @@ import uploadToCloudinary from "./utils/cloudinary.js";
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
-app.use(sessionConfig);
+// để gửi dữ liệu từ form data
+
+app.options("*", cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    optionSuccessStatus: 200, // Các phương thức HTTP được cho phép
+    allowedHeaders: "Content-Type,Authorization", // Các headers được cho phép
+    exposedHeaders: ["Authorization"],
+  })
+);
 
 route(app);
 app.use(handleError);

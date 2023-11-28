@@ -1,5 +1,8 @@
 import AuthService from "../../service/auth.service.js";
-import { createRefreshToken, createToken } from "../utils/jwt.js";
+import User from "../models/user.model.js";
+import uploadToCloudinary from "../utils/cloudinary.js";
+import { createRefreshToken, createToken, verifyToken } from "../utils/jwt.js";
+
 const authService = new AuthService();
 class AuthController {
   async login(req, res) {
@@ -24,23 +27,49 @@ class AuthController {
           path: "/",
           sameSite: "strict",
         });
-        // req.session.email = response.data.email;
-        // req.session.role = response.data.role;
+
         res.status(200).json(response);
+      } else {
+        res.status(500).json(response);
       }
     } catch (err) {
       throw err;
     }
   }
   async register(req, res) {
-    const dataModal = { ...req.body, role: 0 };
+    // const result = await uploadToCloudinary(req.file);
+    // const image = result.url;
+    const dataModal = { ...req.body, role: 0, status: "activate" };
     const response = await authService.checkDataRegister(dataModal);
     res.status(200).json(response);
   }
-  loguot(req, res) {
-    console.log(111111);
+  logout(req, res) {
     res.clearCookie("refreshToken");
     res.status(200).json("Logout successfully");
+  }
+  async fetchUser(req, res) {
+    const { authorization } = req.headers;
+
+    try {
+      const accessToken = authorization.split(" ")[1];
+      const response = verifyToken(accessToken);
+      const user = await User.findOne({
+        where: {
+          email: response.email,
+        },
+      });
+
+      res.json({
+        id: user.id,
+        name: user.user_name,
+        email: user.email,
+        address: user.address,
+        avatar: user.avatar,
+        role: user.role,
+      });
+    } catch (err) {
+      res.status(500).json({ error: err });
+    }
   }
 }
 export default AuthController;

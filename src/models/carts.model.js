@@ -13,11 +13,35 @@ const Cart = sequelize.define(
       type: DataTypes.UUID,
       allowNull: false,
     },
-
-    total: {
+    product_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    product_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    product_img: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    product_price: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    quantity:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    size: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    // total: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    // },
   },
   {
     freezeTableName: true,

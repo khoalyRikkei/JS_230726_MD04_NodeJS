@@ -8,22 +8,23 @@ import {
 
 class UsersRepository {
   // get all users
-  async getUsersRepository() {
+  async getUsers() {
     const response = await getAllItems(User);
-      return response;
+    return response;
   }
   // insert user
-  async insertUsersRepository(dataModal) {
-    const response = await insertItem(User, dataModal);
+  async insertUsers(entity) {
+    const response = await insertItem(User, entity);
     return response.id;
   }
   // delete user
- async deleteUsersByIdRepository(id) {
+  async deleteUsersById(id) {
     return await deleteItemById(User, id);
   }
   // update user
- async updateUsersRepository(id, dataModal) {
-    return await updateItem(User, id, dataModal);
+  async updateUsers(id, entity) {
+    const response = await updateItem(User, id, entity);
+    return response;
   }
 }
 export default UsersRepository;

@@ -7,24 +7,24 @@ import {
 } from "../src/utils/db.util.js";
 // get all products
 class ProductsRepository {
-  async getProductsRepository() {
+  async getProducts() {
     const response = await getAllItems(Product);
-   
-    return response
-    
+
+    return response;
   }
   // insert a new product
- async insertProductsRepository(dataModal) {
-   const response= await insertItem(Product, dataModal);
-    return response
+  async insertProducts(entity) {
+    const response = await insertItem(Product, entity);
+    return response;
   }
-  updateProductsRepository(id, product) {
-    return updateItem("src/models/products.json", id, product);
+  // update a product
+ async updateProducts(id, entity) {
+    return await updateItem(Product, id, entity);
   }
   // delete a product
- async deleteProductsRepository(id) {
-  const response=await deleteItemById(Product, id);
-  return response
+  async deleteProducts(id) {
+    const response = await deleteItemById(Product, id);
+    return response;
   }
 }
 export default ProductsRepository;

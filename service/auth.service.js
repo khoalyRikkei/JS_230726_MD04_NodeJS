@@ -5,20 +5,20 @@ const authRepository = new AuthRepository();
 class AuthService {
   async checkDataLogin(email, password) {
     const getAllUsers = await authRepository.getUsers();
-       let isLogined = false;
+
+    let isLogined = false;
     let userLogin;
     getAllUsers.forEach((user) => {
       if (user.email === email) {
-          const isMatch = bcrypt.compareSync(password, user.password);
+        const isMatch = bcrypt.compareSync(password, user.password);
         if (isMatch) {
           isLogined = true;
           userLogin = { ...user };
-          
         }
       }
     });
     if (isLogined) {
-          return {
+      return {
         status: true,
         message: "đăng nhập thành công",
         data: userLogin,

@@ -3,12 +3,12 @@ import ProductsRepository from "../repositories/products.repository.js";
 const productsRepository = new ProductsRepository();
 
 class ProductsService {
-  async getProductsService() {
-    const getAllProducts = await productsRepository.getProductsRepository();
+  async getProducts() {
+    const getAllProducts = await productsRepository.getProducts();
     return getAllProducts;
   }
-  async getProductsByIdService(id) {
-    const getAllProducts = await productsRepository.getProductsRepository();
+  async getProductsById(id) {
+    const getAllProducts = await productsRepository.getProducts();
     const product = getAllProducts.find((item) => item.id == id);
     if (product) {
       return {
@@ -24,17 +24,18 @@ class ProductsService {
       };
     }
   }
-  async insertProductService(dataModal) {
-    const response = await productsRepository.insertProductsRepository(
+  async insertProduct(dataModal) {
+    const response = await productsRepository.insertProducts(
       dataModal
     );
     return response;
   }
-  updateProductService(id, product) {
-    return productsRepository.updateProductsRepository(id, product);
+ async updateProduct(id, product) {
+    const response=await productsRepository.updateProducts(id, product);
+    return response
   }
-  async deleteProductService(id) {
-    const response = await productsRepository.deleteProductsRepository(id);
+  async deleteProduct(id) {
+    const response = await productsRepository.deleteProducts(id);
     return response;
   }
 }

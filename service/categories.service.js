@@ -2,19 +2,19 @@ import CategoriesReponsitory from "../repositories/categories.reponsitory.js";
 
 const categoriesReponsitory = new CategoriesReponsitory();
 class CategoriesService {
-  async getCategoriesService(req, res) {
-    const response = categoriesReponsitory.getCategoriesReponsitory();
+  async getCategories(req, res) {
+    const response = categoriesReponsitory.getCategories();
     return response;
   }
-  insertCategoryService(dataModal) {
-    const response= categoriesReponsitory.insertCategoryRepository(dataModal);
+  insertCategory(dataModal) {
+    const response= categoriesReponsitory.insertCategory(dataModal);
     return  response
   }
-  async deleteCategoryByIdService(id) {
-    return await categoriesReponsitory.deleteCategoryByIdRepository(id);
+  async deleteCategoryById(id) {
+    return await categoriesReponsitory.deleteCategoryById(id);
   }
-  async updateCategoryService(id,dataModal){
-    return await categoriesReponsitory.updateCategoryRepository(id,dataModal);
+  async updateCategory(id,dataModal){
+    return await categoriesReponsitory.updateCategory(id,dataModal);
     
   }
 }

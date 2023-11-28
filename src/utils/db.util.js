@@ -12,7 +12,7 @@ export async function getAllItems(model) {
 }
 // add data
 export async function insertItem(Model, data) {
-  console.log(33, Model, data);
+  
   try {
 
 

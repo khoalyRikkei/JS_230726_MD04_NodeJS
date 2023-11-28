@@ -5,7 +5,7 @@ const categoriesService = new CategoriesService();
 class CategoryController {
   async getCategory(req, res) {
     try {
-      const listCategories = await categoriesService.getCategoriesService();
+      const listCategories = await categoriesService.getCategories();
       res.status(200).json(listCategories);
     } catch (error) {
       console.log(error.message);
@@ -15,7 +15,7 @@ class CategoryController {
   async insertCategory(req, res) {
     const dataModal = { ...req.body, status: true };
     try {
-      const response = await categoriesService.insertCategoryService(dataModal);
+      const response = await categoriesService.insertCategory(dataModal);
       res.status(200).send(response.message);
     } catch (err) {
       throw err;
@@ -23,7 +23,7 @@ class CategoryController {
   }
   async deleteCategory(req, res) {
     try {
-      const response = await categoriesService.deleteCategoryByIdService(
+      const response = await categoriesService.deleteCategoryById(
         req.params.id
       );
       res.status(200).send(response);
@@ -33,7 +33,7 @@ class CategoryController {
   }
   updateCategory(req, res) {
     const dataModal = { ...req.body, status: false };
-    const response = categoriesService.updateCategoryService(
+    const response = categoriesService.updateCategory(
       req.params.id,
       dataModal
     );
