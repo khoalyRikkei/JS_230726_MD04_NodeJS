@@ -9,9 +9,7 @@ const getOrderById = async (orderId) => {
 };
 
 const createOrder = async (orderData) => {
-  // tinh tong tu du lieu
-  //--> orderData --> id
-  // tao orderItem tu id ddos
+  console.log(999, orderData);
   try {
     const ret = await orderRepository.createOrder(orderData);
 
@@ -21,6 +19,13 @@ const createOrder = async (orderData) => {
     throw error;
   }
 };
+const order = {
+  userId: req.userId,
+  createAt: new Date().toISOString(),
+  total: 2000,
+  status: "pending",
+};
+const orderItem = cart.map((item) => ({ ...item, orderId: "" }));
 
 const deleteOrder = async (orderId) => {
   return await orderRepository.deleteOrder(orderId);

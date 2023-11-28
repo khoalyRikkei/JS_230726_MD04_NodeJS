@@ -1,21 +1,13 @@
-const {
-  getALlUsers,
-  getDataByEmail,
-} = require("../repositories/authen.repository");
+const { getDataByEmail } = require("../repositories/authen.repository");
 
 const loginService = async (users) => {
   // repository lay thong tin tu mysql kiem tra email
-
-  const data = await getDataByEmail();
+  const data = await getDataByEmail(users.email);
   if (data && users.password == data.password) {
-    return { email: data.email, id: data.id };
+    delete data.password;
+    return data;
   }
-  throw new Error("wrong password");
+  throw { statusCode: 400, message: "Password is incorrect" };
 };
 
-const testData = async () => {
-  const test = await getALlUsers();
-  console.log(test, "ahihi");
-};
-
-module.exports = { loginService, testData };
+module.exports = { loginService };

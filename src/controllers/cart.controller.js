@@ -1,7 +1,6 @@
 const cartService = require("../services/cart.service");
 
 const getAllCart = async (req, res) => {
-  console.log(123);
   try {
     const cart = await cartService.getAllCart();
     res.status(200).json(cart);

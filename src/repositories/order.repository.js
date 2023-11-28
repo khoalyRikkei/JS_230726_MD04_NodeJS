@@ -25,7 +25,7 @@ const createOrder = async (orderData) => {
     const query = `INSERT INTO orders SET ?`;
     connection.query(query, [orderData], (err, result) => {
       if (err) reject(err);
-      resolve(result.insertId);
+      resolve(result);
     });
   });
 };
