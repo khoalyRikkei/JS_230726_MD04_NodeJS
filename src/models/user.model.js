@@ -35,11 +35,9 @@ const User = sequelize.define(
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     address: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     avatar: {
       type: DataTypes.STRING,

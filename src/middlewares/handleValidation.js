@@ -3,15 +3,13 @@ const { ValidationException } = require("../expeiptions/index.js");
 // validate user register
 const validationFormRegister = (req, res, next) => {
   const re = /\S+@\S+\.\S+/;
-  const regexPhoneNumber = /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/;
   let error = false;
   const errors = {};
   const model = {
     user_name: req.body.user_name,
     email: req.body.email,
     password: req.body.password,
-    phone: req.body.phone,
-    address: req.body.address,
+    confirm_password: req.body.confirm_password,
   };
 
   if (!model.user_name) {
@@ -39,16 +37,10 @@ const validationFormRegister = (req, res, next) => {
       "Password must be no shorter than 8 characters and no longer than 50 characters";
   }
 
-  if (!regexPhoneNumber.test(model.phone)) {
+  if (model.confirm_password !== model.password) {
     error = true;
-    errors.phoneMessage = "Enter Vietnamese phone number";
+    errors.passwordMessage = "Confirm Password does not match Password";
   }
-
-  if (!model.address) {
-    error = true;
-    errors.addressMessage = "Please enter password Address";
-  }
-
   if (error) {
     const errorValidation = new ValidationException("Validation failed", 400, errors);
     next(errorValidation);
@@ -73,6 +65,12 @@ const validationFormLogin = (req, res, next) => {
     error = true;
     errors.emailMessage = "Email must not be longer than 100 characters";
   }
+
+  if (model.password.length < 8 || model.password.length > 20) {
+    error = true;
+    errors.passwordMessage = "Password cannot be shorter than 8 and longer than 20 characters";
+  }
+
   if (error) {
     const errorValidation = new ValidationException("Validation failed", 400, errors);
     next(errorValidation);

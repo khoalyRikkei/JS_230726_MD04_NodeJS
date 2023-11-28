@@ -27,7 +27,7 @@ class ProductRepository {
 
       return result;
     } catch (error) {
-      throw error;
+      throw new ServerException("ServerException", 500, error.message);
     }
   }
   async getAllProductByCondition(queryOptions) {
@@ -54,7 +54,6 @@ class ProductRepository {
 
       return result;
     } catch (error) {
-      console.log(error);
       throw new ServerException("ServerException", 500, error.message);
     }
   }
@@ -77,14 +76,12 @@ class ProductRepository {
       });
 
       if (!result) {
-        console.log("Không tìm thấy sản phẩm");
         return null;
       }
 
       return result;
     } catch (error) {
-      console.error(error);
-      throw error;
+      throw new ServerException("ServerException", 500, error.message);
     }
   }
   async createProduct(newProduct) {
@@ -105,7 +102,7 @@ class ProductRepository {
       });
       return result;
     } catch (error) {
-      throw error;
+      throw new ServerException("ServerException", 500, error.message);
     }
   }
 

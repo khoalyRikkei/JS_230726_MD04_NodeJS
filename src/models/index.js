@@ -117,7 +117,8 @@ Reviews.belongsTo(Product, {
   onUpdate: "CASCADE",
 });
 
-Orders.belongsTo(OrderDetail, { foreignKey: "order_detail_id" });
+Orders.hasMany(OrderDetail, { foreignKey: "order_id" });
+OrderDetail.belongsTo(Orders, { foreignKey: "order_id" });
 
 module.exports = {
   Cart,

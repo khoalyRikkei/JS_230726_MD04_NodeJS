@@ -37,25 +37,25 @@ class CartRepository {
       throw error;
     }
   }
-  async updateCart(model) {
+  async updateCart(cart_id, updateCart) {
     try {
-      return await updateData(model.cart_id, model.updateCart, Cart);
+      return await updateData(cart_id, updateCart, Cart);
     } catch (error) {
       throw error;
     }
   }
-  async deleteCartItem(model) {
+  async deleteCartItem(cart_id) {
     try {
-      return await deleteData(model.cart_id, Cart);
+      return await deleteData(cart_id, Cart);
     } catch (error) {
       throw error;
     }
   }
-  async deleteAllCart(model) {
+  async deleteAllCart(user_id) {
     try {
       const rowsDeleted = await Cart.destroy({
         where: {
-          user_id: model.user_id,
+          user_id: user_id,
         },
       });
 
@@ -65,7 +65,6 @@ class CartRepository {
 
       return rowsDeleted;
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }

@@ -4,7 +4,7 @@ require("dotenv/config");
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1]; // Lấy token từ header Authorization
+  const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
     const error = new CustomException("Unauthorized - Access token is missing", 401);
@@ -16,8 +16,8 @@ function authenticateToken(req, res, next) {
       const error = new CustomException("Forbidden - Access token is invalid");
       next(error);
     }
-
-    req.user = decoded; // Lưu thông tin user vào request để sử dụng trong các xử lý tiếp theo
+    req.user = decoded;
+    console.log(decoded);
     next();
   });
 }

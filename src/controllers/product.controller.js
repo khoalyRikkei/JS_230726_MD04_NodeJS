@@ -12,8 +12,10 @@ class ProductController {
         order: req.query.order,
         page: parseInt(req.query.page) || 1,
       };
-      const products = await productService.getAllProduct(model);
-      res.status(200).json(products);
+      const results = await productService.getAllProduct(model);
+      res.setHeader("X-Total-Products", `${results.totalProduct}`);
+
+      res.status(200).json(results.products);
     } catch (error) {
       next(error);
     }
@@ -26,8 +28,7 @@ class ProductController {
       const product = await productService.getProductById(model.id);
       res.status(200).json(product);
     } catch (error) {
-      const err = new ServerException("ServerException", 500, error.message);
-      next(err);
+      next(error);
     }
   }
   async createProduct(req, res, next) {
@@ -42,13 +43,13 @@ class ProductController {
           category_id: req.body.category_id,
           created_at: moment(new Date()).format("YYYY-MM-DD"),
         },
-        images: req.body.images,
+        images: req.images,
       };
+
       const insertProduct = await productService.createProduct(model);
       res.status(200).json(insertProduct);
     } catch (error) {
-      const err = new ServerException("ServerException", 500, error.message);
-      next(err);
+      next(error);
     }
   }
   async updateProduct(req, res, next) {
@@ -58,18 +59,13 @@ class ProductController {
         updateProduct: {
           ...req.body,
         },
-        images: req.body.images,
+        images: req.images,
       };
 
       const updateProduct = await productService.updateProduct(model);
-      if (!updateProduct) {
-        const err = new BadRequestException("Update product failed");
-        next(err);
-      }
       res.status(200).json(updateProduct);
     } catch (error) {
-      const err = new ServerException("ServerException", 500, error.message);
-      next(err);
+      next(error);
     }
   }
   async deleteProduct(req, res, next) {
@@ -81,8 +77,7 @@ class ProductController {
 
       res.status(200).json(responseDeleteProduct);
     } catch (error) {
-      const err = new ServerException("ServerException", 500, error.message);
-      next(err);
+      next(error);
     }
   }
 }

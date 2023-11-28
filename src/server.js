@@ -8,17 +8,17 @@ const sequelize = require("./configs/configDB");
 const router = require("./routes");
 require("./models");
 
-app.use(cors());
+app.use(cors({ exposedHeaders: ["Authorization", "X-Total-Products"] }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 router(app);
 app.use(handleError);
 
-// sequelize
-//   .sync({ alter: true })
-//   .then(() => {})
-//   .catch((err) => {});
+sequelize
+  .sync({ alter: true })
+  .then(() => {})
+  .catch((err) => {});
 
 const port = process.env.PORT;
 app.listen(port, () => {

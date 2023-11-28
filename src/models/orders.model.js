@@ -7,7 +7,6 @@ const Orders = sequelize.define(
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 
     user_id: { type: DataTypes.INTEGER, allowNull: false },
-    order_detail_id: { type: DataTypes.INTEGER, allowNull: false },
     status: { type: DataTypes.INTEGER, allowNull: false },
 
     created_at: { type: DataTypes.DATE, allowNull: false },

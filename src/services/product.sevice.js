@@ -5,12 +5,14 @@ class ProductService {
   async getAllProduct(model) {
     try {
       const queryOptions = {
-        limit: model.limit || 6,
-        offset: (model.page - 1) * (model.limit || 6),
+        offset: 0,
         order: [],
         where: {},
       };
-
+      if (model.limit > 0) {
+        queryOptions.limit = model.limit;
+        queryOptions.offset = (model.page - 1) * model.limit;
+      }
       if (model.sort && (model.sort === "product_name" || model.sort === "price")) {
         if (model.sort === "product_name") {
           queryOptions.order.push(["product_name", model.order === "DESC" ? "DESC" : "ASC"]);
@@ -24,28 +26,34 @@ class ProductService {
         queryOptions.where.product_name = model.name;
       }
       if (model.category) {
-        queryOptions.where.category = model.category;
+        queryOptions.where.category_id = model.category;
       }
 
       let products;
       if (
         model.page !== 1 ||
-        model.limit !== 6 ||
+        model.limit !== 0 ||
         Object.keys(queryOptions.where).length > 0 ||
         queryOptions.order.length > 0
       ) {
-        console.log(queryOptions);
         products = await productRepository.getAllProductByCondition(queryOptions);
       } else {
         products = await productRepository.getAllProduct();
       }
-      return products;
+      const totalProducts = await productRepository.getAllProduct();
+      const results = {
+        products: products,
+        totalProduct: totalProducts.length,
+      };
+      return results;
     } catch (error) {
       throw error;
     }
   }
-  getProductById(id) {
-    return productRepository.getProductById(id);
+  async getProductById(id) {
+    const product = await productRepository.getProductById(id);
+    if (product == null) throw new BadRequestException("Product not found");
+    return product;
   }
   async createProduct(model) {
     try {
@@ -75,11 +83,9 @@ class ProductService {
         model.updateProduct
       );
 
-      if (responseUpdateProduct) {
-        const responseDeleteImage = await productRepository.deleteImage(
-          responseUpdateProduct.dataValues.id
-        );
-      }
+      if (responseUpdateProduct == null) throw new BadRequestException("Product not found");
+
+      await productRepository.deleteImage(responseUpdateProduct.dataValues.id);
 
       const inputImages = [...model.images];
 
@@ -89,7 +95,7 @@ class ProductService {
         public_id: image.id,
         deleteAt: null,
       }));
-      const insertImages = await productRepository.insertImageProduct(transformedImages);
+      await productRepository.insertImageProduct(transformedImages);
 
       return responseUpdateProduct;
     } catch (error) {
@@ -98,7 +104,9 @@ class ProductService {
   }
   async deleteProduct(model) {
     try {
-      return await productRepository.deleteProduct(model.id);
+      const deleteProduct = await productRepository.deleteProduct(model.id);
+      if (deleteProduct == null) throw new BadRequestException("Product not found");
+      return {};
     } catch (error) {
       throw error;
     }

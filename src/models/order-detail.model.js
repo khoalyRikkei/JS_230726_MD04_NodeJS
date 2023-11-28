@@ -9,6 +9,10 @@ const OrderDetail = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    order_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     name: { type: DataTypes.STRING, allowNull: false },
     image: {
       type: DataTypes.STRING,

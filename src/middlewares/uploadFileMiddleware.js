@@ -58,7 +58,6 @@ const uploadArrayToCloudinaryAndReturnUrls = (req, res, next) => {
       const err = new CustomException("Error uploading files", 400);
       next(err);
     }
-
     try {
       if (!req.files || req.files.length === 0) {
         const err = new CustomException("No files uploaded", 400);
@@ -86,10 +85,10 @@ const uploadArrayToCloudinaryAndReturnUrls = (req, res, next) => {
       // Lưu trữ URLs của các files đã upload trên Cloudinary vào req.urls
       const arrImage = cloudinaryUrls.map((image) => ({ id: image.public_id, url: image.url }));
 
-      res.json(arrImage);
+      req.images = arrImage;
+      next();
     } catch (error) {
-      const err = new ServerException("Error processing files", 500);
-      next(err);
+      next(error);
     }
   });
 };

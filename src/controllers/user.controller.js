@@ -6,17 +6,14 @@ class UserController {
     try {
       const model = {
         user_name: req.body.user_name,
-        full_name: req.body.full_name,
         email: req.body.email,
         password: req.body.password,
         role: 0,
         status: 1,
-        phone: req.body.phone,
-        address: req.body.address,
-        avatar: req.body.avatar,
         created_at: moment(new Date()).format("YYYY-MM-DD"),
         updated_at: moment(new Date()).format("YYYY-MM-DD"),
       };
+
       const response = await userService.register(model);
 
       res.status(200).json(response);
@@ -31,17 +28,15 @@ class UserController {
         password: req.body.password,
       };
       const response = await userService.login(model);
-      console.log(response);
 
       // Set access token vào header
-      // res.setHeader("Authorization", `Bearer ${response.token}`);
+      res.setHeader("Authorization", `${response.token}`);
 
       // res.cookie("refreshToken", response.ac_refreshToken, {
       //   httpOnly: true,
       //   maxAge: 7 * 24 * 60 * 60 * 1000,
       // });
-
-      res.status(200).json(response);
+      res.status(200).json(response.user);
     } catch (error) {
       next(error);
     }

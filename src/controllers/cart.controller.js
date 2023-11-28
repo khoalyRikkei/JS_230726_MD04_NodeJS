@@ -5,7 +5,7 @@ class CartController {
   async getCart(req, res, next) {
     try {
       const model = {
-        user_id: Number(req.params.id),
+        user_id: req.user.id,
       };
       const cart = await cartService.getCart(model);
       res.status(200).json(cart);
@@ -17,7 +17,7 @@ class CartController {
   async createCart(req, res, next) {
     try {
       const model = {
-        user_id: Number(req.body.user_id),
+        user_id: req.user.id,
         product_id: Number(req.body.product_id),
         quantity: Number(req.body.quantity),
         created_at: moment(new Date()).format("YYYY-MM-DD"),
@@ -50,10 +50,7 @@ class CartController {
         cart_id: req.params.id,
       };
       const deleteCartItem = await cartService.deleteCartItem(model);
-      if (!deleteCartItem) {
-        const err = new BadRequestException("Delete Cart item failed");
-        next(err);
-      }
+
       res.status(200).json(deleteCartItem);
     } catch (error) {
       const err = new ServerException("ServerException");
@@ -63,11 +60,10 @@ class CartController {
   async deleteAllCart(req, res, next) {
     try {
       const model = {
-        user_id: req.params.id,
+        user_id: req.user.id,
       };
       const deleteAllCartItems = await cartService.deleteAllCart(model);
-
-      res.status(200).json({});
+      res.status(200).json(deleteAllCartItems);
     } catch (error) {
       const err = new ServerException(error.message);
       next(err);

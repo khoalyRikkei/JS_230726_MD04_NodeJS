@@ -17,23 +17,22 @@ class CartService {
   }
   updateCart(model) {
     try {
-      return cartRepository.updateCart(model);
+      return cartRepository.updateCart(model.cart_id, model.updateCart);
     } catch (error) {
       throw error;
     }
   }
   deleteCartItem(model) {
     try {
-      return cartRepository.deleteCartItem(model);
+      return cartRepository.deleteCartItem(model.cart_id);
     } catch (error) {
       throw error;
     }
   }
   deleteAllCart(model) {
     try {
-      return cartRepository.deleteAllCart(model);
+      return cartRepository.deleteAllCart(model.user_id);
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }
