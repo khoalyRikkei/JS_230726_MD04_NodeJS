@@ -3,14 +3,22 @@ const cartRepository = require("../repositories/cart.repository");
 class CartService {
   getCart(model) {
     try {
-      return cartRepository.getCart(model);
+      return cartRepository.getCart(model.user_id);
     } catch (error) {
       throw error;
     }
   }
-  createCart(model) {
+  async createCart(model) {
     try {
-      return cartRepository.createCart(model);
+      const result = await cartRepository.cartProductCheck(model.user_id, model.product_id);
+      if (!result) {
+        const insertProductCart = await cartRepository.createCart(model);
+        return insertProductCart;
+      } else {
+        const newQuantity = model.quantity + result.quantity;
+        const productCartUpdate = await cartRepository.cartProductUpdate(result.id, newQuantity);
+        return productCartUpdate;
+      }
     } catch (error) {
       throw error;
     }

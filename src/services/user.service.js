@@ -34,7 +34,7 @@ class UserService {
       const isPasswordValid = await comparePassword(model.password, user.password);
 
       if (!isPasswordValid) {
-        throw new CustomException("Incorrect password", 404);
+        throw new CustomException("Incorrect password", 401);
       }
 
       // Đăng nhập thành công

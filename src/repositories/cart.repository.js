@@ -4,7 +4,7 @@ const Product = require("../models/product.model");
 const imageProduct = require("../models/imageProduct.model");
 
 class CartRepository {
-  async getCart(model) {
+  async getCart(user_id) {
     try {
       const result = await Cart.findAll({
         include: [
@@ -14,18 +14,54 @@ class CartRepository {
             include: [
               {
                 model: imageProduct,
-                attributes: ["image_url"], // Thay "image_url" bằng các thuộc tính hình ảnh bạn muốn lấy
+                attributes: ["image_url"],
+                subQuery: false,
+                limit: 1,
               },
             ],
           },
         ],
         where: {
-          user_id: model.user_id,
+          user_id: user_id,
         },
         attributes: ["id", "quantity"],
       });
 
       return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+  //check product trong cart
+  async cartProductCheck(user_id, product_id) {
+    try {
+      const result = await Cart.findOne({
+        where: {
+          user_id: user_id,
+          product_id: product_id,
+        },
+        raw: true,
+      });
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+  //update product trong cart
+  async cartProductUpdate(cart_id, newQuantity) {
+    try {
+      const updateProduct = await Cart.update(
+        {
+          quantity: newQuantity,
+        },
+        {
+          where: {
+            id: cart_id,
+          },
+        }
+      );
+
+      return updateProduct;
     } catch (error) {
       throw error;
     }

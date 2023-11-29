@@ -10,8 +10,7 @@ class CartController {
       const cart = await cartService.getCart(model);
       res.status(200).json(cart);
     } catch (error) {
-      const err = new ServerException("ServerException");
-      next(err);
+      next(error);
     }
   }
   async createCart(req, res, next) {
@@ -25,8 +24,7 @@ class CartController {
       const createCart = await cartService.createCart(model);
       res.status(200).json(createCart);
     } catch (error) {
-      const err = new ServerException("ServerException");
-      next(err);
+      next(error);
     }
   }
   async updateCart(req, res, next) {
@@ -40,8 +38,7 @@ class CartController {
       const updateCart = await cartService.updateCart(model);
       res.status(200).json(updateCart);
     } catch (error) {
-      const err = new ServerException("ServerException");
-      next(err);
+      next(error);
     }
   }
   async deleteCartItem(req, res, next) {
@@ -53,8 +50,7 @@ class CartController {
 
       res.status(200).json(deleteCartItem);
     } catch (error) {
-      const err = new ServerException("ServerException");
-      next(err);
+      next(error);
     }
   }
   async deleteAllCart(req, res, next) {
@@ -65,8 +61,7 @@ class CartController {
       const deleteAllCartItems = await cartService.deleteAllCart(model);
       res.status(200).json(deleteAllCartItems);
     } catch (error) {
-      const err = new ServerException(error.message);
-      next(err);
+      next(error);
     }
   }
 }

@@ -15,10 +15,10 @@ app.use(bodyParser.json());
 router(app);
 app.use(handleError);
 
-sequelize
-  .sync({ alter: true })
-  .then(() => {})
-  .catch((err) => {});
+// sequelize
+//   .sync({ alter: true })
+//   .then(() => {})
+//   .catch((err) => {});
 
 const port = process.env.PORT;
 app.listen(port, () => {
