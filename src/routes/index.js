@@ -8,24 +8,24 @@ const productsRouter = require("./product.route");
 const userRouter = require("./user.route");
 
 exports.routes = function (app) {
-  app.use("/api/v1/auth", authRouter);
-  app.use("/api/v1/db", dbRouter);
+  app.use("/auth", authRouter);
+  app.use("/db", dbRouter);
 
   // api product
-  app.use("/api/v1/products", productsRouter);
+  app.use("/products", productsRouter);
 
   // api user
-  app.use("/api/v1/users", userRouter);
+  app.use("/users", userRouter);
 
   // api category
-  app.use("/api/v1/category", cateRouter);
+  app.use("/category", cateRouter);
 
   // api cart
-  app.use("/api/v1/cart", cartRouter);
+  app.use("/cart", cartRouter);
 
   // api payment
-  app.use("/api/v1/payment", payRouter);
+  app.use("/payment", payRouter);
 
   // api order
-  app.use("/api/v1/order", orderRouter);
+  app.use("/order", orderRouter);
 };

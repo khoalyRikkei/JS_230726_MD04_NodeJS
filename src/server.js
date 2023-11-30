@@ -5,8 +5,15 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const uploadToCloudinary = require("./utils/cloudinary");
+const cors = require("cors");
 
 // config bodyParser
+app.use(
+  cors({
+    exposedHeaders: ["Authorization"],
+  })
+);
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
