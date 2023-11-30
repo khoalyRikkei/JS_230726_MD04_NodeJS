@@ -10,6 +10,9 @@ const Orders = sequelize.define(
     status: { type: DataTypes.INTEGER, allowNull: false },
 
     created_at: { type: DataTypes.DATE, allowNull: false },
+    shipping_address_id: {
+      type: DataTypes.INTEGER,
+    },
     deletedAt: {
       type: DataTypes.DATE,
     },

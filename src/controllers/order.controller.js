@@ -21,25 +21,19 @@ class OrderController {
   async getOrderByUserID(req, res, next) {}
   async createOrder(req, res, next) {
     try {
-      const cartData = req.body;
       const model = {
         user_id: req.user.id,
+        shipping_address: {
+          full_name: req.body.full_name,
+          address: req.body.address,
+          phone: req.body.phone,
+          province: req.body.province,
+          city: req.body.city,
+        },
       };
 
-      model.cart = cartData.map((item) => ({
-        id: item.id,
-        quantity: item.quantity,
-        product_name: item.product.product_name,
-        product_id: item.product.id,
-        price: item.product.price,
-        image_url:
-          item.product.imageProducts.length > 0
-            ? item.product.imageProducts[0].image_url
-            : "No image available",
-      }));
-
       const newOrder = await orderService.createOrder(model);
-      res.status(200).json(newOrder);
+      res.status(200).send(newOrder);
     } catch (error) {
       next(error);
     }

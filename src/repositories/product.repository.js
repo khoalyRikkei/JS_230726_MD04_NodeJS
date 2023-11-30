@@ -7,7 +7,7 @@ const { ServerException } = require("../expeiptions");
 class ProductRepository {
   async getAllProduct() {
     try {
-      const result = await Product.findAll({
+      const products = await Product.findAll({
         include: [
           {
             model: Category,
@@ -21,11 +21,9 @@ class ProductRepository {
         attributes: ["id", "product_name", "price", "sku", "quantity_stock", "description"],
       });
 
-      if (!result) {
-        return null;
-      }
+      const totalProducts = await Product.count();
 
-      return result;
+      return { products, totalProducts };
     } catch (error) {
       throw new ServerException("ServerException", 500, error.message);
     }
@@ -33,7 +31,8 @@ class ProductRepository {
   async getAllProductByCondition(queryOptions) {
     try {
       const { order, limit, offset, where } = queryOptions;
-      const result = await Product.findAll({
+
+      const products = await Product.findAll({
         include: [
           {
             model: Category,
@@ -44,7 +43,6 @@ class ProductRepository {
             attributes: ["image_url"],
           },
         ],
-
         attributes: ["id", "product_name", "price", "sku", "quantity_stock", "description"],
         order: order,
         limit: limit,
@@ -52,7 +50,9 @@ class ProductRepository {
         where: where,
       });
 
-      return result;
+      const totalProducts = await Product.count({ where: where }); // Lấy tổng số lượng sản phẩm dựa trên điều kiện 'where'
+
+      return { products, totalProducts };
     } catch (error) {
       throw new ServerException("ServerException", 500, error.message);
     }

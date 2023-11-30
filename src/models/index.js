@@ -8,6 +8,7 @@ const OrderDetail = require("./order-detail.model");
 const Reviews = require("./reviews");
 const Feedback = require("./feedback");
 const Discount = require("./discount");
+const ShippingAddress = require("./shippingAddress.model");
 
 //user - cart
 User.hasMany(Cart, {
@@ -120,6 +121,9 @@ Reviews.belongsTo(Product, {
 Orders.hasMany(OrderDetail, { foreignKey: "order_id" });
 OrderDetail.belongsTo(Orders, { foreignKey: "order_id" });
 
+ShippingAddress.hasMany(Orders, { foreignKey: "shipping_address_id" });
+Orders.belongsTo(ShippingAddress, { foreignKey: "shipping_address_id" });
+
 module.exports = {
   Cart,
   ImageProduct,
@@ -131,4 +135,5 @@ module.exports = {
   Reviews,
   Feedback,
   Discount,
+  ShippingAddress,
 };

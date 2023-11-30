@@ -32,6 +32,46 @@ class CartRepository {
       throw error;
     }
   }
+  async getCartArr(user_id) {
+    try {
+      const result = await Cart.findAll({
+        include: [
+          {
+            model: Product,
+            attributes: ["product_name", "price", "id"],
+            include: [
+              {
+                model: imageProduct,
+                attributes: ["image_url"],
+                subQuery: false,
+                limit: 1,
+              },
+            ],
+          },
+        ],
+        where: {
+          user_id: user_id,
+        },
+        attributes: ["id", "quantity"],
+      });
+      // Chuyển đổi cấu trúc dữ liệu trả về từ product thành cart
+      const cart = result.map((cartItem) => {
+        const product = cartItem.product;
+        return {
+          id: cartItem.id,
+          quantity: cartItem.quantity,
+          product_id: product.id,
+          product_name: product.product_name,
+          price: product.price,
+          image_url: product.imageProducts[0].image_url,
+        };
+      });
+
+      return cart;
+    } catch (error) {
+      throw error;
+    }
+  }
   //check product trong cart
   async cartProductCheck(user_id, product_id) {
     try {

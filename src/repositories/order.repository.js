@@ -1,7 +1,8 @@
 const OrderDetail = require("../models/order-detail.model");
 const Orders = require("../models/orders.model");
 const Product = require("../models/product.model");
-const { insertDataArr, updateData, getData } = require("../utils/dbMethod");
+const ShippingAddress = require("../models/shippingAddress.model");
+const { insertDataArr, insertData } = require("../utils/dbMethod");
 class OrderRepository {
   async getAllOrders() {
     try {
@@ -56,8 +57,8 @@ class OrderRepository {
       throw error;
     }
   }
-  async getProductByFK(id) {
-    return await Product.findByPk(id);
+  getProductByFK(id) {
+    return Product.findByPk(id);
   }
   insertOrderDetail(newOrderDetails) {
     try {
@@ -68,7 +69,14 @@ class OrderRepository {
   }
   insertOrders(newOrder) {
     try {
-      return insertDataArr(newOrder, Orders);
+      return insertData(newOrder, Orders);
+    } catch (error) {
+      throw error;
+    }
+  }
+  insertShippingAddress(newAddress) {
+    try {
+      return insertData(newAddress, ShippingAddress);
     } catch (error) {
       throw error;
     }
@@ -85,7 +93,35 @@ class OrderRepository {
       throw error;
     }
   }
-  updateOrder(id, updateOrder) {}
+  async updateOrder(id, updateData) {
+    try {
+      const instance = await Orders.findOne({ where: { id: id } });
+
+      if (!instance) {
+        throw new Error(`${Orders.name} not found`);
+      }
+      await instance.update(updateData);
+      return instance;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async updateShippingAddress(orderId, newShippingAddressId) {
+    try {
+      const order = await Orders.findByPk(orderId);
+
+      if (!order) {
+        throw new Error(`Order with ID ${orderId} not found`);
+      }
+
+      order.shipping_address_id = newShippingAddressId;
+      await order.save();
+
+      console.log(`Shipping address updated for Order ID ${orderId}`);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = new OrderRepository();

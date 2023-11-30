@@ -20,6 +20,9 @@ class ProductService {
         if (model.sort === "price") {
           queryOptions.order.push(["price", model.order === "DESC" ? "DESC" : "ASC"]);
         }
+        if (model.sort === "created_at") {
+          queryOptions.order.push(["created_at", model.order === "DESC" ? "DESC" : "ASC"]);
+        }
       }
 
       if (model.name) {
@@ -40,12 +43,8 @@ class ProductService {
       } else {
         products = await productRepository.getAllProduct();
       }
-      const totalProducts = await productRepository.getAllProduct();
-      const results = {
-        products: products,
-        totalProduct: totalProducts.length,
-      };
-      return results;
+
+      return products;
     } catch (error) {
       throw error;
     }

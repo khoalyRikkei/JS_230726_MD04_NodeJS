@@ -5,7 +5,6 @@ require("dotenv/config");
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  console.log(33333333333, token);
 
   if (!token) {
     const error = new AuthencationException("Unauthorized - Access token is missing");

@@ -1,6 +1,7 @@
 const orderRepository = require("../repositories/order.repository");
 const moment = require("moment");
 const { BadRequestException } = require("../expeiptions");
+const cartRepository = require("../repositories/cart.repository");
 class OrderService {
   async getAllOrders(model) {
     try {
@@ -18,7 +19,7 @@ class OrderService {
       if (model.sort && model.order) {
         queryOptions.order.push([model.sort, model.order.toUpperCase()]);
       }
-      console.log("condition2 ", queryOptions);
+
       if (model.status) {
         queryOptions.where.status = model.status;
       }
@@ -52,48 +53,77 @@ class OrderService {
   }
   async createOrder(model) {
     try {
-      const orderDetails = [];
-      for (const item of model.cart) {
-        const product = await orderRepository.getProductByFK(item.product_id); // Tìm sản phẩm trong database
+      // Lấy thông tin giỏ hàng của userId
+      const cart = await cartRepository.getCartArr(model.user_id);
+      const orders = [];
+
+      for (const item of cart) {
+        // Kiểm tra số lượng tồn kho của sản phẩm
+        const product = await orderRepository.getProductByFK(item.product_id);
+
         if (product && product.quantity_stock >= item.quantity) {
-          // Kiểm tra số lượng sản phẩm có đủ để đặt hàng không
-          orderDetails.push({
-            name: item.product_name,
-            product_id: item.product_id,
-            quantity: item.quantity,
-            image: item.image_url,
-            total_price: item.price * item.quantity,
-          });
+          // Tạo đơn hàng và thêm vào mảng orders
+          const order = {
+            user_id: model.user_id,
+            status: 0,
+            created_at: moment(new Date()).format("YYYY-MM-DD"),
+          };
+          orders.push(order);
+
+          //update lại quantity_stock của product
+          const updatedStock = product.quantity_stock - item.quantity;
+
+          await orderRepository.updateProductStock(item.product_id, updatedStock);
         } else {
           throw new BadRequestException(
             `The product with ID ${item.product_id} does not have sufficient quantity for ordering.`
           );
         }
       }
+      // thêm dữ liệu vào bảng orders
+      const createdOrders = await Promise.all(
+        orders.map((order) => orderRepository.insertOrders(order))
+      );
 
-      const createdOrderDetails = await orderRepository.insertOrderDetail(orderDetails);
+      const orderDetails = [];
 
-      const orders = [];
+      for (let i = 0; i < cart.length; i++) {
+        const cartItem = cart[i];
+        const order = createdOrders[i];
 
-      for (const detail of createdOrderDetails) {
-        orders.push({
-          user_id: model.user_id,
-          status: 0,
-          created_at: moment(new Date()).format("YYYY-MM-DD"),
-          order_detail_id: detail.id,
-        });
-        const productDetail = await orderRepository.getProductByFK(detail.product_id); // Lấy thông tin sản phẩm
-        if (productDetail) {
-          // Trừ số lượng đã bán từ số lượng tồn kho của sản phẩm
-          const updatedStock = productDetail.quantity_stock - detail.quantity;
-          console.log("update stock ", updatedStock);
-          // Cập nhật lại số lượng tồn kho mới vào database
-          await orderRepository.updateProductStock(detail.product_id, updatedStock);
-        }
+        const orderDetail = {
+          name: cartItem.product_name,
+          product_id: cartItem.product_id,
+          quantity: cartItem.quantity,
+          image: cartItem.image_url,
+          total_price: cartItem.price * cartItem.quantity,
+          order_id: order.id,
+        };
+        orderDetails.push(orderDetail);
       }
 
-      const createOrder = await orderRepository.insertOrders(orders);
-      return createOrder;
+      //thêm dữ liệu vào bảng orderDetail
+      await orderRepository.insertOrderDetail(orderDetails);
+      // thêm dữ liệu vào bảng shippingaddress
+      const insertShippingAddress = await orderRepository.insertShippingAddress(
+        model.shipping_address
+      );
+      const shippingAddressId = insertShippingAddress.id;
+
+      // Cập nhật ID của địa chỉ giao hàng vào các đơn hàng đã tạo
+      await Promise.all(
+        createdOrders.map((order) => {
+          orderRepository.updateShippingAddress(order.id, shippingAddressId);
+        })
+      );
+
+      //xóa tất cả cart của user_id đó
+      await cartRepository.deleteAllCart(model.user_id);
+
+      console.log("Orders created successfully.");
+      console.log("Order details", orderDetails);
+      console.log("Shipping address", insertShippingAddress);
+      return "Order created successfully";
     } catch (error) {
       throw error;
     }

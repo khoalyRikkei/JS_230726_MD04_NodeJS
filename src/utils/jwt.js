@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const createAccessToken = (data, secretKey, expiresIn = "10m") => {
+const createAccessToken = (data, secretKey, expiresIn = "7d") => {
   return jwt.sign(data, secretKey, { expiresIn });
 };
 

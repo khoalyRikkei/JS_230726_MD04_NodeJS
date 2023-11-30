@@ -31,6 +31,7 @@ class CartController {
     try {
       const model = {
         cart_id: req.params.id,
+        user_id: req.user.id,
         updateCart: {
           quantity: req.body.quantity,
         },

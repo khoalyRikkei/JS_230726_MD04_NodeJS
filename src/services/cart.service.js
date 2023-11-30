@@ -12,20 +12,21 @@ class CartService {
     try {
       const result = await cartRepository.cartProductCheck(model.user_id, model.product_id);
       if (!result) {
-        const insertProductCart = await cartRepository.createCart(model);
-        return insertProductCart;
+        await cartRepository.createCart(model);
       } else {
         const newQuantity = model.quantity + result.quantity;
-        const productCartUpdate = await cartRepository.cartProductUpdate(result.id, newQuantity);
-        return productCartUpdate;
+        await cartRepository.cartProductUpdate(result.id, newQuantity);
       }
+      const cart = await cartRepository.getCart(model.user_id);
+      return cart;
     } catch (error) {
       throw error;
     }
   }
-  updateCart(model) {
+  async updateCart(model) {
     try {
-      return cartRepository.updateCart(model.cart_id, model.updateCart);
+      const updateCart = await cartRepository.updateCart(model.cart_id, model.updateCart);
+      return updateCart;
     } catch (error) {
       throw error;
     }

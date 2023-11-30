@@ -13,7 +13,7 @@ class ProductController {
         page: parseInt(req.query.page) || 1,
       };
       const results = await productService.getAllProduct(model);
-      res.setHeader("X-Total-Products", `${results.totalProduct}`);
+      res.setHeader("X-Total-Products", `${results.totalProducts}`);
 
       res.status(200).json(results.products);
     } catch (error) {

@@ -1,47 +1,35 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../configs/configDB");
 
-const Product = sequelize.define(
-  "products",
+const ShippingAddress = sequelize.define(
+  "shippingaddress",
   {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
       autoIncrement: true,
+      primaryKey: true,
     },
-    sku: {
+    full_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    price: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    product_name: {
+    address: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    quantity_stock: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    description: {
+    phone: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    category_id: {
-      type: DataTypes.INTEGER,
+    province: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    created_at: {
-      type: DataTypes.DATE,
+    city: {
+      type: DataTypes.STRING,
       allowNull: false,
-    },
-    deletedAt: {
-      type: DataTypes.DATE,
     },
   },
   { timestamps: false, freezeTableName: true }
 );
-
-module.exports = Product;
+module.exports = ShippingAddress;
