@@ -12,7 +12,7 @@ Lesson.sync()
         exercise: `Bài tập ${i}`,
         lesson_img: `https://image${i}.jpg`,
         video: `https://video${i}.com`,
-        courses_id: 1, 
+        courses_id: 2, 
       });
     }
 

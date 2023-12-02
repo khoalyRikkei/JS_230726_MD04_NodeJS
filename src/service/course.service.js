@@ -1,6 +1,5 @@
 import CourseRepository from "../repository/course.repository.js";
 
-
 const courseRepository = new CourseRepository();
 
 export default class CourseService {
@@ -49,6 +48,15 @@ export default class CourseService {
     }
   }
 
+  async deleteAllDeletedCourse() {
+    try {
+      const data = await courseRepository.deleteAllDeletedCourse();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async deleteCourse(id) {
     try {
       const data = await courseRepository.deleteCourse(id);
@@ -89,6 +97,15 @@ export default class CourseService {
     try {
       const courseByCondition = await courseRepository.searchCourseByCondition(condition);
       return courseByCondition;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async editCourseChangeStatus(id, item) {
+    try {
+      const data = await courseRepository.editCourse(id, item);
+      return data;
     } catch (error) {
       throw error;
     }

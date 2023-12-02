@@ -9,6 +9,7 @@ import {
   getDeletedData,
   getDeletedDataById,
   getDataByCondition,
+  deleteAllDataByCondition
 } from "../../utils/data.util.js";
 import { Category } from "../models/category.model.js";
 
@@ -58,6 +59,15 @@ export default class CategoryRepository {
     }
   }
 
+  async deleteAllDeletedCategory() {
+    try {
+      const deleteCategory = await deleteAllDataByCondition(Category);
+      return deleteCategory;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
   async deleteCategory(id) {
     try {
       const deleteCategory = await deleteData(Category, id);
@@ -102,4 +112,6 @@ export default class CategoryRepository {
       throw error;
     }
   }
+
+
 }

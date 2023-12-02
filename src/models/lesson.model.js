@@ -19,7 +19,7 @@ const Lesson = sequelize.define('lessons', {
     defaultValue: true,
   },
   exercise: {
-    type: DataTypes.BLOB, 
+    type: DataTypes.STRING, 
   },
   lesson_img: {
     type: DataTypes.STRING,

@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+import { DataTypes,literal } from "sequelize";
 import sequelize from "../configs/sequelize.config.js";
 import User from "./user.model.js";
 import { Category } from "./category.model.js";
@@ -33,3 +33,5 @@ const Payment = sequelize.define("payments", {
 });
 
 export default Payment;
+
+

@@ -9,6 +9,7 @@ import {
   getDeletedData,
   getDeletedDataById,
   getDataByCondition,
+  deleteAllDataByCondition
 } from "../../utils/data.util.js";
 import Course from "../models/course.model.js";
 
@@ -58,6 +59,15 @@ export default class CourseRepository {
     }
   }
 
+  async deleteAllDeletedCourse() {
+    try {
+      const deleteCourse = await deleteAllDataByCondition(Course);
+      return deleteCourse;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async deleteCourse(id) {
     try {
       const deleteCourse = await deleteData(Course, id);
@@ -86,12 +96,12 @@ export default class CourseRepository {
   }
 
   async editCourse(id, item) {
-   try {
-    const editCourse = await editData(Course, id, item);
-    return editCourse;
-   } catch (error) {
-    throw error;
-   }
+    try {
+      const editCourse = await editData(Course, id, item);
+      return editCourse;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async searchCourseByCondition(condition) {

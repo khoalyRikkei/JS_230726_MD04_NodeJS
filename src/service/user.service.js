@@ -21,6 +21,15 @@ export default class UserService {
     }
   }
 
+  async editUser(id, item) {
+    try {
+      const data = await userRepository.editUser(id, item);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async editUserChangeStatus(id, item) {
     try {
       const data = await userRepository.editUser(id, item);
@@ -32,25 +41,20 @@ export default class UserService {
 
   async editUserChangeAvatar(id, cloudinaryResult) {
     try {
-      const user = await userRepository.getUserById(id);
-      if (!user) {
-        throw new Error("User not found.");
-      }
-      if (user.avatarPublicId) {
-        // Nếu có, xóa avatar cũ trên Cloudinary
-        await deleteCloudinary(user.avatarPublicId);
-      }
-      // Tạo đối tượng item với thông tin avatar mới
-      const item = {
-        avatar: cloudinaryResult.url,
-        avatarPublicId: cloudinaryResult.public_id,
-        // Các thuộc tính khác của user nếu cần
-      };
-      const data = await userRepository.editUser(id, item);
+      const data = await userRepository.editUser(id, cloudinaryResult);
       if (!data) {
         throw new Error("Failed to edit user.");
       }
       return item;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+  async searchUserByCondition(condition) {
+    try {
+      const userByCondition = await userRepository.searchUserByCondition(condition);
+      return userByCondition;
     } catch (error) {
       throw error;
     }

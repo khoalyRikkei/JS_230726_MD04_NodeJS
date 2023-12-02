@@ -1,12 +1,15 @@
 import { MSG_COMMON } from "../messages/index.js";
 import AuthService from "../service/auth.service.js";
+import "dotenv/config";
 
 const authService = new AuthService();
+
+
 
 class AuthController {
   async login(req, res, next) {
 
-    
+
     const user = req.body;
     try {
       const ret = await authService.performLogin(user);
@@ -17,9 +20,8 @@ class AuthController {
         httpOnly: true,
       });
       res.header("Authorization", "Bearer " + ret.assetToken);
-      res.status(ret.statusCode).send(ret);
+      res.status(200).send(ret);
     } catch (error) {
-      console.log(2222, error);
       next(error);
     }
   }
@@ -46,19 +48,17 @@ class AuthController {
 
   async changePassword(req, res, next) {
     const userId = req.params.id;
-    const oldPassword = req.body.oldPassword;
-    const newPassword = req.body.newPassword;
+    const data = req.body
+    console.log(userId, data);
     try {
       const ret = await authService.changePassword(
         userId,
-        oldPassword,
-        newPassword
+        data
       );
       res
         .status(200)
         .json({ message: MSG_COMMON.MSG_SUCCESS.update("Password"), ret });
     } catch (error) {
-      console.log("AuthController", error);
       next(error);
     }
   }
@@ -93,6 +93,28 @@ class AuthController {
       next(error);
     }
   }
+
+  async fetchUserData(req, res, next) {
+    const tokenBear = req.headers.authorization
+    if (tokenBear) {
+      const token = tokenBear.split(' ')[1]
+      console.log("token", token);
+      try {
+        const userData = await authService.fetchUserData(token);
+        res.json(userData);
+      } catch (error) {
+        res.status(401).json({ message: error.message });
+      }
+      
+    } else {
+    console.log("loiiiiii");
+      
+    }
+   
+  };
 }
 
 export default AuthController;
+
+
+

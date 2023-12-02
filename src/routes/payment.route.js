@@ -5,6 +5,8 @@ const paymentController = new PaymentController()
 const paymentRouter = express.Router();
 paymentRouter.get("/", paymentController.getAllPayment);
 
+paymentRouter.get("/user-payments",paymentController.getPaymentWhereCondition);
+
 paymentRouter.get("/:id",paymentController.getPaymentById);
 
 paymentRouter.post("/", paymentController.createPayment);

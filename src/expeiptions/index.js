@@ -27,7 +27,7 @@ class BadRequestException extends Error {
   
   class ValidationException extends Error {
     name = "ValidationException";
-    constructor(message, statusCode = 400, field = null) {
+    constructor(message, statusCode = 400, field = {}) {
       super(message);
       this.statusCode = statusCode;
       this.field = field;

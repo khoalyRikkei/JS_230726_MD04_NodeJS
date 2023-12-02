@@ -30,14 +30,6 @@ export function validateUserData(userData) {
     };
   }
 
-  if (!isNotEmptyString(userData.confirm_password)) {
-    return {
-      statusCode: 403,
-      success: false,
-      message: "Confirm Password không được để trống",
-    };
-  }
-
   if (!isValidEmail(userData.email)) {
     return {
       statusCode: 403,
@@ -51,14 +43,6 @@ export function validateUserData(userData) {
       statusCode: 403,
       success: false,
       message: "Mật khẩu quá ngắn",
-    };
-  }
-
-  if (!checkPasswordsMatch(userData.password, userData.confirm_password)) {
-    return {
-      statusCode: 403,
-      success: false,
-      message: "Mật khẩu và xác nhận mật khẩu không trùng khớp",
     };
   }
 

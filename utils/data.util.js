@@ -27,7 +27,15 @@ export function filterDataByConditions(dataArray, conditions) {
 export async function getData(model) {
   return model.findAll({raw: true});
 }
-
+// Lấy toàn bộ dữ liệu từ mô hình theo nhiều điều kiện
+export async function getDataWhereCondition(model, conditions) {
+  return model.findAll({
+    where: {
+      [Op.and]: conditions,
+    },
+    raw: true,
+  });
+}
 // Lấy toàn bộ dữ liệu theo soft delele
 export async function getDeletedData(model) {
   return model.findAll({
@@ -86,8 +94,20 @@ export async function insertData(model, data) {
   try {
     return await model.create(data);
   } catch (error) {
-    console.log(error);
+    if(error.parent.code === "ER_DUP_ENTRY"){
+      throw new BadRequestException( MSG_COMMON.MSG_ERROR.InternalServerException,400, {msgName: "Tên đã tồn tại"})
+    }
     throw new BadRequestException( MSG_COMMON.MSG_ERROR.InternalServerException)
+  }
+}
+
+// Chèn dữ liệu mới vào mô hình với kiểu là Array
+export async function insertMultipleData(model, dataArray) {
+  try {
+    return await model.bulkCreate(dataArray);
+  } catch (error) {
+    // Xử lý lỗi nếu cần
+    throw error;
   }
 }
 
@@ -105,6 +125,19 @@ export async function deleteData(model, id) {
   return await model.destroy({
     where: {
       id: id,
+    },
+    force: true
+  });
+}
+
+// Xóa toàn bộ dữ liệu theo điều kiện
+export async function deleteAllDataByCondition(model) {
+  return await model.destroy({
+    paranoid: false,
+    where: {
+      deletedAt: {
+        [Op.ne]: null, // Lọc những bản ghi đã bị xóa mềm
+      },
     },
     force: true
   });

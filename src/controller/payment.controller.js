@@ -28,6 +28,22 @@ export default class PaymentController {
     }
   }
 
+  async getPaymentWhereCondition(req, res, next) {
+    try {
+      const conditionData = req.query;
+      const paymentData = await paymentService.getPaymentWhereCondition(conditionData);
+      if (paymentData) {
+        res.status(200).json({message: MSG_COMMON.MSG_SUCCESS.read("Payment"),data: paymentData});
+      } else {
+        res
+          .status(404)
+          .json({ message: MSG_COMMON.MSG_ERROR.NotFoundException });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async createPayment(req, res, next) {
     const paymentData = req.body;
     try {

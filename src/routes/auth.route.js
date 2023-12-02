@@ -1,10 +1,13 @@
 import express from "express";
 import AuthController from "../controller/auth.controller.js";
+import { validateConfirmEmail, validateLogin } from "../validations/auth.validation.js";
 const authRouter = express.Router();
 const authController = new AuthController();
 
+
+
 // API Login
-authRouter.post("/login", authController.login);
+authRouter.post("/login", validateLogin,authController.login);
 
 // API Register
 authRouter.post("/register", authController.register);
@@ -13,12 +16,15 @@ authRouter.post("/register", authController.register);
 authRouter.get("/logout", authController.logout);
 
 //API Change Password
-authRouter.post("/:id/change-password", authController.changePassword);
+authRouter.patch("/:id/change-password", authController.changePassword);
 
 // API Request Password Reset
-authRouter.post("/request-password-reset", authController.requestPasswordReset);
+authRouter.post("/request-password-reset", validateConfirmEmail, authController.requestPasswordReset);
 
 // API Reset Password
 authRouter.post("/reset-password", authController.resetPassword);
+
+
+authRouter.get("/fetch-login", authController.fetchUserData); 
 
 export default authRouter;

@@ -46,8 +46,8 @@ export function sendResetEmail(email, resetPassword, resetPasswordExpiryInMinute
   const mailOptions = {
     from: MAIL_USERNAME, 
     to: email,
-    subject: 'Password Reset',
-    text: `Password reset confirmation code: ${resetPassword}. This code is valid for ${resetPasswordExpiryInMinutes} minutes.`,
+    subject: 'Lấy lại mật khẩu',
+    text: ` Mã xác nhận lấy lại mật khẩu: ${resetPassword}. Thời hạn có hiệu lực là ${resetPasswordExpiryInMinutes} phút.`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {

@@ -48,6 +48,15 @@ export default class CategoryService {
     }
   }
 
+  async deleteAllDeletedCategory() {
+    try {
+      const data = await categoryRepository.deleteAllDeletedCategory();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async deleteCategory(id) {
     try {
       const data = await categoryRepository.deleteCategory(id);
@@ -88,6 +97,15 @@ export default class CategoryService {
     try {
       const categoryByCondition = await categoryRepository.searchCategoryByCondition(condition);
       return categoryByCondition;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async editCategoryChangeStatus(id, item) {
+    try {
+      const data = await categoryRepository.editCategory(id, item);
+      return data;
     } catch (error) {
       throw error;
     }

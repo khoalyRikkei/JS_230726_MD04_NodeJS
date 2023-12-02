@@ -1,4 +1,4 @@
-// Trong file category.controller.js
+
 import CategoryService from "../service/category.service.js";
 import { MSG_COMMON } from "../messages/index.js";
 
@@ -68,7 +68,7 @@ class CategoryController {
   }
 
   async createCategory(req, res, next) {
-    const categoryData = req.body;
+    const categoryData = {...req.body};
     try {
       const ret = await categoryService.createCategory(categoryData);
       if (ret) {
@@ -81,6 +81,23 @@ class CategoryController {
           .json({ message: MSG_COMMON.MSG_FAILURE.create("Category") });
       }
       
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteAllDeletedCategory(req, res, next) {
+    try {
+      const deletedCategory = await categoryService.deleteAllDeletedCategory();
+      if (deletedCategory) {
+        res
+          .status(200) 
+          .json({ message: MSG_COMMON.MSG_SUCCESS.delete("All Category") });
+      } else {
+        res
+          .status(404)
+          .json({ message: MSG_COMMON.MSG_FAILURE.delete("All Category") });
+      }
     } catch (error) {
       next(error);
     }
@@ -124,7 +141,7 @@ class CategoryController {
 
   async restoreCategory (req, res, next) {
     try {
-      const categoryId = req.body.id;
+      const categoryId = req.params.id;
       const restoreCategory = await categoryService.restoreCategory(categoryId);
       if (restoreCategory) {
         res
@@ -178,6 +195,19 @@ class CategoryController {
       next(error);
     }
   }
+
+  async editCategoryChangeStatus(req, res, next) {
+    const id = req.params.id;
+    const status = req.body;
+    try {
+      const ret = await categoryService.editCategoryChangeStatus(id, status);
+      res
+        .status(200)
+        .json({ message: MSG_COMMON.MSG_SUCCESS.update("Category") });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default CategoryController;

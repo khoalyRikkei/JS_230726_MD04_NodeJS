@@ -1,36 +1,39 @@
 
 import Joi from 'joi';
-import { MSG_VALIDATION } from '../messages/index.js';
 import { ValidationException } from '../expeiptions/index.js';
 
-export const validateCreateCategory = (req, res, next) => {
+export const validateCategory = (req, res, next) => {
+  const errorMessage = new ValidationException()
   const schema = Joi.object({
-    name: Joi.string().max(20).required().error(() => MSG_VALIDATION.InvalidName),
-    description: Joi.string().max(2000).error(() => MSG_VALIDATION.InvalidDescription),
-    status: Joi.boolean().default(true),
+    name: Joi.string().max(20).error(() => {
+      errorMessage.field.msgName = 'Tên không được quá 20 ký tự'
+        return errorMessage
+    }),
+    name: Joi.string().required().error(() => {
+      errorMessage.field.msgName = 'Tên không được để trống'
+        return errorMessage
+    }),
+    description: Joi.string().max(2000).error(() => {
+      errorMessage.field.msgDes = 'Mô tả không được 2000 ký tự'
+      return errorMessage
+    }),
+    description: Joi.string().required().error(() => {
+      errorMessage.field.msgDes = 'Mô tả không được để trống'
+      return errorMessage
+    }),
+    status: Joi.boolean().required().error(() => {
+      errorMessage.field.msgSta = 'Mô tả không được để trống'
+      return errorMessage
+    })
   });
 
-  const { error } = schema.validate(req.body);
+  const { error } = schema.validate(req.body, { abortEarly: false });
   if (error) {
-    next(new ValidationException(error.message));
+    next(errorMessage) ;
   } else {
     next();
   }
 };
 
-export const validateEditCategory = (req, res, next) => {
-  const schema = Joi.object({
-    name: Joi.string().max(20).required().error(() => MSG_VALIDATION.InvalidName),
-    description: Joi.string().max(2000).error(() => MSG_VALIDATION.InvalidDescription),
-    status: Joi.boolean().default(true),
-  });
-
-  const { error } = schema.validate(req.body);
-  if (error) {
-    next(new ValidationException(error.message));
-  } else {
-    next();
-  }
-};
 
 

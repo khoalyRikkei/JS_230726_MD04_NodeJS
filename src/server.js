@@ -7,6 +7,7 @@ import "dotenv/config";
 import { route } from "./routes/index.js";
 import handleError from "./middlewares/handleErorr.js";
 import sequelize from "./configs/sequelize.config.js";
+import cors from "cors"
 
 
 // BACK UP DATA
@@ -19,12 +20,13 @@ import sequelize from "./configs/sequelize.config.js";
 
 
 
-
 const app = express();
-
+app.use(cors({
+  exposedHeaders: ["Authorization", "authorization"]
+}))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.use(express.urlencoded({ extended: true }));
 
 
 
@@ -37,6 +39,7 @@ app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 //   await sequelize.sync({alert:true}); 
 //   ;
 // })();
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

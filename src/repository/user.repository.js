@@ -2,6 +2,7 @@ import {
   getData,
   editData,
   getDataById,
+  getDataByCondition
 } from "../../utils/data.util.js";
 import User from "../models/user.model.js";
 
@@ -34,6 +35,14 @@ export default class UserRepository {
      throw error;
     }
    }
+   async searchUserByCondition(condition) {
+    try {
+      const searchUserByCondition = await getDataByCondition(User, condition);
+      return searchUserByCondition;
+    } catch (error) {
+      throw error;
+    }
+  }
 
    
 }
