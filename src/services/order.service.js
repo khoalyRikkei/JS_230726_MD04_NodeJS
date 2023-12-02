@@ -17,7 +17,7 @@ const createOrder = async (products, userId) => {
   );
   const order = {
     userId: userId,
-    createAt: moment(new Date()).format("YYYY-MM-DD"),
+    createAt: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
     total: total,
     status: "pending",
   };

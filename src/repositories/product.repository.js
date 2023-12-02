@@ -45,6 +45,15 @@ const deleteProduct = async (productId) => {
     });
   });
 };
+const editProduct = async (productId, updatedData) => {
+  return new Promise((resolve, reject) => {
+    const query = `UPDATE products SET ? WHERE productId = ?`;
+    connection.query(query, [updatedData, productId], (err, result) => {
+      if (err) reject(err);
+      resolve(result);
+    });
+  });
+};
 
 module.exports = {
   getProducts,
@@ -53,4 +62,5 @@ module.exports = {
   getProductById,
   createProduct,
   deleteProduct,
+  editProduct,
 };

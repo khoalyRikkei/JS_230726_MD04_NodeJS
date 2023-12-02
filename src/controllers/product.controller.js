@@ -45,7 +45,10 @@ const createProduct = async (req, res) => {
     const newProductId = await productService.createProduct(req.body);
     res
       .status(201)
-      .json({ id: newProductId, message: "Product created successfully" });
+      .json({
+        productId: newProductId,
+        message: "Product created successfully",
+      });
   } catch (error) {
     console.error(444444, error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -67,10 +70,32 @@ const deleteProduct = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+const editProduct = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const updatedData = req.body;
+    console.log(4444, updatedData);
+
+    const result = await productService.editProduct(productId, updatedData);
+
+    if (result) {
+      res.status(200).json({ message: "Product updated successfully" });
+    } else {
+      res.status(404).json({ message: "Product not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+    console.log(5555, error);
+  }
+};
+
 module.exports = {
   getProducts,
   getProductById,
   createProduct,
   deleteProduct,
   getProductByName,
+  editProduct,
 };

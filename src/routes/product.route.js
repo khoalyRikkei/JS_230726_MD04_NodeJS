@@ -18,4 +18,8 @@ productsRouter.post("/", productController.createProduct);
 // xoá sản phẩm
 productsRouter.delete("/:id", productController.deleteProduct);
 
+// chỉnh sửa sản phẩm
+
+productsRouter.put("/:id", productController.editProduct);
+
 module.exports = productsRouter;

@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 const productRepository = require("../repositories/product.repository");
 
 const getProducts = async () => {
@@ -14,11 +16,20 @@ const getProductByName = async (productName) => {
 };
 
 const createProduct = async (productData) => {
+  console.log(777, productData);
+
   return await productRepository.createProduct(productData);
 };
 
 const deleteProduct = async (productId) => {
   return await productRepository.deleteProduct(productId);
+};
+
+const editProduct = async (productId, updatedData) => {
+  updatedData.createAt = moment(updatedData.createAt).format("YYYY-MM-DD");
+  updatedData.updateAt = moment(updatedData.updateAt).format("YYYY-MM-DD");
+
+  return await productRepository.editProduct(productId, updatedData);
 };
 
 module.exports = {
@@ -27,4 +38,5 @@ module.exports = {
   createProduct,
   deleteProduct,
   getProductByName,
+  editProduct,
 };
