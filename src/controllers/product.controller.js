@@ -6,7 +6,7 @@ class ProductController {
     try {
       const model = {
         limit: parseInt(req.query.limit),
-        name: req.query.name,
+        search: req.query.search,
         category: req.query.category,
         sort: req.query.sort,
         order: req.query.order,
@@ -37,10 +37,10 @@ class ProductController {
         newProduct: {
           sku: req.body.sku,
           product_name: req.body.product_name,
-          price: req.body.price,
-          quantity_stock: req.body.quantity_stock,
+          price: Number(req.body.price),
+          quantity_stock: Number(req.body.quantity_stock),
           description: req.body.description,
-          category_id: req.body.category_id,
+          category_id: Number(req.body.category_id),
           created_at: moment(new Date()).format("YYYY-MM-DD"),
         },
         images: req.images,
@@ -59,8 +59,10 @@ class ProductController {
         updateProduct: {
           ...req.body,
         },
-        images: req.images,
       };
+      if (req.images.length) model.images = req.images;
+
+      console.log("model------", model);
 
       const updateProduct = await productService.updateProduct(model);
       res.status(200).json(updateProduct);

@@ -4,6 +4,7 @@ const productController = require("../controllers/product.controller");
 const { validateFormProduct } = require("../middlewares/handleValidation");
 const { uploadArrayToCloudinaryAndReturnUrls } = require("../middlewares/uploadFileMiddleware");
 const { authenticateToken, checkUserRole } = require("../middlewares/authMiddleware");
+const uploadImage = require("../middlewares/uploadImage");
 
 router.get("/", productController.getAllProduct);
 router.get("/:id", productController.getProductById);

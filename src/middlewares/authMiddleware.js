@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { CustomException, AuthencationException } = require("../expeiptions");
+const userRepository = require("../repositories/user.repository");
 require("dotenv/config");
 
 function authenticateToken(req, res, next) {
@@ -11,13 +12,18 @@ function authenticateToken(req, res, next) {
     next(error);
   }
 
-  jwt.verify(token, process.env.SECRET_ACCESSTOKEN_KEY, (err, decoded) => {
+  jwt.verify(token, process.env.SECRET_ACCESSTOKEN_KEY, async (err, decoded) => {
     if (err) {
       const error = new AuthencationException("Forbidden - Access token is invalid");
       next(error);
     }
-    req.user = decoded;
-    console.log(decoded);
+
+    //todo : add role
+    const id = decoded.id;
+    const user = await userRepository.getUserById(id);
+    delete user.password;
+    console.log(11111111111, user);
+    req.user = user;
     next();
   });
 }

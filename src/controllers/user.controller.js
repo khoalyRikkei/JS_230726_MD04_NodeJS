@@ -43,42 +43,19 @@ class UserController {
   }
   async getAllUser(req, res, next) {
     try {
-      const model = {};
-      const limit = req.query.limit ? parseInt(req.query.limit, 10) : null;
-      const name = req.query.name;
-      const orderByName = req.query.order;
-      const page = req.query.page || 1;
+      const model = {
+        limit: parseInt(req.query.limit),
+        page: parseInt(req.query.page) || 1,
+        sort: req.query.sort,
+        order: req.query.order,
+        role: req.query.role,
+        name: req.query.name,
+      };
+      const results = await userService.getAllUser(model);
+      console.log(results);
+      res.setHeader("X-Total-Users", `${results.totalUsers}`);
 
-      const filterConditions = {};
-
-      if (limit !== null) {
-        const offset = (page - 1) * limit;
-        model.limit = limit;
-        model.offset = offset;
-      }
-
-      if (name) {
-        filterConditions.user_name = name;
-      }
-
-      const order = [];
-      if (orderByName) {
-        order.push(["user_name", orderByName.toUpperCase()]);
-      }
-
-      model.filterConditions = filterConditions;
-      model.order = order;
-      model.limit = limit;
-
-      console.log(model);
-      let users;
-
-      if (Object.keys(filterConditions).length === 0 || order !== null || limit !== null) {
-        users = await userService.getAllUser(model);
-      } else {
-        users = await userService.getAllUser();
-      }
-      res.status(200).json(users);
+      res.status(200).json(results.users);
     } catch (error) {
       next(error);
     }

@@ -2,6 +2,7 @@ const { hashPassword, comparePassword } = require("../utils/commonFunc");
 const { createAccessToken } = require("../utils/jwt");
 require("dotenv").config();
 const userRepository = require("../repositories/user.repository");
+const { Sequelize } = require("sequelize");
 
 const { CustomException } = require("../expeiptions");
 class UserService {
@@ -16,7 +17,8 @@ class UserService {
   }
   async login(model) {
     try {
-      const users = await userRepository.getAllUser();
+      const results = await userRepository.getAllUser();
+      const users = results.users;
       if (!users || !users.length) {
         throw new CustomException("No users found", 500);
       }
@@ -59,18 +61,40 @@ class UserService {
       throw error;
     }
   }
-  getAllUser(model) {
+  async getAllUser(model) {
+    const Op = Sequelize.Op;
     try {
-      if (!model) {
-        return userRepository.getAllUser();
+      const queryOptions = {
+        offset: 0,
+        order: [],
+        where: {},
+      };
+      if (model.limit > 0) {
+        queryOptions.limit = model.limit;
+        queryOptions.offset = (model.page - 1) * model.limit;
       }
-
-      return userRepository.getUserByCondition(
-        model.filterConditions,
-        model.order,
-        model.limit,
-        model.offset
-      );
+      if (model.sort == "user_name") {
+        queryOptions.order.push(["user_name", model.order === "DESC" ? "DESC" : "ASC"]);
+      }
+      if (model.name) {
+        queryOptions.where.user_name = { [Op.like]: `%${model.name}%` };
+      }
+      if (model.role) {
+        console.log(111111111);
+        queryOptions.where.role = model.role;
+      }
+      let users;
+      if (
+        model.page !== 1 ||
+        model.limit !== 0 ||
+        Object.keys(queryOptions.where).length > 0 ||
+        queryOptions.order.length > 0
+      ) {
+        users = await userRepository.getUserByCondition(queryOptions);
+      } else {
+        users = await userRepository.getAllUser();
+      }
+      return users;
     } catch (error) {
       throw error;
     }

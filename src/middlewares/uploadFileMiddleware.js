@@ -59,9 +59,15 @@ const uploadArrayToCloudinaryAndReturnUrls = (req, res, next) => {
       next(err);
     }
     try {
-      if (!req.files || req.files.length === 0) {
-        const err = new CustomException("No files uploaded", 400);
-        next(err);
+      if (req.params.id) {
+        if (!req.files) {
+          next();
+        }
+      } else {
+        if (!req.files || req.files.length === 0) {
+          const err = new CustomException("No files uploaded", 400);
+          next(err);
+        }
       }
 
       const cloudinaryUrls = await Promise.all(

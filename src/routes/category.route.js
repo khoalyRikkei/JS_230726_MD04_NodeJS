@@ -4,9 +4,14 @@ const categoryController = require("../controllers/category.controller");
 const { authenticateToken, checkUserRole } = require("../middlewares/authMiddleware");
 
 router.get("/", categoryController.getAllCategory);
-router.post("/", authenticateToken, checkUserRole(1), categoryController.createCategory);
-router.put("/:id", categoryController.updateCategory);
-router.delete("/:id", authenticateToken, checkUserRole(1), categoryController.deleteCategory);
+router.post("/create", authenticateToken, checkUserRole(1), categoryController.createCategory);
+router.put("/update/:id", authenticateToken, checkUserRole(1), categoryController.updateCategory);
+router.delete(
+  "/delete/:id",
+  authenticateToken,
+  checkUserRole(1),
+  categoryController.deleteCategory
+);
 
 module.exports = router;
 // authenticateToken, checkUserRole(1),

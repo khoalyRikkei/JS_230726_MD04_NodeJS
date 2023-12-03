@@ -1,8 +1,10 @@
 const productRepository = require("../repositories/product.repository");
 const { BadRequestException } = require("../expeiptions");
+const { Sequelize } = require("sequelize");
 
 class ProductService {
   async getAllProduct(model) {
+    const Op = Sequelize.Op;
     try {
       const queryOptions = {
         offset: 0,
@@ -25,8 +27,10 @@ class ProductService {
         }
       }
 
-      if (model.name) {
-        queryOptions.where.product_name = model.name;
+      if (model.search) {
+        queryOptions.where.product_name = {
+          [Op.like]: `%${model.search}%`,
+        };
       }
       if (model.category) {
         queryOptions.where.category_id = model.category;
@@ -66,6 +70,7 @@ class ProductService {
         public_id: image.id,
         deleteAt: null,
       }));
+
       const insertImages = await productRepository.insertImageProduct(transformedImages);
       if (!insertImages) {
         throw new BadRequestException("Insert failed");
@@ -76,6 +81,7 @@ class ProductService {
     }
   }
   async updateProduct(model) {
+    console.log("model s----", model);
     try {
       const responseUpdateProduct = await productRepository.updateProduct(
         model.id,
@@ -84,18 +90,19 @@ class ProductService {
 
       if (responseUpdateProduct == null) throw new BadRequestException("Product not found");
 
-      await productRepository.deleteImage(responseUpdateProduct.dataValues.id);
+      if (model.images) {
+        await productRepository.deleteImage(responseUpdateProduct.dataValues.id);
+        const inputImages = [...model.images];
+        const transformedImages = inputImages.map((image) => ({
+          image_url: image.url,
+          product_id: responseUpdateProduct.dataValues.id,
+          public_id: image.id,
+          deleteAt: null,
+        }));
+        await productRepository.insertImageProduct(transformedImages);
+      }
 
-      const inputImages = [...model.images];
-
-      const transformedImages = inputImages.map((image) => ({
-        image_url: image.url,
-        product_id: responseUpdateProduct.dataValues.id,
-        public_id: image.id,
-        deleteAt: null,
-      }));
-      await productRepository.insertImageProduct(transformedImages);
-
+      console.log("responseUpdateProduct", responseUpdateProduct);
       return responseUpdateProduct;
     } catch (error) {
       throw error;

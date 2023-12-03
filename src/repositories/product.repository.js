@@ -11,7 +11,7 @@ class ProductRepository {
         include: [
           {
             model: Category,
-            attributes: ["category_name"],
+            attributes: ["id", "category_name"],
           },
           {
             model: ImageProduct,
@@ -31,12 +31,11 @@ class ProductRepository {
   async getAllProductByCondition(queryOptions) {
     try {
       const { order, limit, offset, where } = queryOptions;
-
       const products = await Product.findAll({
         include: [
           {
             model: Category,
-            attributes: ["category_name"],
+            attributes: ["category_name", "id"],
           },
           {
             model: ImageProduct,

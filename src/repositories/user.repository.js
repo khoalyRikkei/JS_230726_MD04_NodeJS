@@ -2,17 +2,29 @@ const { insertData, getData, deleteData, updateData } = require("../utils/dbMeth
 const User = require("../models/user.model");
 class UserRepository {
   async getAllUser() {
-    return await getData(User);
-  }
-  async getUserByCondition(filterConditions, order = null, limit = null, offset = null) {
     try {
-      const result = await User.findAll({
-        where: filterConditions,
-        order: order, // Áp dụng sắp xếp theo yêu cầu
+      const users = await getData(User);
+      const totalUsers = await User.count();
+      return {
+        users,
+        totalUsers,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getUserByCondition(queryOptions) {
+    const { order, limit, offset, where } = queryOptions;
+    try {
+      const users = await User.findAll({
+        where: where,
+        order: order,
         limit: limit,
         offset: offset,
       });
-      return result;
+      const totalUsers = await User.count({ where: where });
+
+      return { totalUsers, users };
     } catch (error) {
       throw error;
     }

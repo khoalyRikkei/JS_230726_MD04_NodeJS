@@ -120,9 +120,6 @@ class OrderService {
       //xóa tất cả cart của user_id đó
       await cartRepository.deleteAllCart(model.user_id);
 
-      console.log("Orders created successfully.");
-      console.log("Order details", orderDetails);
-      console.log("Shipping address", insertShippingAddress);
       return "Order created successfully";
     } catch (error) {
       throw error;

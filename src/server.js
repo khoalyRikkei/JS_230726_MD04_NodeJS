@@ -8,7 +8,11 @@ const sequelize = require("./configs/configDB");
 const router = require("./routes");
 require("./models");
 
-app.use(cors({ exposedHeaders: ["Authorization", "X-Total-Products"] }));
+app.use(
+  cors({
+    exposedHeaders: ["Authorization", "X-Total-Products", "X-Total-Users", "X-Total-Orders"],
+  })
+);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
