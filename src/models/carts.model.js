@@ -17,19 +17,7 @@ const Cart = sequelize.define(
       type: DataTypes.UUID,
       allowNull: false,
     },
-    product_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    product_img: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    product_price: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    quantity:{
+    quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -37,11 +25,6 @@ const Cart = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-
-    // total: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    // },
   },
   {
     freezeTableName: true,
@@ -49,7 +32,4 @@ const Cart = sequelize.define(
   }
 );
 
-(async () => {
-  await Cart.sync({ alter: true });
-})();
 export default Cart;

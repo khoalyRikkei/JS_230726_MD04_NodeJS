@@ -3,9 +3,9 @@ import bcrypt from "bcrypt";
 const authRepository = new AuthRepository();
 
 class AuthService {
+  // ============== chek login =================
   async checkDataLogin(email, password) {
     const getAllUsers = await authRepository.getUsers();
-
     let isLogined = false;
     let userLogin;
     getAllUsers.forEach((user) => {
@@ -13,6 +13,7 @@ class AuthService {
         const isMatch = bcrypt.compareSync(password, user.password);
         if (isMatch) {
           isLogined = true;
+          delete user.password;
           userLogin = { ...user };
         }
       }
@@ -31,6 +32,7 @@ class AuthService {
       };
     }
   }
+  // ==================== check register  ===================
   async checkDataRegister(dataModal) {
     const getAllUsers = await authRepository.getUsers();
 

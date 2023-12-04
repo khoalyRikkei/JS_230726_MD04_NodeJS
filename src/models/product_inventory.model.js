@@ -19,7 +19,5 @@ const Product_inventory = sequelize.define(
   }
 );
 
-(async () => {
-  await Product_inventory.sync({ alter: true });
-})();
+
 export default Product_inventory;

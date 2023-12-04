@@ -1,13 +1,12 @@
 import CartsService from "../../service/carts.service.js";
 const cartService = new CartsService();
 class CartsController {
-  // thêm cart user
+  // ================== create cart user ========================
   async createCart(req, res) {
     try {
-      const { user_id, product_id, quantity, size } = req.body;
-      await cartService.createCart(req.body);
-
+      const response = await cartService.createCart(req.body);
       res.status(200).json({ mesage: "thêm sản phẩm vào cart thành công" });
+      
     } catch (error) {
       console.error(error);
       res
@@ -15,7 +14,7 @@ class CartsController {
         .json({ success: false, message: "Internal server error." });
     }
   }
-  // láy cart của user
+  // ================== get cart by user ======================
   async getCartByUser(req, res) {
     try {
       const response = await cartService.getCartByUser(req.params.id);
@@ -24,18 +23,18 @@ class CartsController {
       throw error;
     }
   }
-  async deleteCartByUser(req, res) {
+  // =================== delete cart =============================
+  async deleteCartById(req, res) {
     try {
-      const response = await cartService.deleteCartByUser(req.params.id);
+      const response = await cartService.deleteCartById(req.params.id);
       res.status(200).json(response);
     } catch (err) {
       throw err;
     }
   }
+  // =================== update cart ========================
   async updateCartByUser(req, res) {
     const data = { ...req.body };
-    console.log(1111, data);
-    console.log(2222, req.params.id);
     try {
       const response = await cartService.updateCartByUser(req.params.id, data);
       res.status(200).json(response);

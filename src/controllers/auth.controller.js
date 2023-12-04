@@ -5,6 +5,7 @@ import { createRefreshToken, createToken, verifyToken } from "../utils/jwt.js";
 
 const authService = new AuthService();
 class AuthController {
+  // =============login ===================
   async login(req, res) {
     try {
       const response = await authService.checkDataLogin(
@@ -36,20 +37,24 @@ class AuthController {
       throw err;
     }
   }
+  // ================register ====================
   async register(req, res) {
-    // const result = await uploadToCloudinary(req.file);
-    // const image = result.url;
     const dataModal = { ...req.body, role: 0, status: "activate" };
-    const response = await authService.checkDataRegister(dataModal);
-    res.status(200).json(response);
+    try {
+      const response = await authService.checkDataRegister(dataModal);
+      res.status(200).json(response);
+    } catch (err) {
+      throw err;
+    }
   }
+  // ================= logout ====================
   logout(req, res) {
     res.clearCookie("refreshToken");
     res.status(200).json("Logout successfully");
   }
+  // ================= fetch user =================
   async fetchUser(req, res) {
     const { authorization } = req.headers;
-
     try {
       const accessToken = authorization.split(" ")[1];
       const response = verifyToken(accessToken);
@@ -68,7 +73,7 @@ class AuthController {
         role: user.role,
       });
     } catch (err) {
-      res.status(500).json({ error: err });
+      res.status(500).json({ message: "token hết hạn" });
     }
   }
 }

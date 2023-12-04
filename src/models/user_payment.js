@@ -22,7 +22,5 @@ const User_payment = sequelize.define(
   }
 );
 
-(async () => {
-  await User_payment.sync({ alter: true });
-})();
+
 export default User_payment;

@@ -9,10 +9,22 @@ const Order_detail = sequelize.define(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    product_id: DataTypes.STRING(50),
-    quantity: DataTypes.INTEGER,
-    size: DataTypes.STRING(10),
-    price: DataTypes.INTEGER,
+    order_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    product_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    size: {
+      type: DataTypes.STRING(10),
+      allowNull: false,
+    },
   },
   {
     freezeTableName: true,
@@ -20,7 +32,4 @@ const Order_detail = sequelize.define(
   }
 );
 
-(async () => {
-  await Order_detail.sync({ alter: true });
-})();
 export default Order_detail;

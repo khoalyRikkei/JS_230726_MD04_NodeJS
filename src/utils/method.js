@@ -1,6 +1,6 @@
 import { getAllItems } from "./db.util.js";
 
-// seach by name user
+// ============seach by name user=======================
 export async function seachByName(model, name) {
   const entities = await getAllItems(model);
   const dataSeach = entities.filter((item) =>
@@ -8,7 +8,7 @@ export async function seachByName(model, name) {
   );
   return dataSeach;
 }
-// seach by name product
+// ==============seach by name product===================
 export async function seachByNameProduct(model, name) {
   const entities = await getAllItems(model);
   const dataSeach = entities.filter((item) =>
@@ -16,7 +16,7 @@ export async function seachByNameProduct(model, name) {
   );
   return dataSeach;
 }
-// filter data theo query
+// ====================filter data theo query================
 export async function filterData(model, dataquery) {
   const conditions = dataquery.split("&").map((condition) => {
     const data = condition.split("=");

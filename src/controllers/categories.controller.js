@@ -3,6 +3,7 @@ import CategoriesService from "../../service/categories.service.js";
 const categoriesService = new CategoriesService();
 
 class CategoryController {
+  // ============== get all categories =================
   async getCategory(req, res) {
     try {
       const listCategories = await categoriesService.getCategories();
@@ -12,6 +13,7 @@ class CategoryController {
       res.status(500).json({ message: error.message, err: error });
     }
   }
+  //  =============== insert new category =================
   async insertCategory(req, res) {
     const dataModal = { ...req.body, status: true };
     try {
@@ -21,6 +23,7 @@ class CategoryController {
       throw err;
     }
   }
+  //  ======================delete category =================
   async deleteCategory(req, res) {
     try {
       const response = await categoriesService.deleteCategoryById(
@@ -31,6 +34,7 @@ class CategoryController {
       throw err;
     }
   }
+  // ================== update category ===================
   updateCategory(req, res) {
     const dataModal = { ...req.body, status: false };
     const response = categoriesService.updateCategory(

@@ -10,12 +10,12 @@ const User = sequelize.define(
       primaryKey: true,
     },
     user_name: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING(45),
       allowNull: false,
     },
    
     email: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING(45),
       allowNull: false,
     },
     role: {
@@ -48,7 +48,7 @@ const User = sequelize.define(
   }
 );
 
-(async () => {
-  await User.sync({ alter: true });
-})();
+// (async () => {
+//   await User.sync({ alter: true });
+// })();
 export default User;

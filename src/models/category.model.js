@@ -14,12 +14,10 @@ const Category = sequelize.define(
     status: DataTypes.BOOLEAN,
   },
   {
-    // freezeTableName: true,
-    // timestamps: false,
+    freezeTableName: true,
+    
   }
 );
 
-(async () => {
-  await Category.sync({ alter: true });
-})();
+
 export default Category;

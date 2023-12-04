@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../configs/dbconfig.js";
-import User from "./user.model.js";
 
 const Order = sequelize.define(
   "orders",
@@ -10,15 +9,29 @@ const Order = sequelize.define(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    total_price: {
+    user_id: { type: DataTypes.UUID, allowNull: false },
+    total: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    user_name: {
+      type: DataTypes.STRING(45),
+      allowNull: false,
+    },
+    phone: {
+      type: DataTypes.STRING(10),
+      allowNull: false,
+    },
+
     status: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.STRING(10),
       allowNull: false,
     },
     note: {
+      type: DataTypes.STRING(200),
+      allowNull: false,
+    },
+    delivery_address: {
       type: DataTypes.STRING(200),
       allowNull: false,
     },
@@ -28,8 +41,4 @@ const Order = sequelize.define(
   }
 );
 
-
-(async () => {
-  await Order.sync({ alter: true });
-})();
 export default Order;

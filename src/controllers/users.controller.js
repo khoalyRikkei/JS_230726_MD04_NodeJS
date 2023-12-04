@@ -4,7 +4,7 @@ import uploadToCloudinary from "../utils/cloudinary.js";
 import { filterData, seachByName } from "../utils/method.js";
 const usersService = new UsersService();
 class UsersController {
-  // get users
+  // ================= get users =====================
   async getUsers(req, res) {
     try {
       const listUsers = await usersService.getUsers();
@@ -13,7 +13,7 @@ class UsersController {
       throw err;
     }
   }
-  // get users by id
+  // ================= get users by id ================
   async getUsersById(req, res) {
     try {
       const user = await usersService.getUsersById(req.params.id);
@@ -22,7 +22,7 @@ class UsersController {
       throw err;
     }
   }
-  // add user
+  // ================== add user ==================
   async insertUser(req, res) {
     try {
       const response = await usersService.insertUsers(req.body);
@@ -31,7 +31,7 @@ class UsersController {
       throw err;
     }
   }
-  // search users
+  // ===============search users===================
   async seachByNameUser(req, res) {
     try {
       const response = await seachByName(User, req.params.name);
@@ -41,7 +41,7 @@ class UsersController {
     }
   }
 
-  // delete user
+  // ===============delete user======================
   async deleteUser(req, res) {
     try {
       const response = await usersService.deleteUsersById(req.params.id);
@@ -50,11 +50,17 @@ class UsersController {
       throw err;
     }
   }
-  // update user
-  async updateUser(req, res) {
+  // ==============update ảnh user========================
+  async updateImageUser(req, res) {
     const result = await uploadToCloudinary(req.file);
     const image = result.url;
     const dataModal = { ...req.body, avatar: image };
+    const response = usersService.updateUsers(req.params.id, dataModal);
+    res.json(response);
+  }
+  // ==============update ảnh user========================
+  async updateUser(req, res) {
+     const dataModal = { ...req.body};
     const response = usersService.updateUsers(req.params.id, dataModal);
     res.json(response);
   }

@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../configs/dbconfig.js";
 
+
 const Product = sequelize.define(
   "products",
   {
@@ -44,8 +45,7 @@ const Product = sequelize.define(
   }
 );
 
-(async () => {
-  await Product.sync({ alter: true });
-})();
+
+
 
 export default Product;

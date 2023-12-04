@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import { route } from "./routes/index.js";
 import cors from "cors";
 import handleError from "./middlewares/handleErorr.js";
+import foreignKey from "./models/index.model.js";
 
 // import swaggerUi from "swagger-ui-express";
 // import swaggerFile from "../swagger-output.json" assert { type: "json" };
@@ -11,8 +12,7 @@ import handleError from "./middlewares/handleErorr.js";
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// để gửi dữ liệu từ form data
-
+foreignKey();
 app.options("*", cors());
 app.use(
   cors({
@@ -27,7 +27,6 @@ app.use(
 
 route(app);
 app.use(handleError);
-
 const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => {
   console.log(`xin chào http://localhost:${PORT}`);

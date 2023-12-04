@@ -4,7 +4,7 @@ import Product from "../models/product.model.js";
 import uploadToCloudinary from "../utils/cloudinary.js";
 const productsService = new ProductsService();
 class ProductController {
-  // get all products
+  // ================get all products ==========================
   async getProducts(req, res) {
     try {
       const listProducts = await productsService.getProducts();
@@ -13,7 +13,7 @@ class ProductController {
       throw err;
     }
   }
-  // get product by id
+  // ================== get product by id ======================
   async getProductById(req, res) {
     try {
       const response = await productsService.getProductsById(req.params.id);
@@ -22,7 +22,7 @@ class ProductController {
       throw err;
     }
   }
-  // insert product
+  // ======================insert product =====================
   async insertProduct(req, res) {
     try {
       const result = await uploadToCloudinary(req.file);
@@ -40,7 +40,7 @@ class ProductController {
       throw err;
     }
   }
-  // update product
+  // =====================update product =======================
 
   async updateProduct(req, res) {
     try {

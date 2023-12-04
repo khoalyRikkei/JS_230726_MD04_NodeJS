@@ -10,8 +10,10 @@ usersRouter.get("/", usersController.getUsers);
 usersRouter.get("/:id", usersController.getUsersById);
 // thêm user
 usersRouter.post("/", usersController.insertUser);
+// edit Image user
+usersRouter.put("/avatar/:id", upload.single("avatar"), usersController.updateImageUser);
 // edit user
-usersRouter.put("/:id", upload.single("file"), usersController.updateUser);
+usersRouter.patch("/:id", usersController.updateUser);
 // xóa user
 usersRouter.delete("/:id", usersController.deleteUser);
 // seach by name
