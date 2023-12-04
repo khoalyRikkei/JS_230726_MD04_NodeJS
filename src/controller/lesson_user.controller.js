@@ -15,7 +15,7 @@ export default class LessonUserController {
 
       async getLessonUserById(req, res, next) {
         try {
-          const lessonId = req.params.id;
+          const lessonId = req.query;
           const lessonData = await lessonUserService.getLessonUserById(lessonId);
           if (lessonData) {
             res.status(200).json(lessonData);

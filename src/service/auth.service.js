@@ -1,4 +1,4 @@
-import { generateRandomToken, sendResetEmail } from "../../utils/auth.util.js";
+import { generateRandomToken, sendRegister, sendResetEmail } from "../../utils/auth.util.js";
 import { createAssetToken, createRefreshToken } from "../../utils/jwt.util.js";
 import { AuthencationException } from "../expeiptions/index.js";
 import AuthRepository from "../repository/auth.repository.js";
@@ -16,6 +16,12 @@ export default class AuthService {
         (userDB) => userDB.email === user.email
       );
 
+      // if (checkLoginUser.role !== 1) {
+      //   throw new AuthencationException(undefined, undefined, {
+      //     msgEmail: "Bạn không có quyền truy cập vào đây",
+      //   });
+      // }
+
       if (checkLoginUser) {
         // Kiểm tra mật khẩu bằng bcrypt
         const isPasswordMatch = await bcrypt.compare(
@@ -27,15 +33,10 @@ export default class AuthService {
             id: checkLoginUser.id,
             role: checkLoginUser.role,
           });
-          const refreshToken = createRefreshToken({
-            id: checkLoginUser.id,
-            role: checkLoginUser.role,
-          });
           delete checkLoginUser.password;
           const successLogin = {
             message: "Đăng nhập thành công",
             assetToken: assetToken,
-            refreshToken: refreshToken,
             user: {
               id: checkLoginUser.id,
               avatar: checkLoginUser.avatar,
@@ -44,7 +45,7 @@ export default class AuthService {
               email: checkLoginUser.email,
               level: checkLoginUser.level,
               phone: checkLoginUser.phone,
-              name: checkLoginUser.user_name,
+              user_name: checkLoginUser.user_name,
             },
           };
           return successLogin;
@@ -81,6 +82,7 @@ export default class AuthService {
       userData.password = hashedPassword;
 
       const newUser = await authRepository.createUser(userData);
+      sendRegister(newUser.email)
       if (newUser) {
         const successRegister = {
           statusCode: 200,
@@ -91,7 +93,7 @@ export default class AuthService {
         return successRegister;
       }
     } catch (error) {
-      throw error;
+        throw error;
     }
   }
 

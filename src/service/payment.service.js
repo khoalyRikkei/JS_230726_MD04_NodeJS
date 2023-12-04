@@ -3,6 +3,7 @@ import { AuthencationException } from "../expeiptions/index.js";
 import CourseUserRepository from "../repository/course_user.repository.js";
 import LessonRepository from "../repository/lesson.repositpry.js";
 import LessonUserRepository from "../repository/lesson_user.repository.js";
+import { sendPayment } from "../../utils/auth.util.js";
 const paymentRepository = new PaymentRepository();
 const courseUserRepository = new CourseUserRepository();
 const lessonRepository = new LessonRepository();
@@ -37,7 +38,7 @@ export default class PaymentService {
 
 
   async createPayment(paymenData) {
-    console.log(111111,paymenData);
+    console.log(111111, paymenData);
     try {
       const conditions = {
         user_id: paymenData.user_id,
@@ -87,7 +88,7 @@ export default class PaymentService {
         courses_id: paymenData.courses_id,
       });
 
-      
+
       // Hàm map thay thế hàm for
       // const lessonUserDatas = lessons.map((lesson) => ({
       //   courses_user_id: createCourseUser.dataValues.id,
@@ -104,8 +105,13 @@ export default class PaymentService {
       for (const lesson of lessons) {
         const lessonUserData = {
           courses_user_id: createCourseUser.dataValues.id,
+          courses_name: createCourseUser.dataValues.courses_name,
           lesson_id: lesson.id,
+          lesson_name: lesson.name,
           status: "uncompleted",
+          lessons_exercise: lesson.exercise,
+          lesson_img: lesson.lesson_img,
+          lesson_video: lesson.video
         }
 
         const createLessonUser = await lessonUserRepository.createLessonUser(lessonUserData);
@@ -117,6 +123,9 @@ export default class PaymentService {
         }
 
       };
+
+
+      sendPayment(paymenData.user_email, paymenData.course_name)
       return createCourseUser;
     } catch (error) {
       throw error;

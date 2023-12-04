@@ -3,15 +3,15 @@ import {
     editData,
     getDataById,
     insertMultipleData,
-    insertData
+    insertData,
+    getDataWhereCondition
 } from "../../utils/data.util.js";
-import LessonUserView from "../models/lesson_user_view.model.js";
 import Lesson_User from "../models/lessons_user.model.js";
 
 export default class LessonUserRepository {
     async getLessonUser() {
         try {
-            const lessonData = await getData(LessonUserView);
+            const lessonData = await getData(Lesson_User);
             return lessonData;
         } catch (error) {
             throw error;
@@ -20,7 +20,7 @@ export default class LessonUserRepository {
 
     async getLessonUserById(id) {
         try {
-            const lessonById = await getDataById(LessonUserView, id);
+            const lessonById = await getDataWhereCondition(Lesson_User, id);
             return lessonById;
         } catch (error) {
             throw error;

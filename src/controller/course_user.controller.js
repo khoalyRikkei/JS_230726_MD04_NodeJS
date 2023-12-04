@@ -20,8 +20,6 @@ export default class CourseUserController {
         }
     }
 
-
-
     async getCourseUserById(req, res, next) {
         try {
             const courseId = req.query;
@@ -59,4 +57,22 @@ export default class CourseUserController {
             next(error);
         }
     }
+
+
+    async editCourseUser(req, res, next) {
+        const courseId = req.params.id;
+        const updatedData = req.body;
+
+        console.log(111111, courseId, updatedData);
+        try {
+          const ret = await courseUserService.editCourseUser(courseId, updatedData);
+          res
+            .status(200)
+            .json({ message: MSG_COMMON.MSG_SUCCESS.update("Course User"),ret });
+        } catch (error) {
+          next(error);
+        }
+      }
+
+    
 }

@@ -29,6 +29,17 @@ export default class CourseUserService {
           throw error;
         }
       }
+
+      async editCourseUser(id, item) {
+        try {
+          const data = await courseUserRepository.editCourseUser(id, item);
+          return data;
+        } catch (error) {
+          throw error;
+        }
+      }
+
+      
     
 
 

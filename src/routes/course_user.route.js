@@ -12,4 +12,7 @@ couresUserRouter.get("/", courseUserController.getAllCourseUser)
 
 couresUserRouter.post("/:id",courseUserController.createCourseUser)
 
+couresUserRouter.put("/:id",courseUserController.editCourseUser)
+
+
 export default couresUserRouter;

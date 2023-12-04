@@ -4,10 +4,9 @@ const lessonUserRouter = express.Router();
 const lessonUserController = new LessonUserController();
 
 // API Lesson User
+lessonUserRouter.get("/view", lessonUserController.getLessonUserById);
 
 lessonUserRouter.get("/", lessonUserController.getAllLessonUser);
-
-lessonUserRouter.get("/:id", lessonUserController.getLessonUserById);
 
 lessonUserRouter.put("/:id",lessonUserController.editLessonUser);
 

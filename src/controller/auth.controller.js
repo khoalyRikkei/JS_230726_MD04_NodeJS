@@ -13,12 +13,12 @@ class AuthController {
     const user = req.body;
     try {
       const ret = await authService.performLogin(user);
-      const maxAgeInDays = 90;
-      const maxAgeInMilliseconds = maxAgeInDays * 24 * 60 * 60 * 1000;
-      res.cookie("refreshToken", ret.refreshToken, {
-        maxAge: maxAgeInMilliseconds,
-        httpOnly: true,
-      });
+      // const maxAgeInDays = 90;
+      // const maxAgeInMilliseconds = maxAgeInDays * 24 * 60 * 60 * 1000;
+      // res.cookie("refreshToken", ret.refreshToken, {
+      //   maxAge: maxAgeInMilliseconds,
+      //   httpOnly: true,
+      // });
       res.header("Authorization", "Bearer " + ret.assetToken);
       res.status(200).send(ret);
     } catch (error) {
@@ -98,7 +98,6 @@ class AuthController {
     const tokenBear = req.headers.authorization
     if (tokenBear) {
       const token = tokenBear.split(' ')[1]
-      console.log("token", token);
       try {
         const userData = await authService.fetchUserData(token);
         res.json(userData);
@@ -107,7 +106,6 @@ class AuthController {
       }
       
     } else {
-    console.log("loiiiiii");
       
     }
    

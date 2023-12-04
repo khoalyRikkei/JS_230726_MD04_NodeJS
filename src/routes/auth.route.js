@@ -1,13 +1,19 @@
 import express from "express";
 import AuthController from "../controller/auth.controller.js";
 import { validateConfirmEmail, validateLogin } from "../validations/auth.validation.js";
+import { isAdmin } from "../middlewares/is-auth.js";
 const authRouter = express.Router();
 const authController = new AuthController();
 
 
 
 // API Login
-authRouter.post("/login", validateLogin,authController.login);
+authRouter.post("/login",validateLogin,authController.login);
+
+
+authRouter.post("/admin/login",validateLogin,authController.login);
+
+
 
 // API Register
 authRouter.post("/register", authController.register);

@@ -18,6 +18,21 @@ const Lessons_User = sequelize.define('lessons_user', {
     status: {
         type: DataTypes.STRING,
     },
+    courses_name :  {
+        type: DataTypes.STRING,
+    },
+    lesson_name :  {
+        type: DataTypes.STRING,
+    },
+    lesson_img :  {
+        type: DataTypes.STRING,
+    },
+    lessons_exercise :  {
+        type: DataTypes.STRING,
+    },
+    lesson_video :  {
+        type: DataTypes.STRING,
+    },
 });
 
 

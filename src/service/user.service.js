@@ -45,7 +45,7 @@ export default class UserService {
       if (!data) {
         throw new Error("Failed to edit user.");
       }
-      return item;
+      return data;
     } catch (error) {
       throw error;
     }
